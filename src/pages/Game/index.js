@@ -1,7 +1,13 @@
 import "./styles.scss";
 
 import GameOptions, { DEFAULT_GAME_OPTIONS } from "./components/GameOptions";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import GameOptionsButton from "./components/GameOptions/GameOptionsButton";
 import Gun from "./components/Gun";
@@ -10,6 +16,7 @@ import Target from "./components/Target";
 import { useLocalStorage } from "./hooks";
 
 export default function Game() {
+  const audio = useMemo(() => new Audio("/laserbeam.mp3"), []);
   const playableArea = useRef();
   const playableAreaWidth = playableArea.current?.getBoundingClientRect().width;
   const playableAreaHeight =
@@ -24,7 +31,7 @@ export default function Game() {
   const [coiling, setCoiling] = useState(false);
   const [rotation, setRotation] = useState({ horizontal: 0, vertical: 0 });
 
-  const [showOptions, setShowOptions] = useState(true);
+  const [showOptions, setShowOptions] = useState(false);
   const [gameOptions, setGameOptions] = useLocalStorage(
     "game-options",
     DEFAULT_GAME_OPTIONS
@@ -48,11 +55,18 @@ export default function Game() {
     setTargets((cur) => cur.filter(({ index }) => index !== targetIndex));
   }, []);
 
-  const fireGun = useCallback((e) => {
-    setCoiling(true);
-    setTimeout(() => setCoiling(false), 100);
-    setFiredTimes((cur) => cur + 1);
-  }, []);
+  const fireGun = useCallback(
+    (e) => {
+      if (gameOptions.soundEffects) {
+        audio.currentTime = 0;
+        audio.play();
+      }
+      setCoiling(true);
+      setTimeout(() => setCoiling(false), 100);
+      setFiredTimes((cur) => cur + 1);
+    },
+    [audio, gameOptions.soundEffects]
+  );
 
   // Generate new targets
   useEffect(() => {
@@ -108,7 +122,7 @@ export default function Game() {
         false
       );
     };
-  }, []);
+  }, [updateGameOptionsVisibility]);
 
   return (
     <div className="game">
@@ -130,7 +144,7 @@ export default function Game() {
         maxPoints={maxPoints}
       />
 
-      {coiling && gameOptions.flash && <div className="flashlight" />}
+      {coiling && gameOptions.visualEffects && <div className="flashlight" />}
 
       <div
         ref={playableArea}
@@ -141,7 +155,7 @@ export default function Game() {
         <Gun
           rotation={rotation}
           coiling={coiling}
-          hasFlash={gameOptions.flash}
+          hasFlash={gameOptions.visualEffects}
         />
         {targets.map((target) => (
           <Target

@@ -13,11 +13,10 @@
       top: calc(50% - var(--height) / 2);
       left: calc(50% - var(--width) / 2);
       transform: translateZ(-150px);
-      transition: opacity 0.1s linear;
       background-color: #ffffff;
       border-radius: 50%;
-      box-shadow: 0 0 10px 5px #ffffff, 0 0 40px 15px #29c2ff,
-        0 0 100px 30px #4677f5;
+      box-shadow: 0 0 10px 10px #ffffff, 0 0 30px 15px #20c0ff,
+        0 0 100px 40px #4677f5;
     }
 
     .part {

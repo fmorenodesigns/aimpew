@@ -5,7 +5,8 @@ import React, { useCallback } from "react";
 import GameOptionsButton from "./GameOptionsButton";
 
 export const DEFAULT_GAME_OPTIONS = {
-  flash: true,
+  soundEffects: true,
+  visualEffects: true,
   simultaneousTargetCount: 3,
   targetInterval: 1000,
 };
@@ -29,14 +30,28 @@ export default function GameOptions({
         onClick={() => updateGameOptionsVisibility(undefined, true)}
       />
       <div className="header">GAME OPTIONS</div>
+
       <div className="option">
-        <label htmlFor="#gameoption-flash">Flash animation on gun fire</label>
+        <label htmlFor="#gameoption-soundEffects">Enable sound effects</label>
         <input
           type="checkbox"
           className="checkbox"
-          id="gameoption-flash"
-          checked={gameOptions.flash}
-          onChange={(e) => updateOption("flash", e.target.checked)}
+          id="gameoption-soundEffects"
+          checked={gameOptions.soundEffects}
+          onChange={(e) => updateOption("soundEffects", e.target.checked)}
+        />
+      </div>
+
+      <div className="option">
+        <label htmlFor="#gameoption-visualEffects">
+          Enable special visual effects
+        </label>
+        <input
+          type="checkbox"
+          className="checkbox"
+          id="gameoption-visualEffects"
+          checked={gameOptions.visualEffects}
+          onChange={(e) => updateOption("visualEffects", e.target.checked)}
         />
       </div>
 
