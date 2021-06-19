@@ -3,15 +3,17 @@ import "./styles.scss";
 import GameOptions, { DEFAULT_GAME_OPTIONS } from "./components/GameOptions";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
+import GameOptionsButton from "./components/GameOptions/GameOptionsButton";
 import Gun from "./components/Gun";
 import PointsBoard from "./components/PointsBoard";
 import Target from "./components/Target";
 import { useLocalStorage } from "./hooks";
 
 export default function Game() {
-  const container = useRef();
-  const containerWidth = container.current?.getBoundingClientRect().width;
-  const containerHeight = container.current?.getBoundingClientRect().height;
+  const playableArea = useRef();
+  const playableAreaWidth = playableArea.current?.getBoundingClientRect().width;
+  const playableAreaHeight =
+    playableArea.current?.getBoundingClientRect().height;
 
   const [targets, setTargets] = useState([]);
 
@@ -32,12 +34,13 @@ export default function Game() {
     (e) => {
       setRotation({
         horizontal:
-          -45 * ((e.clientX - containerWidth / 2) / (containerWidth / 2)),
+          -45 * ((e.clientX - playableAreaWidth / 2) / (playableAreaWidth / 2)),
         vertical:
-          45 * ((e.clientY - containerHeight / 2) / (containerHeight / 2)),
+          45 *
+          ((e.clientY - playableAreaHeight / 2) / (playableAreaHeight / 2)),
       });
     },
-    [containerWidth, containerHeight]
+    [playableAreaWidth, playableAreaHeight]
   );
 
   const onHit = useCallback((targetIndex) => {
@@ -53,7 +56,7 @@ export default function Game() {
 
   // Generate new targets
   useEffect(() => {
-    if (!containerHeight || !containerWidth || showOptions) return;
+    if (!playableAreaHeight || !playableAreaWidth || showOptions) return;
 
     const timeout = setTimeout(() => {
       setTargets((cur) => {
@@ -73,8 +76,8 @@ export default function Game() {
           {
             size,
             index: maxPoints,
-            left: Math.max(Math.random() * containerWidth - size, 0),
-            top: Math.max(Math.random() * containerHeight - size, 0),
+            left: Math.max(Math.random() * playableAreaWidth - size, 0),
+            top: Math.max(Math.random() * playableAreaHeight - size, 0),
           },
         ];
       });
@@ -83,33 +86,42 @@ export default function Game() {
 
     return () => clearTimeout(timeout);
   }, [
-    targets,
-    containerHeight,
-    containerWidth,
+    playableAreaHeight,
+    playableAreaWidth,
+    gameOptions,
     maxPoints,
     showOptions,
-    gameOptions,
   ]);
+
+  const updateGameOptionsVisibility = useCallback((e, click) => {
+    if (click || e.key === "Escape") setShowOptions((cur) => !cur);
+  }, []);
 
   // Show game options on Esc press
   useEffect(() => {
-    const handleEscPress = (e) => {
-      if (e.key === "Escape") setShowOptions((cur) => !cur);
-    };
-
-    document.addEventListener("keydown", handleEscPress, false);
+    document.addEventListener("keydown", updateGameOptionsVisibility, false);
 
     return () => {
-      document.removeEventListener("keydown", handleEscPress, false);
+      document.removeEventListener(
+        "keydown",
+        updateGameOptionsVisibility,
+        false
+      );
     };
   }, []);
 
   return (
     <div className="game">
-      {showOptions && (
+      {showOptions ? (
         <GameOptions
           gameOptions={gameOptions}
           setGameOptions={setGameOptions}
+          updateGameOptionsVisibility={updateGameOptionsVisibility}
+        />
+      ) : (
+        <GameOptionsButton
+          description="Game options"
+          onClick={() => updateGameOptionsVisibility(undefined, true)}
         />
       )}
       <PointsBoard
@@ -117,10 +129,11 @@ export default function Game() {
         firedTimes={firedTimes}
         maxPoints={maxPoints}
       />
+
       {coiling && gameOptions.flash && <div className="flashlight" />}
 
       <div
-        ref={container}
+        ref={playableArea}
         className={`playable-area ${showOptions ? "blur" : ""}`}
         onMouseMoveCapture={handleMovement}
         onClick={fireGun}
