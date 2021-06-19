@@ -1,0 +1,64 @@
+.game {
+  .gun {
+    position: relative;
+    transform-style: preserve-3d;
+
+    .blast {
+      --width: 5px;
+      --height: 5px;
+
+      width: var(--width);
+      height: var(--height);
+      position: absolute;
+      top: calc(50% - var(--height) / 2);
+      left: calc(50% - var(--width) / 2);
+      transform: translateZ(-150px);
+      transition: opacity 0.1s linear;
+      background-color: #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 0 10px 5px #ffffff, 0 0 40px 15px #29c2ff,
+        0 0 100px 30px #4677f5;
+    }
+
+    .part {
+      transform-style: preserve-3d;
+      position: absolute;
+
+      &.detail {
+        bottom: -1px;
+        transform: translateZ(-15px);
+
+        &.left {
+          right: 100%;
+        }
+
+        &.right {
+          left: 100%;
+        }
+
+        &.bottom {
+          top: 100%;
+          left: -3px;
+        }
+      }
+
+      &.handler {
+        top: calc(100% - 1px);
+        left: 50%;
+        transform: translateX(-50%) translateZ(-10px);
+      }
+
+      &.trigger {
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%) translateZ(-40px);
+      }
+
+      &.aim {
+        bottom: calc(100% - 1px);
+        left: 50%;
+        transform: translateX(-50%) translateZ(-110px);
+      }
+    }
+  }
+}

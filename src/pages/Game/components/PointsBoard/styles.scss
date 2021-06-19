@@ -1,0 +1,44 @@
+.game {
+  .points-board {
+    --border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 15px 5px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 0.25rem;
+    align-items: center;
+    color: rgb(240, 239, 239);
+    display: grid;
+    grid-template-columns: repeat(3, max-content);
+
+    .counter-group {
+      display: flex;
+      flex-direction: column;
+      padding: 0 25px;
+      text-align: center;
+
+      &:first-of-type {
+        border-right: var(--border);
+      }
+
+      &:last-of-type {
+        border-left: var(--border);
+      }
+
+      .counter {
+        font-weight: bold;
+        font-size: 17px;
+        margin-bottom: 5px;
+
+        &.good {
+          color: #73da4a;
+        }
+        &.bad {
+          color: #e65d4b;
+        }
+      }
+
+      .counter-name {
+        font-size: 11px;
+      }
+    }
+  }
+}

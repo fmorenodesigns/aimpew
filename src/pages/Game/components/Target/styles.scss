@@ -1,0 +1,35 @@
+.game {
+  .target {
+    --red: #df4b27;
+    border-radius: 50%;
+    position: absolute;
+    background-color: var(--red);
+    border: 1px solid #2b2b41;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease;
+
+    &:active {
+      opacity: 0;
+    }
+
+    .white,
+    .red {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: calc(100% - 8px);
+      height: calc(100% - 8px);
+      border-radius: 50%;
+    }
+
+    .white {
+      background-color: white;
+    }
+
+    .red {
+      background-color: var(--red);
+    }
+  }
+}

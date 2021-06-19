@@ -1,16 +1,14 @@
 import "./styles.scss";
 
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import Cube from "../Cube";
-import useLocalStorage from "react-use-localstorage";
+import GameOptions, { DEFAULT_GAME_OPTIONS } from "./components/GameOptions";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
-export function Game() {
+import Gun from "./components/Gun";
+import PointsBoard from "./components/PointsBoard";
+import Target from "./components/Target";
+import { useLocalStorage } from "./hooks";
+
+export default function Game() {
   const container = useRef();
   const containerWidth = container.current?.getBoundingClientRect().width;
   const containerHeight = container.current?.getBoundingClientRect().height;
@@ -25,10 +23,9 @@ export function Game() {
   const [rotation, setRotation] = useState({ horizontal: 0, vertical: 0 });
 
   const [showOptions, setShowOptions] = useState(true);
-  const gameOptions = useLocalStorage("game-options")[0];
-  const parsedGameOptions = useMemo(
-    () => JSON.parse(gameOptions),
-    [gameOptions]
+  const [gameOptions, setGameOptions] = useLocalStorage(
+    "game-options",
+    DEFAULT_GAME_OPTIONS
   );
 
   const handleMovement = useCallback(
@@ -71,7 +68,7 @@ export function Game() {
         return [
           ...cur.filter(
             ({ index }) =>
-              index > maxPoints - parsedGameOptions.simultaneousTargetCount
+              index > maxPoints - gameOptions.simultaneousTargetCount
           ),
           {
             size,
@@ -82,7 +79,7 @@ export function Game() {
         ];
       });
       setMaxPoints((curIdx) => curIdx + 1);
-    }, parsedGameOptions.targetInterval);
+    }, gameOptions.targetInterval);
 
     return () => clearTimeout(timeout);
   }, [
@@ -91,7 +88,7 @@ export function Game() {
     containerWidth,
     maxPoints,
     showOptions,
-    parsedGameOptions,
+    gameOptions,
   ]);
 
   // Show game options on Esc press
@@ -109,7 +106,12 @@ export function Game() {
 
   return (
     <div className="game">
-      {showOptions && <GameOptions />}
+      {showOptions && (
+        <GameOptions
+          gameOptions={gameOptions}
+          setGameOptions={setGameOptions}
+        />
+      )}
       <PointsBoard
         points={points}
         firedTimes={firedTimes}
@@ -139,219 +141,6 @@ export function Game() {
             }}
           />
         ))}
-      </div>
-    </div>
-  );
-}
-
-export function PointsBoard({ points, maxPoints, firedTimes }) {
-  const hitAccuracy = points / firedTimes || 0;
-
-  return (
-    <div className="points-board">
-      <div className="counter-group">
-        <div className={`counter ${points / maxPoints > 0.5 ? "good" : "bad"}`}>
-          {points}
-        </div>
-        <div className="counter-name">Targets hit</div>
-      </div>
-      <div className="counter-group">
-        <div className="counter">{maxPoints}</div>
-        <div className="counter-name">Total targets</div>
-      </div>
-      <div className="counter-group">
-        <div className={`counter ${hitAccuracy > 0.5 ? "good" : "bad"}`}>
-          {(hitAccuracy * 100).toFixed(1)}%
-        </div>
-        <div className="counter-name">Hit accuracy</div>
-      </div>
-    </div>
-  );
-}
-
-export function GameOptions() {
-  const [gameOptions, setGameOptions] = useLocalStorage("game-options", "{}");
-  const parsedOptions = JSON.parse(gameOptions);
-
-  const updateOption = useCallback(
-    (optionName, newValue) => {
-      setGameOptions(
-        JSON.stringify({ ...parsedOptions, [optionName]: newValue })
-      );
-    },
-    [parsedOptions, setGameOptions]
-  );
-
-  return (
-    <div className="game-options">
-      <div className="option">
-        <input
-          type="checkbox"
-          className="checkbox"
-          id="gameoption-flash"
-          checked={parsedOptions.flash}
-          onChange={(e) => updateOption("flash", e.target.checked)}
-        />
-        <label htmlFor="#gameoption-flash">Flash animation on gun fire</label>
-      </div>
-
-      <div className="option">
-        <input
-          type="number"
-          id="gameoption-simultaneousTargetCount"
-          value={parsedOptions.simultaneousTargetCount}
-          onChange={(e) =>
-            updateOption("simultaneousTargetCount", e.target.value)
-          }
-        />
-        <label htmlFor="#gameoption-simultaneousTargetCount">
-          Max. number of simultaneous targets
-        </label>
-      </div>
-
-      <div className="option">
-        <input
-          type="number"
-          id="gameoption-targetInterval"
-          value={parsedOptions.targetInterval}
-          onChange={(e) => updateOption("targetInterval", e.target.value)}
-        />
-        <label htmlFor="#gameoption-targetInterval">
-          Interval between targets (ms)
-        </label>
-      </div>
-    </div>
-  );
-}
-
-export function Target({ size, left, top, onHit }) {
-  return (
-    <div
-      className="target"
-      style={{ width: size, height: size, left, top }}
-      onClick={onHit}
-    >
-      <div className="white">
-        <div className="red">
-          <div className="white">
-            <div className="red"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export function Gun({ rotation, coiling, hasFlash }) {
-  const main = {
-    width: 32,
-    depth: 140,
-    height: 40,
-  };
-
-  const detail = {
-    width: 3,
-    depth: main.depth - 40,
-    height: 15,
-    color: "#4677f5",
-    outlineColor: "#284792",
-  };
-
-  const rotateX = rotation.vertical - (coiling ? 5 : 0);
-  const rotateY = rotation.horizontal - (coiling ? 5 : 0);
-
-  return (
-    <div
-      className="gun"
-      style={{
-        width: main.width,
-        height: main.height,
-        transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
-      }}
-    >
-      {hasFlash && (
-        <div className="blast" style={{ opacity: coiling ? "1" : "0" }} />
-      )}
-      <div className="part detail left">
-        <Cube
-          width={detail.width}
-          depth={detail.depth}
-          height={detail.height}
-          colors={detail.color}
-          borderColor={detail.outlineColor}
-        />
-      </div>
-      <div className="part detail right">
-        <Cube
-          width={detail.width}
-          depth={detail.depth}
-          height={detail.height}
-          colors={detail.color}
-          borderColor={detail.outlineColor}
-        />
-      </div>
-      <div className="part detail bottom">
-        <Cube
-          width={main.width + detail.width * 2}
-          depth={detail.depth}
-          height={detail.width + 2}
-          colors="#3056b1"
-          borderColor={detail.outlineColor}
-        />
-      </div>
-
-      <div className="part aim">
-        <Cube
-          width={15}
-          depth={30}
-          height={5}
-          colors="#2f343c"
-          borderColor="#3c3c42"
-        />
-      </div>
-
-      <div className="part main">
-        <Cube
-          width={main.width}
-          depth={main.depth}
-          height={main.height}
-          colors={{
-            top: "#eaf3fd",
-            right: "#bfd1e6",
-            bottom: "#808d9c",
-            left: "#bfd1e6",
-            front: "#99a9bd",
-            back: "#99a9bd",
-          }}
-          borderColor="#a8a8ab"
-        />
-      </div>
-
-      <div className="part trigger">
-        <Cube
-          width={10}
-          depth={coiling ? 25 : 40}
-          height={22}
-          colors="#272f35"
-          borderColor="#3c3c42"
-        />
-      </div>
-
-      <div className="part handler">
-        <Cube
-          width={27}
-          depth={40}
-          height={60}
-          colors={{
-            top: "#2f343c",
-            bottom: "#272f35",
-            left: "#2f343c",
-            right: "#2f343c",
-            front: "#272f35",
-            back: "#272f35",
-          }}
-          borderColor="#3c3c42"
-        />
       </div>
     </div>
   );
