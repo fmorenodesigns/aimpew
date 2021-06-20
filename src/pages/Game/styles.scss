@@ -7,10 +7,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: "Roboto", "sans-serif", "Arial";
   padding: 12px 30px;
   box-sizing: border-box;
   position: relative;
+
+  * {
+    font-family: "Inter", "Roboto", "sans-serif";
+  }
 
   .flashlight {
     top: 0;

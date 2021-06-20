@@ -7,23 +7,33 @@
     padding: 10px 15px;
     background-color: rgba(0, 0, 0, 0);
     color: white;
-    font-size: 15px;
+    font-size: 10px;
     border: none;
     outline: none;
     cursor: pointer;
     position: fixed;
     grid-template-columns: repeat(2, min-content);
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+    font-weight: extra-bold;
 
     .key {
-      border: 1px solid white;
-      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      padding: 8px;
       font-size: 10px;
+      opacity: 0.7;
       letter-spacing: 1px;
-      border-radius: 5px;
+      border-radius: 0.2rem;
+      font-style: italic;
+      font-weight: normal;
     }
 
     &:hover .key {
-      background-color: rgba(255, 255, 255, 0.1);
+      opacity: 1;
+    }
+
+    &:active {
+      margin-top: 2px;
     }
 
     &.game-options-button {
