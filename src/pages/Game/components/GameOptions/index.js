@@ -30,7 +30,9 @@ export default function GameOptions({
   useEffect(() => {
     if (
       showOptions ||
-      Object.values(gameOptions).filter((val) => val === 0).length === 0
+      Object.values(gameOptions).filter((val) => {
+        return typeof val !== "boolean" && isNaN(parseInt(val));
+      }).length === 0
     )
       return;
 
@@ -41,8 +43,7 @@ export default function GameOptions({
         DEFAULT_GAME_OPTIONS.simultaneousTargetCount,
       targetInterval: cur.targetInterval || DEFAULT_GAME_OPTIONS.targetInterval,
       targetSize: cur.targetSize || DEFAULT_GAME_OPTIONS.targetSize,
-      targetSizeVariation:
-        cur.targetSizeVariation || DEFAULT_GAME_OPTIONS.targetSizeVariation,
+      targetSizeVariation: cur.targetSizeVariation || 0, // can be empty
     }));
   }, [showOptions, setGameOptions, gameOptions]);
 
@@ -126,7 +127,7 @@ export function Option({
       <label htmlFor={`#gameoption-${optionTag}`}>{label}</label>
       {type === "input" ? (
         <input
-          type="text"
+          type="number"
           className="input"
           id={`gameoption-${optionTag}`}
           value={value}
