@@ -64,4 +64,13 @@
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.5);
   }
+
+  .mini-logo {
+    height: 13px;
+    position: fixed;
+    z-index: 4;
+    bottom: 15px;
+    left: 15px;
+    opacity: 0.2;
+  }
 }

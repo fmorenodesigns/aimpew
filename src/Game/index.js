@@ -12,6 +12,7 @@ import React, {
 
 import Countdown from "./components/Countdown";
 import Gun from "./components/Gun";
+import Logo from "./components/Logo";
 import PointsBoard from "./components/PointsBoard";
 import Target from "./components/Target";
 import { useLocalStorage } from "./hooks";
@@ -166,15 +167,17 @@ export default function Game() {
           onClick={updateGameOptionsVisibility}
         />
       )}
-      {started && <RestartButton onClick={restartGame} />}
       <PointsBoard
         points={points}
         firedTimes={firedTimes}
         maxPoints={maxPoints}
       />
 
-      {coiling && gameOptions.visualEffects && <div className="flashlight" />}
+      {started && <RestartButton onClick={restartGame} />}
 
+      <Logo className="mini-logo" colors={{ aim: "#fcfcfc", pew: "#fcfcfc" }} />
+
+      {coiling && gameOptions.visualEffects && <div className="flashlight" />}
       <div
         ref={playableArea}
         className={`playable-area ${showOptions ? "blur" : ""}`}
