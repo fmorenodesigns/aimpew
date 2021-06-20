@@ -18,7 +18,6 @@ export const DEFAULT_GAME_OPTIONS = {
 export default function GameOptions({
   gameOptions,
   setGameOptions,
-  updateGameOptionsVisibility,
   showOptions,
   overlay = true,
 }) {
