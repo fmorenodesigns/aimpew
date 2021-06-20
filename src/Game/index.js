@@ -17,6 +17,7 @@ import Target from "./components/Target";
 import { useLocalStorage } from "./hooks";
 
 const START_COUNTDOWN = 3000;
+const STARTING_GUN_ROTATION = { horizontal: 10, vertical: -5 };
 
 export default function Game() {
   const audio = useMemo(() => new Audio("/laserbeam.mp3"), []);
@@ -33,7 +34,7 @@ export default function Game() {
   const [maxPoints, setMaxPoints] = useState(0);
 
   const [coiling, setCoiling] = useState(false);
-  const [rotation, setRotation] = useState({ horizontal: 0, vertical: 0 });
+  const [rotation, setRotation] = useState(STARTING_GUN_ROTATION);
 
   const [showOptions, setShowOptions] = useState(false);
   const [gameOptions, setGameOptions] = useLocalStorage(
@@ -123,7 +124,7 @@ export default function Game() {
   }, []);
 
   const restartGame = useCallback(() => {
-    setRotation({ horizontal: 0, vertical: 0 });
+    setRotation(STARTING_GUN_ROTATION);
     setStarted(false);
     setTargets([]);
     setPoints(0);

@@ -8,6 +8,14 @@ export default function Gun({ rotation, coiling, hasFlash }) {
     width: 32,
     depth: 140,
     height: 40,
+    colors: {
+      top: "#eaf3fd",
+      right: "#bfd1e6",
+      bottom: "#808d9c",
+      left: "#bfd1e6",
+      front: "#99a9bd",
+      back: "#99a9bd",
+    },
   };
 
   const handle = {
@@ -67,7 +75,7 @@ export default function Gun({ rotation, coiling, hasFlash }) {
       </div>
 
       <div className="part aim">
-        <Cube width={15} depth={30} height={5} colors="#2f343c" />
+        <Cube width={2} depth={30} height={8} colors="#abb9d6" />
       </div>
 
       <div className="part main">
@@ -75,15 +83,14 @@ export default function Gun({ rotation, coiling, hasFlash }) {
           width={main.width}
           depth={main.depth}
           height={main.height}
-          colors={{
-            top: "#eaf3fd",
-            right: "#bfd1e6",
-            bottom: "#808d9c",
-            left: "#bfd1e6",
-            front: "#99a9bd",
-            back: "#99a9bd",
-          }}
+          colors={main.colors}
         />
+      </div>
+      <div className="part main-detail-horizontal">
+        <Cube width={15} depth={140} height={4} colors={main.colors} />
+      </div>
+      <div className="part main-detail-vertical">
+        <Cube width={15} depth={7} height={main.height} colors={main.colors} />
       </div>
 
       <div className="part trigger">

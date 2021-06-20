@@ -55,9 +55,23 @@
       }
 
       &.aim {
-        bottom: calc(100% - 1px);
+        bottom: calc(100%);
         left: 50%;
-        transform: translateX(-50%) translateZ(-110px);
+        transform: translateX(-50%) translateZ(-5px);
+      }
+
+      &.main-detail {
+        &-horizontal {
+          bottom: calc(100% - 1px);
+          left: 50%;
+          transform: translateX(-50%);
+        }
+
+        &-vertical {
+          top: -4px;
+          left: 50%;
+          transform: translateX(-50%) translateZ(5px);
+        }
       }
     }
   }
