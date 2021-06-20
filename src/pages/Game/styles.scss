@@ -32,10 +32,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: crosshair;
+    cursor: url("./components/Gun/crosshair.cur"), crosshair;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     transition: filter 0.3s ease;
+
+    &:active {
+      cursor: url("./components/Gun/crosshair_down.cur"), crosshair;
+    }
 
     * {
       user-select: none;
