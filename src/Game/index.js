@@ -82,7 +82,7 @@ function PlayableGame() {
 
   const fireGun = useCallback(
     (e) => {
-      if (gameOptions.soundEffects) {
+      if (gameOptions.onFireSoundEffect) {
         audio.currentTime = 0;
         audio.play();
       }
@@ -90,7 +90,7 @@ function PlayableGame() {
       setTimeout(() => setCoiling(false), 100);
       setFiredTimes((cur) => cur + 1);
     },
-    [audio, gameOptions.soundEffects]
+    [audio, gameOptions.onFireSoundEffect]
   );
 
   // Generate new targets

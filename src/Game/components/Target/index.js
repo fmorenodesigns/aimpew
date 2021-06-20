@@ -18,7 +18,7 @@ export default function Target({ size, left, top, onHit }) {
         transform: `scale(${(size / 40) * (hit ? 1.3 : 1)})`,
       }}
       onClick={() => {
-        if (gameOptions.soundEffects) {
+        if (gameOptions.onHitSoundEffect) {
           audio.currentTime = 0;
           audio.play();
         }

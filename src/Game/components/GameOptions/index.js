@@ -6,7 +6,8 @@ import { GameOptionsButton } from "../KeyButton";
 import Logo from "../Logo";
 
 export const DEFAULT_GAME_OPTIONS = {
-  soundEffects: true,
+  onHitSoundEffect: true,
+  onFireSoundEffect: true,
   visualEffects: true,
   simultaneousTargetCount: 3,
   targetInterval: 1000,
@@ -58,10 +59,25 @@ export default function GameOptions({
       <Logo className="game-options-logo" />
       <div className="option-group">
         <Option
-          value={gameOptions.soundEffects || ""}
+          value={gameOptions.onFireSoundEffect || ""}
           updateValue={updateOption}
-          optionTag="soundEffects"
-          label="Enable sound effects"
+          optionTag="onFireSoundEffect"
+          label={
+            <>
+              Enable sound effect <i>on fire</i>
+            </>
+          }
+          type="checkbox"
+        />
+        <Option
+          value={gameOptions.onHitSoundEffect || ""}
+          updateValue={updateOption}
+          optionTag="onHitSoundEffect"
+          label={
+            <>
+              Enable sound effect <i>on hit</i>
+            </>
+          }
           type="checkbox"
         />
         <Option
