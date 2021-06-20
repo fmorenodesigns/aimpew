@@ -86,7 +86,7 @@ export default function GameOptions({
         label="Target duration (ms)"
         type="input"
         min={0}
-        max={6000}
+        max={10000}
       />
 
       <Option
