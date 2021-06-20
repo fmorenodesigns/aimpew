@@ -54,64 +54,64 @@ export default function GameOptions({
         onClick={updateGameOptionsVisibility}
       />
 
-      <Option
-        value={gameOptions.soundEffects || ""}
-        updateValue={updateOption}
-        optionTag="soundEffects"
-        label="Enable sound effects"
-        type="checkbox"
-      />
+      <div className="option-group">
+        <Option
+          value={gameOptions.soundEffects || ""}
+          updateValue={updateOption}
+          optionTag="soundEffects"
+          label="Enable sound effects"
+          type="checkbox"
+        />
+        <Option
+          value={gameOptions.visualEffects || ""}
+          updateValue={updateOption}
+          optionTag="visualEffects"
+          label="Enable special visual effects"
+          type="checkbox"
+        />
+      </div>
 
-      <Option
-        value={gameOptions.visualEffects || ""}
-        updateValue={updateOption}
-        optionTag="visualEffects"
-        label="Enable special visual effects"
-        type="checkbox"
-      />
-
-      <Option
-        value={gameOptions.simultaneousTargetCount || ""}
-        updateValue={updateOption}
-        optionTag="simultaneousTargetCount"
-        label="Max. number of simultaneous targets"
-        type="input"
-        min={0}
-        max={40}
-      />
-
-      <Option
-        value={gameOptions.targetInterval || ""}
-        updateValue={updateOption}
-        optionTag="targetInterval"
-        label="Interval between new targets (ms)"
-        type="input"
-        min={0}
-        max={10000}
-        helpText={`Each target will last ${
-          gameOptions.targetInterval * gameOptions.simultaneousTargetCount
-        } ms`}
-      />
-
-      <Option
-        value={gameOptions.targetSize || ""}
-        updateValue={updateOption}
-        optionTag="targetSize"
-        label="Target size"
-        type="input"
-        min={0}
-        max={100}
-      />
-
-      <Option
-        value={gameOptions.targetSizeVariation || ""}
-        updateValue={updateOption}
-        optionTag="targetSizeVariation"
-        label="Target size variation"
-        type="input"
-        min={0}
-        max={100}
-      />
+      <div className="option-group">
+        <Option
+          value={gameOptions.simultaneousTargetCount || ""}
+          updateValue={updateOption}
+          optionTag="simultaneousTargetCount"
+          label="Max. number of simultaneous targets"
+          type="input"
+          min={0}
+          max={40}
+        />
+        <Option
+          value={gameOptions.targetInterval || ""}
+          updateValue={updateOption}
+          optionTag="targetInterval"
+          label="Interval between new targets (ms)"
+          type="input"
+          min={0}
+          max={10000}
+          helpText={`Each target will last ${
+            gameOptions.targetInterval * gameOptions.simultaneousTargetCount
+          } ms`}
+        />
+        <Option
+          value={gameOptions.targetSize || ""}
+          updateValue={updateOption}
+          optionTag="targetSize"
+          label="Target size"
+          type="input"
+          min={0}
+          max={100}
+        />
+        <Option
+          value={gameOptions.targetSizeVariation || ""}
+          updateValue={updateOption}
+          optionTag="targetSizeVariation"
+          label="Target size variation"
+          type="input"
+          min={0}
+          max={100}
+        />
+      </div>
     </div>
   );
 }
