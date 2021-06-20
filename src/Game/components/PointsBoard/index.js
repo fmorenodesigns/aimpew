@@ -30,7 +30,7 @@ export default function PointsBoard({
         name="Hit accuracy"
         counterClassName={hitAccuracy >= 0.5 ? "good" : "bad"}
       />
-      {totalReactionTime && maxPoints && (
+      {!!totalReactionTime && !!maxPoints && (
         <CounterGroup
           count={`${prettyNumber(totalReactionTime / 1000 / maxPoints, 4)}s`}
           name="Avg. reaction time"

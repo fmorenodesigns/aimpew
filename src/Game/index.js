@@ -91,8 +91,10 @@ function PlayableGame() {
         onHitSoundEffect.currentTime = 0;
         onHitSoundEffect.play();
       }
+
       setTotalReactionTime((cur) => cur + lifeTime);
       setPoints((cur) => cur + 1);
+
       setTimeout(() => {
         setTargets((cur) => cur.filter(({ index }) => index !== targetIndex));
       }, [200]);
@@ -106,6 +108,7 @@ function PlayableGame() {
         onFireSoundEffect.currentTime = 0;
         onFireSoundEffect.play();
       }
+
       setCoiling(true);
       setTimeout(() => setCoiling(false), 100);
       setFiredTimes((cur) => cur + 1);
@@ -147,10 +150,9 @@ function PlayableGame() {
             const now = new Date();
             return (
               curReactionTime +
-              targetsToRemove.reduce(
-                (a, b) => now - a.lifeStart + (now - b.lifeStart),
-                0
-              )
+              targetsToRemove
+                .map((target) => now - target.lifeStart)
+                .reduce((a, b) => a + b, 0)
             );
           });
         }
