@@ -168,8 +168,6 @@ function PlayableGame() {
     if (!reachedTargetCountLimit) return;
 
     const timeout = setTimeout(() => {
-      console.log(targets);
-
       setTargets((cur) => {
         const temp = [...cur].slice(1);
         return temp;
