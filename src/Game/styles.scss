@@ -16,6 +16,17 @@
     font-family: "Inter", "Roboto", "sans-serif";
   }
 
+  .error {
+    color: white;
+    margin: auto 0;
+    box-sizing: border-box;
+    padding: 0 20px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    line-height: 22px;
+  }
+
   .flashlight {
     top: 0;
     left: 0;

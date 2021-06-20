@@ -15,12 +15,28 @@ import Gun from "./components/Gun";
 import Logo from "./components/Logo";
 import PointsBoard from "./components/PointsBoard";
 import Target from "./components/Target";
+import { isMobile } from "./utils";
 import { useLocalStorage } from "./hooks";
 
 const START_COUNTDOWN = 3000;
 const STARTING_GUN_ROTATION = { horizontal: 10, vertical: -5 };
 
 export default function Game() {
+  return isMobile() ? (
+    <div className="game">
+      <div className="error">
+        This application has been developed to help people practice your mouse
+        aim, and is currently not compatible with mobile devices.
+      </div>
+    </div>
+  ) : (
+    <div className="game">
+      <PlayableGame />
+    </div>
+  );
+}
+
+function PlayableGame() {
   const audio = useMemo(() => new Audio("./laserbeam.mp3"), []);
   const playableArea = useRef();
   const playableAreaWidth = playableArea.current?.getBoundingClientRect().width;
@@ -151,7 +167,7 @@ export default function Game() {
   }, [handleKeyPress]);
 
   return (
-    <div className="game">
+    <>
       {!started && !showOptions && (
         <Countdown startValue={START_COUNTDOWN} setStarted={setStarted} />
       )}
@@ -203,6 +219,6 @@ export default function Game() {
           ))}
         </div>
       </div>
-    </div>
+    </>
   );
 }
