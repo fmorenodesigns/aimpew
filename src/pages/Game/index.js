@@ -9,11 +9,15 @@ import React, {
   useState,
 } from "react";
 
+import Countdown from "./components/Countdown";
 import GameOptionsButton from "./components/GameOptions/GameOptionsButton";
 import Gun from "./components/Gun";
 import PointsBoard from "./components/PointsBoard";
+import RestartButton from "./components/GameOptions/RestartButton";
 import Target from "./components/Target";
 import { useLocalStorage } from "./hooks";
+
+const START_COUNTDOWN = 3000;
 
 export default function Game() {
   const audio = useMemo(() => new Audio("/laserbeam.mp3"), []);
@@ -22,6 +26,7 @@ export default function Game() {
   const playableAreaHeight =
     playableArea.current?.getBoundingClientRect().height;
 
+  const [started, setStarted] = useState(false);
   const [targets, setTargets] = useState([]);
 
   const [points, setPoints] = useState(0);
@@ -71,6 +76,8 @@ export default function Game() {
 
   // Generate new targets
   useEffect(() => {
+    if (!started) return;
+
     if (!playableAreaHeight || !playableAreaWidth || showOptions) return;
 
     const timeout = setTimeout(() => {
@@ -107,39 +114,57 @@ export default function Game() {
     gameOptions,
     maxPoints,
     showOptions,
+    started,
   ]);
 
-  const updateGameOptionsVisibility = useCallback((e, click) => {
-    if (click || e.key === "Escape") setShowOptions((cur) => !cur);
+  const updateGameOptionsVisibility = useCallback(() => {
+    setShowOptions((cur) => !cur);
   }, []);
 
-  // Show game options on Esc press
-  useEffect(() => {
-    document.addEventListener("keydown", updateGameOptionsVisibility, false);
+  const restartGame = useCallback(() => {
+    setRotation({ horizontal: 0, vertical: 0 });
+    setStarted(false);
+    setTargets([]);
+    setPoints(0);
+    setFiredTimes(0);
+    setMaxPoints(0);
+  }, []);
 
-    return () => {
-      document.removeEventListener(
-        "keydown",
-        updateGameOptionsVisibility,
-        false
-      );
-    };
-  }, [updateGameOptionsVisibility]);
+  const handleKeyPress = useCallback(
+    (e) => {
+      if (e.key === " ") {
+        if (!started) return;
+        restartGame();
+      } else if (e.key === "Escape") {
+        updateGameOptionsVisibility();
+      }
+    },
+    [started, restartGame, updateGameOptionsVisibility]
+  );
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyPress, false);
+    return () => document.removeEventListener("keydown", handleKeyPress, false);
+  }, [handleKeyPress]);
 
   return (
     <div className="game">
-      {showOptions ? (
-        <GameOptions
-          gameOptions={gameOptions}
-          setGameOptions={setGameOptions}
-          updateGameOptionsVisibility={updateGameOptionsVisibility}
-        />
-      ) : (
+      {!started && !showOptions && (
+        <Countdown startValue={START_COUNTDOWN} setStarted={setStarted} />
+      )}
+      <GameOptions
+        gameOptions={gameOptions}
+        setGameOptions={setGameOptions}
+        updateGameOptionsVisibility={updateGameOptionsVisibility}
+        showOptions={showOptions}
+      />
+      {!showOptions && (
         <GameOptionsButton
           description="Options"
-          onClick={() => updateGameOptionsVisibility(undefined, true)}
+          onClick={updateGameOptionsVisibility}
         />
       )}
+      {started && <RestartButton onClick={restartGame} />}
       <PointsBoard
         points={points}
         firedTimes={firedTimes}

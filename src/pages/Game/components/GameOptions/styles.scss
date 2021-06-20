@@ -1,34 +1,28 @@
 .game {
   .game-options {
-    position: fixed;
-    z-index: 2;
-    background-color: rgba(0, 0, 0, 0.5);
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    transition: opacity 0.3s ease;
+    opacity: 0;
 
-    .header {
-      font-size: 30px;
-      font-weight: bold;
-      color: white;
-      margin-bottom: 60px;
+    &:not(.visible) {
+      visibility: hidden;
+    }
+
+    &.visible {
+      transition: opacity 1s ease;
+      opacity: 1;
     }
 
     .option {
+      height: 30px;
       display: grid;
-      align-items: center;
+      align-items: end;
       grid-template-columns: 450px 80px;
       gap: 20px;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
 
       label {
         color: white;
-        font-size: 25px;
+        font-size: 18px;
       }
     }
   }
@@ -42,7 +36,7 @@
   .input {
     padding: 3px 10px;
     text-align: center;
-    font-size: 25px;
+    font-size: 18px;
     font-weight: bold;
     color: white;
     background-color: rgba(0, 0, 0, 0);
@@ -50,12 +44,12 @@
   }
 
   .checkbox {
-    --size: 35px;
+    --size: 25px;
     position: relative;
     cursor: pointer;
     width: var(--size);
     height: var(--size);
-    margin: 0 auto;
+    margin: auto;
 
     &::before {
       box-sizing: border-box;
@@ -69,7 +63,7 @@
       content: "";
       background-color: rgba(0, 0, 0, 0);
       transition: all 0.2s ease;
-      font-size: 20px;
+      font-size: calc(var(--size) - 10px);
     }
 
     &:checked:before {

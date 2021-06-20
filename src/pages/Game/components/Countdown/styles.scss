@@ -1,0 +1,30 @@
+.game {
+  .countdown-text {
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: countdown 1s ease 3, hide_count 1s linear 2s forwards;
+    opacity: 1;
+    user-select: none;
+  }
+}
+
+@keyframes countdown {
+  to {
+    font-size: 250px;
+    opacity: 0;
+  }
+}
+
+@keyframes hide_count {
+  99% {
+    visibility: visible;
+  }
+  100% {
+    visibility: hidden;
+  }
+}

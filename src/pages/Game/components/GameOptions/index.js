@@ -17,6 +17,7 @@ export default function GameOptions({
   gameOptions,
   setGameOptions,
   updateGameOptionsVisibility,
+  showOptions,
 }) {
   const updateOption = useCallback(
     (optionName, newValue) => {
@@ -26,106 +27,105 @@ export default function GameOptions({
   );
 
   return (
-    <div className="game-options">
+    <div className={`overlay game-options ${showOptions ? "visible" : ""}`}>
       <GameOptionsButton
         description="Resume"
-        onClick={() => updateGameOptionsVisibility(undefined, true)}
+        onClick={updateGameOptionsVisibility}
       />
-      <div className="header">OPTIONS</div>
 
-      <div className="option">
-        <label htmlFor="#gameoption-soundEffects">Enable sound effects</label>
+      <Option
+        value={gameOptions.soundEffects || ""}
+        updateValue={updateOption}
+        optionTag="soundEffects"
+        label="Enable sound effects"
+        type="checkbox"
+      />
+
+      <Option
+        value={gameOptions.visualEffects || ""}
+        updateValue={updateOption}
+        optionTag="visualEffects"
+        label="Enable special visual effects"
+        type="checkbox"
+      />
+
+      <Option
+        value={gameOptions.simultaneousTargetCount || ""}
+        updateValue={updateOption}
+        optionTag="simultaneousTargetCount"
+        label="Max. number of simultaneous targets"
+        type="input"
+        min={0}
+        max={100}
+      />
+
+      <Option
+        value={gameOptions.targetInterval || ""}
+        updateValue={updateOption}
+        optionTag="targetInterval"
+        label="Interval between targets (ms)"
+        type="input"
+        min={0}
+        max={100}
+      />
+
+      <Option
+        value={gameOptions.targetSize || ""}
+        updateValue={updateOption}
+        optionTag="targetSize"
+        label="Target size"
+        type="input"
+        min={0}
+        max={100}
+      />
+
+      <Option
+        value={gameOptions.targetSizeVariation || ""}
+        updateValue={updateOption}
+        optionTag="targetSizeVariation"
+        label="Target size variation"
+        type="input"
+        min={0}
+        max={100}
+      />
+    </div>
+  );
+}
+
+export function Option({
+  value,
+  updateValue,
+  label,
+  optionTag,
+  type,
+  min = undefined,
+  max = undefined,
+}) {
+  return (
+    <div className="option">
+      <label htmlFor={`#gameoption-${optionTag}`}>{label}</label>
+      {type === "input" ? (
+        <input
+          type="text"
+          className="input"
+          id={`gameoption-${optionTag}`}
+          value={value}
+          onChange={(e) =>
+            updateValue(
+              optionTag,
+              Math.max(Math.min(parseInt(e.target.value), max), min)
+            )
+          }
+        />
+      ) : (
         <input
           type="checkbox"
           className="checkbox"
-          id="gameoption-soundEffects"
-          checked={gameOptions.soundEffects}
-          onChange={(e) => updateOption("soundEffects", e.target.checked)}
+          id={`gameoption-${optionTag}`}
+          checked={value}
+          onChange={(e) => updateValue(optionTag, e.target.checked)}
         />
-      </div>
-
-      <div className="option">
-        <label htmlFor="#gameoption-visualEffects">
-          Enable special visual effects
-        </label>
-        <input
-          type="checkbox"
-          className="checkbox"
-          id="gameoption-visualEffects"
-          checked={gameOptions.visualEffects}
-          onChange={(e) => updateOption("visualEffects", e.target.checked)}
-        />
-      </div>
-
-      <div className="option">
-        <label htmlFor="#gameoption-simultaneousTargetCount">
-          Max. number of simultaneous targets
-        </label>
-        <input
-          type="text"
-          className="input"
-          id="gameoption-simultaneousTargetCount"
-          value={gameOptions.simultaneousTargetCount || ""}
-          onChange={(e) =>
-            updateOption(
-              "simultaneousTargetCount",
-              Math.max(Math.min(parseInt(e.target.value), 30), 0)
-            )
-          }
-        />
-      </div>
-
-      <div className="option">
-        <label htmlFor="#gameoption-targetInterval">
-          Interval between targets (ms)
-        </label>
-        <input
-          type="text"
-          className="input"
-          id="gameoption-targetInterval"
-          value={gameOptions.targetInterval || ""}
-          onChange={(e) =>
-            updateOption(
-              "targetInterval",
-              Math.max(Math.min(parseInt(e.target.value), 6000), 0)
-            )
-          }
-        />
-      </div>
-
-      <div className="option">
-        <label htmlFor="#gameoption-targetSize">Target size</label>
-        <input
-          type="text"
-          className="input"
-          id="gameoption-targetSize"
-          value={gameOptions.targetSize || ""}
-          onChange={(e) =>
-            updateOption(
-              "targetSize",
-              Math.max(Math.min(parseInt(e.target.value), 100), 0)
-            )
-          }
-        />
-      </div>
-
-      <div className="option">
-        <label htmlFor="#gameoption-targetSizeVariation">
-          Target size variation
-        </label>
-        <input
-          type="text"
-          className="input"
-          id="gameoption-targetSizeVariation"
-          value={gameOptions.targetSizeVariation || ""}
-          onChange={(e) =>
-            updateOption(
-              "targetSizeVariation",
-              Math.max(Math.min(parseInt(e.target.value), 100), 0)
-            )
-          }
-        />
-      </div>
+      )}
     </div>
   );
 }
