@@ -157,8 +157,12 @@ function PlayableGame() {
           {
             size,
             index: maxPoints,
-            left: Math.max(Math.random() * playableAreaWidth - size, size / 2),
-            top: Math.max(Math.random() * playableAreaHeight - size, size / 2),
+            left:
+              Math.max(Math.random() * playableAreaWidth - size, size / 2) /
+              playableAreaWidth,
+            top:
+              Math.max(Math.random() * playableAreaHeight - size, size / 2) /
+              playableAreaHeight,
             lifeStart: new Date(),
           },
         ];
@@ -310,8 +314,8 @@ function PlayableGame() {
             <Target
               key={target.index}
               size={target.size}
-              left={target.left}
-              top={target.top}
+              left={`${target.left * 100}%`}
+              top={`${target.top * 100}%`}
               onHit={() => {
                 const now = new Date();
                 const lifeTime = now - target.lifeStart;

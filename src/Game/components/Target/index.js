@@ -11,7 +11,7 @@ export default function Target({ size, left, top, onHit }) {
       style={{
         left,
         top,
-        transform: `scale(${(size / 40) * (hit ? 1.3 : 1)})`,
+        transform: `scale(${(size / 40) * (hit ? 1.4 : 1)})`,
       }}
       onClick={() => {
         setHit(true);
