@@ -8,6 +8,8 @@
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
+    width: 40px;
+    height: 40px;
 
     &.hit {
       --bg-color: #20c0ff;

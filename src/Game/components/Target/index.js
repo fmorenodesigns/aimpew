@@ -8,7 +8,7 @@ export default function Target({ size, left, top, onHit }) {
   return (
     <div
       className={`target ${hit ? "hit" : ""}`}
-      style={{ width: size, height: size, left, top }}
+      style={{ left, top, transform: `scale(${size / 40})` }}
       onClick={() => {
         setHit(true);
         onHit();
