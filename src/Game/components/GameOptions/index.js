@@ -2,13 +2,13 @@ import "./styles.scss";
 
 import React, { useCallback, useEffect } from "react";
 
-import { GameOptionsButton } from "../KeyButton";
 import Logo from "../Logo";
 
 export const DEFAULT_GAME_OPTIONS = {
   onHitSoundEffect: true,
   onFireSoundEffect: true,
   visualEffects: true,
+  targetGoal: 0, // no limit
   simultaneousTargetCount: 3,
   targetInterval: 1000,
   targetSize: 30,
@@ -20,6 +20,7 @@ export default function GameOptions({
   setGameOptions,
   updateGameOptionsVisibility,
   showOptions,
+  overlay = true,
 }) {
   const updateOption = useCallback(
     (optionName, newValue) => {
@@ -40,6 +41,7 @@ export default function GameOptions({
 
     setGameOptions((cur) => ({
       ...cur,
+      targetGoal: cur.targetGoal || 0, // can be empty
       simultaneousTargetCount:
         cur.simultaneousTargetCount ||
         DEFAULT_GAME_OPTIONS.simultaneousTargetCount,
@@ -50,98 +52,110 @@ export default function GameOptions({
   }, [showOptions, setGameOptions, gameOptions]);
 
   return (
-    <div className={`overlay game-options ${showOptions ? "visible" : ""}`}>
-      <GameOptionsButton
-        description="Save"
-        onClick={updateGameOptionsVisibility}
-      />
+    <>
+      <div
+        className={`${overlay ? "overlay" : ""} game-options ${
+          showOptions ? "visible" : ""
+        }`}
+      >
+        <Logo className="default-logo" />
+        <div className="option-group">
+          <Option
+            value={gameOptions.onFireSoundEffect || ""}
+            updateValue={updateOption}
+            optionTag="onFireSoundEffect"
+            label={
+              <>
+                Enable sound effect <i>on fire</i>
+              </>
+            }
+            type="checkbox"
+          />
+          <Option
+            value={gameOptions.onHitSoundEffect || ""}
+            updateValue={updateOption}
+            optionTag="onHitSoundEffect"
+            label={
+              <>
+                Enable sound effect <i>on hit</i>
+              </>
+            }
+            type="checkbox"
+          />
+          <Option
+            value={gameOptions.visualEffects || ""}
+            updateValue={updateOption}
+            optionTag="visualEffects"
+            label="Enable special visual effects"
+            type="checkbox"
+          />
+        </div>
 
-      <Logo className="game-options-logo" />
-      <div className="option-group">
-        <Option
-          value={gameOptions.onFireSoundEffect || ""}
-          updateValue={updateOption}
-          optionTag="onFireSoundEffect"
-          label={
-            <>
-              Enable sound effect <i>on fire</i>
-            </>
-          }
-          type="checkbox"
-        />
-        <Option
-          value={gameOptions.onHitSoundEffect || ""}
-          updateValue={updateOption}
-          optionTag="onHitSoundEffect"
-          label={
-            <>
-              Enable sound effect <i>on hit</i>
-            </>
-          }
-          type="checkbox"
-        />
-        <Option
-          value={gameOptions.visualEffects || ""}
-          updateValue={updateOption}
-          optionTag="visualEffects"
-          label="Enable special visual effects"
-          type="checkbox"
-        />
-      </div>
+        <div className="option-group">
+          <Option
+            value={gameOptions.targetGoal || ""}
+            updateValue={updateOption}
+            optionTag="targetGoal"
+            label="Total target goal"
+            helpText="Leave it empty for unlimited goal"
+            type="input"
+            min={0}
+            max={5000}
+          />
+          <Option
+            value={gameOptions.simultaneousTargetCount || ""}
+            updateValue={updateOption}
+            optionTag="simultaneousTargetCount"
+            label="Max. number of simultaneous targets"
+            type="input"
+            min={0}
+            max={40}
+          />
+          <Option
+            value={gameOptions.targetInterval || ""}
+            updateValue={updateOption}
+            optionTag="targetInterval"
+            label="Interval between new targets (ms)"
+            type="input"
+            min={0}
+            max={10000}
+            helpText={`Each target will last ${
+              gameOptions.targetInterval * gameOptions.simultaneousTargetCount
+            } ms`}
+          />
+          <Option
+            value={gameOptions.targetSize || ""}
+            updateValue={updateOption}
+            optionTag="targetSize"
+            label="Target size"
+            type="input"
+            min={0}
+            max={100}
+          />
+          <Option
+            value={gameOptions.targetSizeVariation || ""}
+            updateValue={updateOption}
+            optionTag="targetSizeVariation"
+            label="Target size variation"
+            helpText="Leave it empty for no variation"
+            type="input"
+            min={0}
+            max={100}
+          />
+        </div>
 
-      <div className="option-group">
-        <Option
-          value={gameOptions.simultaneousTargetCount || ""}
-          updateValue={updateOption}
-          optionTag="simultaneousTargetCount"
-          label="Max. number of simultaneous targets"
-          type="input"
-          min={0}
-          max={40}
-        />
-        <Option
-          value={gameOptions.targetInterval || ""}
-          updateValue={updateOption}
-          optionTag="targetInterval"
-          label="Interval between new targets (ms)"
-          type="input"
-          min={0}
-          max={10000}
-          helpText={`Each target will last ${
-            gameOptions.targetInterval * gameOptions.simultaneousTargetCount
-          } ms`}
-        />
-        <Option
-          value={gameOptions.targetSize || ""}
-          updateValue={updateOption}
-          optionTag="targetSize"
-          label="Target size"
-          type="input"
-          min={0}
-          max={100}
-        />
-        <Option
-          value={gameOptions.targetSizeVariation || ""}
-          updateValue={updateOption}
-          optionTag="targetSizeVariation"
-          label="Target size variation"
-          type="input"
-          min={0}
-          max={100}
-        />
+        <div className="game-options-credits">
+          A project developed by{" "}
+          <a
+            href="https://github.com/fmorenodesigns"
+            target="_blank"
+            rel="noreferrer"
+          >
+            @fmorenodesigns
+          </a>
+        </div>
       </div>
-
-      <div className="game-options-credits">
-        A project developed by{" "}
-        <a
-          href="https://github.com/fmorenodesigns"
-          target="_blank"
-          rel="noreferrer"
-        >
-          @fmorenodesigns
-        </a>
-      </div>
-    </div>
+    </>
   );
 }
 

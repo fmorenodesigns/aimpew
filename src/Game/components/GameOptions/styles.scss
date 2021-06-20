@@ -5,6 +5,10 @@
     --border-color: rgba(255, 255, 255, 0.3);
     transition: opacity 0.3s ease;
     opacity: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
     &:not(.visible) {
       visibility: hidden;
@@ -13,11 +17,6 @@
     &.visible {
       transition: opacity 1s ease;
       opacity: 1;
-    }
-
-    &-logo {
-      margin-bottom: 30px;
-      height: 25px;
     }
 
     &-credits {

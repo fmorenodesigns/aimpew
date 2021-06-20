@@ -1,7 +1,6 @@
 import "./styles.scss";
 
 import GameOptions, { DEFAULT_GAME_OPTIONS } from "./components/GameOptions";
-import { GameOptionsButton, RestartButton } from "./components/KeyButton";
 import React, {
   useCallback,
   useEffect,
@@ -11,9 +10,12 @@ import React, {
 } from "react";
 
 import Countdown from "./components/Countdown";
+import { GameOptionsButton } from "./components/KeyButton";
+import GameOver from "./components/GameOver";
 import Gun from "./components/Gun";
 import Logo from "./components/Logo";
 import PointsBoard from "./components/PointsBoard";
+import { RestartButton } from "./components/KeyButton";
 import Target from "./components/Target";
 import { isMobile } from "./utils";
 import { useLocalStorage } from "./hooks";
@@ -45,6 +47,7 @@ function PlayableGame() {
     playableArea.current?.getBoundingClientRect().height;
 
   const [started, setStarted] = useState(false);
+  const [ended, setEnded] = useState(false);
   const [targets, setTargets] = useState([]);
 
   const [points, setPoints] = useState(0);
@@ -58,6 +61,10 @@ function PlayableGame() {
   const [gameOptions, setGameOptions] = useLocalStorage(
     "game-options",
     DEFAULT_GAME_OPTIONS
+  );
+  const reachedTargetCountLimit = useMemo(
+    () => gameOptions.targetGoal && maxPoints >= gameOptions.targetGoal,
+    [gameOptions.targetGoal, maxPoints]
   );
 
   // Rotate gun
@@ -103,26 +110,30 @@ function PlayableGame() {
 
   // Generate new targets
   useEffect(() => {
-    if (!started) return;
+    if (!started || ended) return;
 
     if (!playableAreaHeight || !playableAreaWidth || showOptions) return;
 
     const timeout = setTimeout(() => {
-      setTargets((cur) => {
-        if (showOptions) {
-          clearTimeout(timeout);
-          return;
-        }
+      if (showOptions || ended) {
+        clearTimeout(timeout);
+        return;
+      }
 
+      setTargets((cur) => {
         const sizeVariation =
           Math.round((Math.random() * gameOptions.targetSizeVariation) / 2) * 2;
         const size = gameOptions.targetSize + sizeVariation;
 
+        const removeOneTarget = cur.filter(
+          ({ index }) => index > maxPoints - gameOptions.simultaneousTargetCount
+        );
+
+        if (reachedTargetCountLimit) {
+          return removeOneTarget;
+        }
         return [
-          ...cur.filter(
-            ({ index }) =>
-              index > maxPoints - gameOptions.simultaneousTargetCount
-          ),
+          ...removeOneTarget,
           {
             size,
             index: maxPoints,
@@ -131,18 +142,38 @@ function PlayableGame() {
           },
         ];
       });
-      setMaxPoints((curIdx) => curIdx + 1);
+
+      if (!reachedTargetCountLimit) {
+        setMaxPoints((curIdx) => curIdx + 1);
+      }
     }, gameOptions.targetInterval);
 
     return () => clearTimeout(timeout);
   }, [
-    playableAreaHeight,
-    playableAreaWidth,
+    ended,
     gameOptions,
     maxPoints,
+    playableAreaHeight,
+    playableAreaWidth,
+    reachedTargetCountLimit,
     showOptions,
     started,
   ]);
+
+  // Start removing targets after the targetGoal has been reached
+  useEffect(() => {
+    if (!started || ended) return;
+
+    if (!reachedTargetCountLimit) return;
+
+    console.log("HeRE");
+
+    const timeout = setTimeout(() => {
+      setTargets((cur) => cur.filter((target, idx) => idx !== 0));
+    }, [gameOptions.targetInterval]);
+
+    return () => clearTimeout(timeout);
+  }, [ended, gameOptions.targetInterval, reachedTargetCountLimit, started]);
 
   const updateGameOptionsVisibility = useCallback(() => {
     setShowOptions((cur) => !cur);
@@ -150,6 +181,8 @@ function PlayableGame() {
 
   const restartGame = useCallback(() => {
     setRotation(STARTING_GUN_ROTATION);
+    setShowOptions(false);
+    setEnded(false);
     setStarted(false);
     setTargets([]);
     setPoints(0);
@@ -160,21 +193,50 @@ function PlayableGame() {
   const handleKeyPress = useCallback(
     (e) => {
       if (e.key === " ") {
-        if (!started) return;
         restartGame();
-      } else if (e.key === "Escape") {
+      } else if (e.key === "Escape" && !ended) {
         updateGameOptionsVisibility();
       }
     },
-    [started, restartGame, updateGameOptionsVisibility]
+    [restartGame, updateGameOptionsVisibility, ended]
   );
 
+  // Detect keystrokes
   useEffect(() => {
     document.addEventListener("keydown", handleKeyPress, false);
     return () => document.removeEventListener("keydown", handleKeyPress, false);
   }, [handleKeyPress]);
 
-  return (
+  // End the game upon reaching the target goal
+  useEffect(() => {
+    if (reachedTargetCountLimit && targets.length === 0) {
+      setEnded(true);
+      setStarted(false);
+      return;
+    }
+  }, [reachedTargetCountLimit, targets.length]);
+
+  return ended ? (
+    <GameOver
+      pointsBoard={
+        <PointsBoard
+          points={points}
+          firedTimes={firedTimes}
+          maxPoints={maxPoints}
+        />
+      }
+      gameOptions={
+        <GameOptions
+          gameOptions={gameOptions}
+          setGameOptions={setGameOptions}
+          updateGameOptionsVisibility={updateGameOptionsVisibility}
+          showOptions={true}
+          overlay={false}
+        />
+      }
+      restartGame={restartGame}
+    />
+  ) : (
     <>
       {!started && !showOptions && (
         <Countdown startValue={START_COUNTDOWN} setStarted={setStarted} />
@@ -185,21 +247,16 @@ function PlayableGame() {
         updateGameOptionsVisibility={updateGameOptionsVisibility}
         showOptions={showOptions}
       />
-      {!showOptions && (
-        <GameOptionsButton
-          description="Options"
-          onClick={updateGameOptionsVisibility}
-        />
-      )}
+      <GameOptionsButton
+        description={!showOptions ? "Options" : "Save"}
+        onClick={updateGameOptionsVisibility}
+      />
       <PointsBoard
         points={points}
         firedTimes={firedTimes}
         maxPoints={maxPoints}
       />
-
-      {started && <RestartButton onClick={restartGame} />}
-
-      <Logo className="mini-logo" colors={{ aim: "#fcfcfc", pew: "#fcfcfc" }} />
+      <RestartButton onClick={restartGame} />
 
       {coiling && gameOptions.visualEffects && <div className="flashlight" />}
       <div
@@ -227,6 +284,8 @@ function PlayableGame() {
           ))}
         </div>
       </div>
+
+      <Logo className="mini-logo" colors={{ aim: "#fcfcfc", pew: "#fcfcfc" }} />
     </>
   );
 }
