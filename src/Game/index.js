@@ -125,13 +125,14 @@ function PlayableGame() {
           Math.round((Math.random() * gameOptions.targetSizeVariation) / 2) * 2;
         const size = gameOptions.targetSize + sizeVariation;
 
+        if (reachedTargetCountLimit) {
+          return cur;
+        }
+
         const removeOneTarget = cur.filter(
           ({ index }) => index > maxPoints - gameOptions.simultaneousTargetCount
         );
 
-        if (reachedTargetCountLimit) {
-          return removeOneTarget;
-        }
         return [
           ...removeOneTarget,
           {
@@ -166,14 +167,23 @@ function PlayableGame() {
 
     if (!reachedTargetCountLimit) return;
 
-    console.log("HeRE");
-
     const timeout = setTimeout(() => {
-      setTargets((cur) => cur.filter((target, idx) => idx !== 0));
+      console.log(targets);
+
+      setTargets((cur) => {
+        const temp = [...cur].slice(1);
+        return temp;
+      });
     }, [gameOptions.targetInterval]);
 
     return () => clearTimeout(timeout);
-  }, [ended, gameOptions.targetInterval, reachedTargetCountLimit, started]);
+  }, [
+    ended,
+    gameOptions.targetInterval,
+    reachedTargetCountLimit,
+    started,
+    targets,
+  ]);
 
   const updateGameOptionsVisibility = useCallback(() => {
     setShowOptions((cur) => !cur);
