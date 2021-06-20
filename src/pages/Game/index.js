@@ -40,6 +40,10 @@ export default function Game() {
     "game-options",
     DEFAULT_GAME_OPTIONS
   );
+  const targetInterval = useMemo(
+    () => gameOptions.targetDuration / gameOptions.simultaneousTargetCount,
+    [gameOptions]
+  );
 
   // Rotate gun
   const handleMovement = useCallback(
@@ -55,7 +59,7 @@ export default function Game() {
     [playableAreaWidth, playableAreaHeight]
   );
 
-  const onHit = useCallback((targetIndex) => {
+  const onTargetHit = useCallback((targetIndex) => {
     setPoints((cur) => cur + 1);
     setTargets((cur) => cur.filter(({ index }) => index !== targetIndex));
   }, []);
@@ -104,7 +108,7 @@ export default function Game() {
         ];
       });
       setMaxPoints((curIdx) => curIdx + 1);
-    }, gameOptions.targetInterval);
+    }, targetInterval);
 
     return () => clearTimeout(timeout);
   }, [
@@ -114,6 +118,7 @@ export default function Game() {
     maxPoints,
     showOptions,
     started,
+    targetInterval,
   ]);
 
   const updateGameOptionsVisibility = useCallback(() => {
@@ -191,7 +196,7 @@ export default function Game() {
               left={target.left}
               top={target.top}
               onHit={() => {
-                onHit(target.index);
+                onTargetHit(target.index);
               }}
             />
           ))}

@@ -1,6 +1,6 @@
 import "./styles.scss";
 
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 
 import { GameOptionsButton } from "../KeyButton";
 
@@ -8,7 +8,7 @@ export const DEFAULT_GAME_OPTIONS = {
   soundEffects: true,
   visualEffects: true,
   simultaneousTargetCount: 3,
-  targetInterval: 1000,
+  targetDuration: 3000,
   targetSize: 30,
   targetSizeVariation: 10,
 };
@@ -26,10 +26,30 @@ export default function GameOptions({
     [gameOptions, setGameOptions]
   );
 
+  // Ensure that the user doesn't leave empty fields, by falling back to the defaults
+  useEffect(() => {
+    if (
+      showOptions ||
+      Object.values(gameOptions).filter((val) => val === 0).length === 0
+    )
+      return;
+
+    setGameOptions((cur) => ({
+      ...cur,
+      simultaneousTargetCount:
+        cur.simultaneousTargetCount ||
+        DEFAULT_GAME_OPTIONS.simultaneousTargetCount,
+      targetDuration: cur.targetDuration || DEFAULT_GAME_OPTIONS.targetDuration,
+      targetSize: cur.targetSize || DEFAULT_GAME_OPTIONS.targetSize,
+      targetSizeVariation:
+        cur.targetSizeVariation || DEFAULT_GAME_OPTIONS.targetSizeVariation,
+    }));
+  }, [showOptions, setGameOptions, gameOptions]);
+
   return (
     <div className={`overlay game-options ${showOptions ? "visible" : ""}`}>
       <GameOptionsButton
-        description="Resume"
+        description="Save"
         onClick={updateGameOptionsVisibility}
       />
 
@@ -56,17 +76,17 @@ export default function GameOptions({
         label="Max. number of simultaneous targets"
         type="input"
         min={0}
-        max={100}
+        max={40}
       />
 
       <Option
-        value={gameOptions.targetInterval || ""}
+        value={gameOptions.targetDuration || ""}
         updateValue={updateOption}
-        optionTag="targetInterval"
-        label="Interval between targets (ms)"
+        optionTag="targetDuration"
+        label="Target duration (ms)"
         type="input"
         min={0}
-        max={100}
+        max={6000}
       />
 
       <Option
