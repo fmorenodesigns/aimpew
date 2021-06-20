@@ -3,6 +3,7 @@ import "./styles.scss";
 import React, { useCallback, useEffect } from "react";
 
 import { GameOptionsButton } from "../KeyButton";
+import Logo from "../Logo";
 
 export const DEFAULT_GAME_OPTIONS = {
   soundEffects: true,
@@ -54,6 +55,7 @@ export default function GameOptions({
         onClick={updateGameOptionsVisibility}
       />
 
+      <Logo className="game-options-logo" />
       <div className="option-group">
         <Option
           value={gameOptions.soundEffects || ""}
@@ -111,6 +113,17 @@ export default function GameOptions({
           min={0}
           max={100}
         />
+      </div>
+
+      <div className="game-options-credits">
+        A project developed by{" "}
+        <a
+          href="https://github.com/fmorenodesigns"
+          target="_blank"
+          rel="noreferrer"
+        >
+          @fmorenodesigns
+        </a>
       </div>
     </div>
   );

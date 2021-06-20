@@ -15,6 +15,26 @@
       opacity: 1;
     }
 
+    &-logo {
+      margin-bottom: 30px;
+      height: 25px;
+    }
+
+    &-credits {
+      font-size: 11px;
+      color: white;
+
+      a {
+        text-decoration: none;
+        font-weight: bold;
+        color: #4677f5;
+
+        &:hover {
+          color: #6890f5;
+        }
+      }
+    }
+
     .option-group {
       margin-bottom: 10px;
 
