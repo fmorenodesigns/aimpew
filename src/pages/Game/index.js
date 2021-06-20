@@ -1,6 +1,7 @@
 import "./styles.scss";
 
 import GameOptions, { DEFAULT_GAME_OPTIONS } from "./components/GameOptions";
+import { GameOptionsButton, RestartButton } from "./components/KeyButton";
 import React, {
   useCallback,
   useEffect,
@@ -10,10 +11,8 @@ import React, {
 } from "react";
 
 import Countdown from "./components/Countdown";
-import GameOptionsButton from "./components/GameOptions/GameOptionsButton";
 import Gun from "./components/Gun";
 import PointsBoard from "./components/PointsBoard";
-import RestartButton from "./components/GameOptions/RestartButton";
 import Target from "./components/Target";
 import { useLocalStorage } from "./hooks";
 

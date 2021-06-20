@@ -2,7 +2,7 @@ import "./styles.scss";
 
 import React, { useCallback } from "react";
 
-import GameOptionsButton from "./GameOptionsButton";
+import { GameOptionsButton } from "../KeyButton";
 
 export const DEFAULT_GAME_OPTIONS = {
   soundEffects: true,
