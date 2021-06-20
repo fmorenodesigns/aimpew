@@ -9,6 +9,8 @@ export const DEFAULT_GAME_OPTIONS = {
   visualEffects: true,
   simultaneousTargetCount: 3,
   targetInterval: 1000,
+  targetSize: 30,
+  targetSizeVariation: 10,
 };
 
 export default function GameOptions({
@@ -26,10 +28,10 @@ export default function GameOptions({
   return (
     <div className="game-options">
       <GameOptionsButton
-        description="Resume game"
+        description="Resume"
         onClick={() => updateGameOptionsVisibility(undefined, true)}
       />
-      <div className="header">GAME OPTIONS</div>
+      <div className="header">OPTIONS</div>
 
       <div className="option">
         <label htmlFor="#gameoption-soundEffects">Enable sound effects</label>
@@ -67,7 +69,7 @@ export default function GameOptions({
           onChange={(e) =>
             updateOption(
               "simultaneousTargetCount",
-              Math.max(Math.min(e.target.value, 30), 0)
+              Math.max(Math.min(parseInt(e.target.value), 30), 0)
             )
           }
         />
@@ -85,7 +87,41 @@ export default function GameOptions({
           onChange={(e) =>
             updateOption(
               "targetInterval",
-              Math.max(Math.min(e.target.value, 6000), 0)
+              Math.max(Math.min(parseInt(e.target.value), 6000), 0)
+            )
+          }
+        />
+      </div>
+
+      <div className="option">
+        <label htmlFor="#gameoption-targetSize">Target size</label>
+        <input
+          type="text"
+          className="input"
+          id="gameoption-targetSize"
+          value={gameOptions.targetSize || ""}
+          onChange={(e) =>
+            updateOption(
+              "targetSize",
+              Math.max(Math.min(parseInt(e.target.value), 100), 0)
+            )
+          }
+        />
+      </div>
+
+      <div className="option">
+        <label htmlFor="#gameoption-targetSizeVariation">
+          Target size variation
+        </label>
+        <input
+          type="text"
+          className="input"
+          id="gameoption-targetSizeVariation"
+          value={gameOptions.targetSizeVariation || ""}
+          onChange={(e) =>
+            updateOption(
+              "targetSizeVariation",
+              Math.max(Math.min(parseInt(e.target.value), 100), 0)
             )
           }
         />

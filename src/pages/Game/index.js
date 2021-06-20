@@ -37,14 +37,15 @@ export default function Game() {
     DEFAULT_GAME_OPTIONS
   );
 
+  // Rotate gun
   const handleMovement = useCallback(
     (e) => {
+      const x = e.clientX - playableAreaWidth / 2;
+      const y = -(e.clientY - playableAreaHeight / 2);
+
       setRotation({
-        horizontal:
-          -45 * ((e.clientX - playableAreaWidth / 2) / (playableAreaWidth / 2)),
-        vertical:
-          45 *
-          ((e.clientY - playableAreaHeight / 2) / (playableAreaHeight / 2)),
+        horizontal: -45 * (x / (playableAreaWidth / 2)),
+        vertical: -45 * (y / (playableAreaHeight / 2)),
       });
     },
     [playableAreaWidth, playableAreaHeight]
@@ -79,8 +80,9 @@ export default function Game() {
           return;
         }
 
-        const sizeVariation = Math.round(Math.random() * 5) * 2;
-        const size = 30 + sizeVariation;
+        const sizeVariation =
+          Math.round(Math.random() * gameOptions.targetSizeVariation) * 2;
+        const size = gameOptions.targetSize + sizeVariation;
 
         return [
           ...cur.filter(
@@ -134,7 +136,7 @@ export default function Game() {
         />
       ) : (
         <GameOptionsButton
-          description="Game options"
+          description="Options"
           onClick={() => updateGameOptionsVisibility(undefined, true)}
         />
       )}
@@ -157,17 +159,19 @@ export default function Game() {
           coiling={coiling}
           hasFlash={gameOptions.visualEffects}
         />
-        {targets.map((target) => (
-          <Target
-            key={target.index}
-            size={target.size}
-            left={target.left}
-            top={target.top}
-            onHit={() => {
-              onHit(target.index);
-            }}
-          />
-        ))}
+        <div className="target-container">
+          {targets.map((target) => (
+            <Target
+              key={target.index}
+              size={target.size}
+              left={target.left}
+              top={target.top}
+              onHit={() => {
+                onHit(target.index);
+              }}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
