@@ -1,6 +1,7 @@
 .game {
   --main-bg-color: #3e495e;
   width: 100%;
+  min-height: 750px;
   height: 100%;
   background: var(--main-bg-color);
   background: radial-gradient(circle, var(--main-bg-color) 0%, #1a1c25 100%);
@@ -52,7 +53,7 @@
   }
 
   .overlay {
-    position: fixed;
+    position: absolute;
     z-index: 2;
     top: 0;
     right: 0;
