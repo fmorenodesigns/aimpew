@@ -37,7 +37,8 @@ export default function Game() {
 }
 
 function PlayableGame() {
-  const audio = useMemo(() => new Audio("./laserbeam.mp3"), []);
+  const onFireSoundEffect = useMemo(() => new Audio("./laserbeam.mp3"), []);
+  const onHitSoundEffect = useMemo(() => new Audio("./hit.mp3"), []);
   const playableArea = useRef();
   const playableAreaWidth = playableArea.current?.getBoundingClientRect().width;
   const playableAreaHeight =
@@ -73,24 +74,31 @@ function PlayableGame() {
     [playableAreaWidth, playableAreaHeight]
   );
 
-  const onTargetHit = useCallback((targetIndex) => {
-    setPoints((cur) => cur + 1);
-    setTimeout(() => {
-      setTargets((cur) => cur.filter(({ index }) => index !== targetIndex));
-    }, [200]);
-  }, []);
+  const onTargetHit = useCallback(
+    (targetIndex) => {
+      if (gameOptions.onHitSoundEffect) {
+        onHitSoundEffect.currentTime = 0;
+        onHitSoundEffect.play();
+      }
+      setPoints((cur) => cur + 1);
+      setTimeout(() => {
+        setTargets((cur) => cur.filter(({ index }) => index !== targetIndex));
+      }, [200]);
+    },
+    [gameOptions.onHitSoundEffect, onHitSoundEffect]
+  );
 
   const fireGun = useCallback(
     (e) => {
       if (gameOptions.onFireSoundEffect) {
-        audio.currentTime = 0;
-        audio.play();
+        onFireSoundEffect.currentTime = 0;
+        onFireSoundEffect.play();
       }
       setCoiling(true);
       setTimeout(() => setCoiling(false), 100);
       setFiredTimes((cur) => cur + 1);
     },
-    [audio, gameOptions.onFireSoundEffect]
+    [onFireSoundEffect, gameOptions.onFireSoundEffect]
   );
 
   // Generate new targets

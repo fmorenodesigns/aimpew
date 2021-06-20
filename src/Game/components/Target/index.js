@@ -1,12 +1,8 @@
 import "./styles.scss";
 
-import React, { useMemo, useState } from "react";
-
-import { useLocalStorage } from "../../hooks";
+import React, { useState } from "react";
 
 export default function Target({ size, left, top, onHit }) {
-  const gameOptions = useLocalStorage("game-options")[0];
-  const audio = useMemo(() => new Audio("./hit.mp3"), []);
   const [hit, setHit] = useState(false);
 
   return (
@@ -18,10 +14,6 @@ export default function Target({ size, left, top, onHit }) {
         transform: `scale(${(size / 40) * (hit ? 1.3 : 1)})`,
       }}
       onClick={() => {
-        if (gameOptions.onHitSoundEffect) {
-          audio.currentTime = 0;
-          audio.play();
-        }
         setHit(true);
         onHit();
       }}
