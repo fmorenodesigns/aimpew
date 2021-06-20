@@ -97,7 +97,7 @@ export default function GameOptions({
             updateValue={updateOption}
             optionTag="targetGoal"
             label="Total target goal"
-            helpText="Leave it empty for unlimited goal"
+            helpText="Leave it empty for no goal"
             type="input"
             min={0}
             max={5000}
