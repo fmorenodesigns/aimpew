@@ -1,15 +1,17 @@
 .game {
   .target {
-    --red: #df4b27;
+    --bg-color: #df4b27;
     border-radius: 50%;
     position: absolute;
-    background-color: var(--red);
+    background-color: var(--bg-color);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.2s ease;
+    transition: all 0.2s ease;
 
-    &:active {
+    &.hit {
+      --bg-color: #20c0ff;
+      transform: scale(1.3);
       opacity: 0;
     }
 
@@ -28,7 +30,7 @@
     }
 
     .red {
-      background-color: var(--red);
+      background-color: var(--bg-color);
     }
   }
 }
