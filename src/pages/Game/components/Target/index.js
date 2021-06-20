@@ -11,9 +11,7 @@ export default function Target({ size, left, top, onHit }) {
       style={{ width: size, height: size, left, top }}
       onClick={() => {
         setHit(true);
-        setTimeout(() => {
-          onHit();
-        }, [200]);
+        onHit();
       }}
     >
       <div className="white">

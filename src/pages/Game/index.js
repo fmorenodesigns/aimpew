@@ -57,7 +57,9 @@ export default function Game() {
 
   const onTargetHit = useCallback((targetIndex) => {
     setPoints((cur) => cur + 1);
-    setTargets((cur) => cur.filter(({ index }) => index !== targetIndex));
+    setTimeout(() => {
+      setTargets((cur) => cur.filter(({ index }) => index !== targetIndex));
+    }, [200]);
   }, []);
 
   const fireGun = useCallback(
