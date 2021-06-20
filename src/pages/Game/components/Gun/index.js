@@ -15,7 +15,6 @@ export default function Gun({ rotation, coiling, hasFlash }) {
     depth: main.depth - 40,
     height: 15,
     color: "#4677f5",
-    outlineColor: "#284792",
   };
 
   const rotateX = rotation.vertical - (coiling ? 5 : 0);
@@ -28,6 +27,7 @@ export default function Gun({ rotation, coiling, hasFlash }) {
         width: main.width,
         height: main.height,
         transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
+        transition: coiling ? "transform 0.05s linear" : undefined,
       }}
     >
       {hasFlash && (
@@ -39,7 +39,6 @@ export default function Gun({ rotation, coiling, hasFlash }) {
           depth={detail.depth}
           height={detail.height}
           colors={detail.color}
-          borderColor={detail.outlineColor}
         />
       </div>
       <div className="part detail right">
@@ -48,7 +47,6 @@ export default function Gun({ rotation, coiling, hasFlash }) {
           depth={detail.depth}
           height={detail.height}
           colors={detail.color}
-          borderColor={detail.outlineColor}
         />
       </div>
       <div className="part detail bottom">
@@ -57,18 +55,11 @@ export default function Gun({ rotation, coiling, hasFlash }) {
           depth={detail.depth}
           height={detail.width + 2}
           colors="#3056b1"
-          borderColor={detail.outlineColor}
         />
       </div>
 
       <div className="part aim">
-        <Cube
-          width={15}
-          depth={30}
-          height={5}
-          colors="#2f343c"
-          borderColor="#3c3c42"
-        />
+        <Cube width={15} depth={30} height={5} colors="#2f343c" />
       </div>
 
       <div className="part main">
@@ -84,7 +75,6 @@ export default function Gun({ rotation, coiling, hasFlash }) {
             front: "#99a9bd",
             back: "#99a9bd",
           }}
-          borderColor="#a8a8ab"
         />
       </div>
 
@@ -94,11 +84,10 @@ export default function Gun({ rotation, coiling, hasFlash }) {
           depth={coiling ? 25 : 40}
           height={22}
           colors="#272f35"
-          borderColor="#3c3c42"
         />
       </div>
 
-      <div className="part handler">
+      <div className="part handle">
         <Cube
           width={27}
           depth={40}
@@ -111,7 +100,6 @@ export default function Gun({ rotation, coiling, hasFlash }) {
             front: "#272f35",
             back: "#272f35",
           }}
-          borderColor="#3c3c42"
         />
       </div>
     </div>

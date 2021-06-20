@@ -2,6 +2,7 @@
   .gun {
     position: relative;
     transform-style: preserve-3d;
+    margin: 0 auto;
 
     .blast {
       --width: 5px;
@@ -41,7 +42,7 @@
         }
       }
 
-      &.handler {
+      &.handle {
         top: calc(100% - 1px);
         left: 50%;
         transform: translateX(-50%) translateZ(-10px);
