@@ -25,7 +25,7 @@ export default function Game() {
   return isMobile() ? (
     <div className="game">
       <div className="error">
-        This application has been developed to help people practice your mouse
+        This application has been developed to help people practice their mouse
         aim, and is currently not compatible with mobile devices.
       </div>
     </div>
