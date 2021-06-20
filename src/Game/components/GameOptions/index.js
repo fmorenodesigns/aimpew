@@ -119,7 +119,7 @@ export default function GameOptions({
             type="input"
             min={0}
             max={10000}
-            helpText={`Each target will last ${
+            helpText={`Each target will last approximately ${
               gameOptions.targetInterval * gameOptions.simultaneousTargetCount
             } ms`}
           />
