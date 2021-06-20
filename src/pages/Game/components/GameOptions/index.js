@@ -8,7 +8,7 @@ export const DEFAULT_GAME_OPTIONS = {
   soundEffects: true,
   visualEffects: true,
   simultaneousTargetCount: 3,
-  targetDuration: 3000,
+  targetInterval: 1000,
   targetSize: 30,
   targetSizeVariation: 10,
 };
@@ -39,7 +39,7 @@ export default function GameOptions({
       simultaneousTargetCount:
         cur.simultaneousTargetCount ||
         DEFAULT_GAME_OPTIONS.simultaneousTargetCount,
-      targetDuration: cur.targetDuration || DEFAULT_GAME_OPTIONS.targetDuration,
+      targetInterval: cur.targetInterval || DEFAULT_GAME_OPTIONS.targetInterval,
       targetSize: cur.targetSize || DEFAULT_GAME_OPTIONS.targetSize,
       targetSizeVariation:
         cur.targetSizeVariation || DEFAULT_GAME_OPTIONS.targetSizeVariation,
@@ -80,10 +80,10 @@ export default function GameOptions({
       />
 
       <Option
-        value={gameOptions.targetDuration || ""}
+        value={gameOptions.targetInterval || ""}
         updateValue={updateOption}
-        optionTag="targetDuration"
-        label="Target duration (ms)"
+        optionTag="targetInterval"
+        label="Interval between new targets (ms)"
         type="input"
         min={0}
         max={10000}
