@@ -10,6 +10,12 @@ export default function Gun({ rotation, coiling, hasFlash }) {
     height: 40,
   };
 
+  const handle = {
+    width: 27,
+    depth: 40,
+    height: 60,
+  };
+
   const detail = {
     width: 3,
     depth: main.depth - 40,
@@ -24,6 +30,8 @@ export default function Gun({ rotation, coiling, hasFlash }) {
     <div
       className="gun"
       style={{
+        top: -main.height - main.handle / 2,
+        left: -main.width,
         width: main.width,
         height: main.height,
         transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
@@ -89,9 +97,9 @@ export default function Gun({ rotation, coiling, hasFlash }) {
 
       <div className="part handle">
         <Cube
-          width={27}
-          depth={40}
-          height={60}
+          width={handle.width}
+          depth={handle.depth}
+          height={handle.height}
           colors={{
             top: "#2f343c",
             bottom: "#272f35",
