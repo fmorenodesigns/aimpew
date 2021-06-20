@@ -7,20 +7,17 @@
     align-items: center;
     color: rgb(240, 239, 239);
     display: grid;
-    grid-template-columns: repeat(3, max-content);
+    grid-template-columns: minmax(130px, max-content) repeat(2, max-content);
 
     .counter-group {
       display: flex;
       flex-direction: column;
-      padding: 0 25px;
+      padding: 0 18px;
       text-align: center;
-
-      &:first-of-type {
-        border-right: var(--border);
-      }
+      border-right: var(--border);
 
       &:last-of-type {
-        border-left: var(--border);
+        border-right: none;
       }
 
       .counter {
@@ -33,6 +30,14 @@
         }
         &.bad {
           color: #e65d4b;
+        }
+
+        .help-counter {
+          font-weight: normal;
+          font-size: 11px;
+          width: 44px;
+          display: inline-block;
+          text-align: center;
         }
       }
 

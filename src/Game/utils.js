@@ -3,3 +3,7 @@ export function isMobile() {
     navigator.userAgent
   );
 }
+
+export function prettyPercentage(decimalNumber, decimalPlaces) {
+  return (decimalNumber * 100).toFixed(decimalPlaces);
+}
