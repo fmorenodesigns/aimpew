@@ -21,7 +21,7 @@ const START_COUNTDOWN = 3000;
 const STARTING_GUN_ROTATION = { horizontal: 10, vertical: -5 };
 
 export default function Game() {
-  const audio = useMemo(() => new Audio("/laserbeam.mp3"), []);
+  const audio = useMemo(() => new Audio("./laserbeam.mp3"), []);
   const playableArea = useRef();
   const playableAreaWidth = playableArea.current?.getBoundingClientRect().width;
   const playableAreaHeight =
