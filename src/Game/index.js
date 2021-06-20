@@ -100,8 +100,8 @@ export default function Game() {
           {
             size,
             index: maxPoints,
-            left: Math.max(Math.random() * playableAreaWidth - size, 0),
-            top: Math.max(Math.random() * playableAreaHeight - size, 0),
+            left: Math.max(Math.random() * playableAreaWidth - size, size / 2),
+            top: Math.max(Math.random() * playableAreaHeight - size, size / 2),
           },
         ];
       });
