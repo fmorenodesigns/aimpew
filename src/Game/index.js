@@ -53,6 +53,7 @@ function PlayableGame() {
   const [points, setPoints] = useState(0);
   const [firedTimes, setFiredTimes] = useState(0);
   const [maxPoints, setMaxPoints] = useState(0);
+  const [totalReactionTime, setTotalReactionTime] = useState(0);
 
   const [coiling, setCoiling] = useState(false);
   const [rotation, setRotation] = useState(STARTING_GUN_ROTATION);
@@ -82,11 +83,12 @@ function PlayableGame() {
   );
 
   const onTargetHit = useCallback(
-    (targetIndex) => {
+    (targetIndex, lifeTime) => {
       if (gameOptions.onHitSoundEffect) {
         onHitSoundEffect.currentTime = 0;
         onHitSoundEffect.play();
       }
+      setTotalReactionTime((cur) => cur + lifeTime);
       setPoints((cur) => cur + 1);
       setTimeout(() => {
         setTargets((cur) => cur.filter(({ index }) => index !== targetIndex));
@@ -129,17 +131,35 @@ function PlayableGame() {
           return cur;
         }
 
-        const removeOneTarget = cur.filter(
+        const targetsToRemove = cur.filter(
+          ({ index }) =>
+            index <= maxPoints - gameOptions.simultaneousTargetCount
+        );
+        const newTargets = cur.filter(
           ({ index }) => index > maxPoints - gameOptions.simultaneousTargetCount
         );
 
+        if (targetsToRemove.length > 0) {
+          setTotalReactionTime((curReactionTime) => {
+            const now = new Date();
+            return (
+              curReactionTime +
+              targetsToRemove.reduce(
+                (a, b) => now - a.lifeStart + (now - b.lifeStart),
+                0
+              )
+            );
+          });
+        }
+
         return [
-          ...removeOneTarget,
+          ...newTargets,
           {
             size,
             index: maxPoints,
             left: Math.max(Math.random() * playableAreaWidth - size, size / 2),
             top: Math.max(Math.random() * playableAreaHeight - size, size / 2),
+            lifeStart: new Date(),
           },
         ];
       });
@@ -168,6 +188,11 @@ function PlayableGame() {
     if (!reachedTargetCountLimit) return;
 
     const timeout = setTimeout(() => {
+      const now = new Date();
+      setTotalReactionTime(
+        (curReactionTime) => curReactionTime + (now - targets[0].lifeStart)
+      );
+
       setTargets((cur) => {
         const temp = [...cur].slice(1);
         return temp;
@@ -196,6 +221,7 @@ function PlayableGame() {
     setPoints(0);
     setFiredTimes(0);
     setMaxPoints(0);
+    setTotalReactionTime(0);
   }, []);
 
   const handleKeyPress = useCallback(
@@ -231,6 +257,7 @@ function PlayableGame() {
           points={points}
           firedTimes={firedTimes}
           maxPoints={maxPoints}
+          totalReactionTime={totalReactionTime}
         />
       }
       gameOptions={
@@ -286,7 +313,10 @@ function PlayableGame() {
               left={target.left}
               top={target.top}
               onHit={() => {
-                onTargetHit(target.index);
+                const now = new Date();
+                const lifeTime = now - target.lifeStart;
+
+                onTargetHit(target.index, lifeTime);
               }}
             />
           ))}

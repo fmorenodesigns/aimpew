@@ -1,26 +1,41 @@
 import "./styles.scss";
 
 import React from "react";
-import { prettyPercentage } from "../../utils";
+import { prettyNumber } from "../../utils";
 
-export default function PointsBoard({ points, maxPoints, firedTimes }) {
+export default function PointsBoard({
+  points,
+  maxPoints,
+  firedTimes,
+  totalReactionTime,
+}) {
   const hitAccuracy = points / firedTimes || 0;
   const targetsHitPct = points / maxPoints || 0;
 
   return (
-    <div className="points-board">
+    <div
+      className={`points-board ${
+        totalReactionTime ? "with-reaction-time" : ""
+      }`}
+    >
       <CounterGroup
         count={points}
-        helpCount={`${prettyPercentage(targetsHitPct, 1)}%`}
+        helpCount={`${prettyNumber(targetsHitPct * 100, 1)}%`}
         name="Targets hit"
         counterClassName={targetsHitPct >= 0.5 ? "good" : "bad"}
       />
       <CounterGroup count={maxPoints} name="Total targets" />
       <CounterGroup
-        count={`${prettyPercentage(hitAccuracy, 1)}%`}
+        count={`${prettyNumber(hitAccuracy * 100, 1)}%`}
         name="Hit accuracy"
         counterClassName={hitAccuracy >= 0.5 ? "good" : "bad"}
       />
+      {totalReactionTime && maxPoints && (
+        <CounterGroup
+          count={`${prettyNumber(totalReactionTime / 1000 / maxPoints, 4)}s`}
+          name="Avg. reaction time"
+        />
+      )}
     </div>
   );
 }

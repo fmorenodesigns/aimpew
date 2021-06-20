@@ -4,6 +4,6 @@ export function isMobile() {
   );
 }
 
-export function prettyPercentage(decimalNumber, decimalPlaces) {
-  return (decimalNumber * 100).toFixed(decimalPlaces);
+export function prettyNumber(num, decimalPlaces) {
+  return num.toFixed(decimalPlaces);
 }

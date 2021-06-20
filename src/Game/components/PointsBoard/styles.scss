@@ -9,6 +9,10 @@
     display: grid;
     grid-template-columns: minmax(130px, max-content) repeat(2, max-content);
 
+    &.with-reaction-time {
+      grid-template-columns: minmax(130px, max-content) repeat(3, max-content);
+    }
+
     .counter-group {
       display: flex;
       flex-direction: column;
