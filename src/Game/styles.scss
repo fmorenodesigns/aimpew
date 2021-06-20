@@ -1,6 +1,7 @@
 .game {
   --main-bg-color: #3e495e;
   width: 100%;
+  min-width: 550px;
   min-height: 750px;
   height: 100%;
   background: var(--main-bg-color);
