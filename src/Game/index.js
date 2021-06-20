@@ -27,8 +27,11 @@ export default function Game() {
   return isMobile() ? (
     <div className="game">
       <div className="error">
-        This application has been developed to help people practice their mouse
-        aim, and is currently not compatible with mobile devices.
+        <Logo className="default-logo" />
+        <p>
+          This application has been developed to help people practice their
+          mouse aim, and is currently not compatible with mobile devices.
+        </p>
       </div>
     </div>
   ) : (
