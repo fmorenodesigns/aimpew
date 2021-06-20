@@ -87,7 +87,7 @@ export default function Game() {
         }
 
         const sizeVariation =
-          Math.round(Math.random() * gameOptions.targetSizeVariation) * 2;
+          Math.round((Math.random() * gameOptions.targetSizeVariation) / 2) * 2;
         const size = gameOptions.targetSize + sizeVariation;
 
         return [
