@@ -16,7 +16,7 @@
     }
 
     .option {
-      height: 30px;
+      height: 34px;
       display: grid;
       align-items: center;
       grid-template-columns: 350px 65px;
@@ -27,18 +27,24 @@
 
       &:first-of-type {
         border-radius: 0.25rem 0.25rem 0 0;
-        padding-top: 30px;
+        padding-top: 23px;
       }
 
       &:last-of-type {
         border-radius: 0 0 0.25rem 0.25rem;
-        padding-bottom: 30px;
+        padding-bottom: 23px;
       }
 
       label {
         color: white;
         font-size: var(--text-size);
         padding-left: 5px;
+
+        .help-text {
+          margin-top: 2px;
+          font-size: 11px;
+          opacity: 0.7;
+        }
       }
     }
   }

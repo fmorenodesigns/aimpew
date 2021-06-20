@@ -88,6 +88,9 @@ export default function GameOptions({
         type="input"
         min={0}
         max={10000}
+        helpText={`Each target will last ${
+          gameOptions.targetInterval * gameOptions.simultaneousTargetCount
+        } ms`}
       />
 
       <Option
@@ -121,10 +124,14 @@ export function Option({
   type,
   min = undefined,
   max = undefined,
+  helpText = "",
 }) {
   return (
     <div className="option">
-      <label htmlFor={`#gameoption-${optionTag}`}>{label}</label>
+      <label htmlFor={`#gameoption-${optionTag}`}>
+        {label}
+        {helpText && <div className="help-text">{helpText}</div>}
+      </label>
       {type === "input" ? (
         <input
           type="number"
