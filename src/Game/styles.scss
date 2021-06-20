@@ -1,8 +1,6 @@
 .game {
   --main-bg-color: #3e495e;
   width: 100%;
-  min-width: 550px;
-  min-height: 750px;
   height: 100%;
   background: var(--main-bg-color);
   background: radial-gradient(circle, var(--main-bg-color) 0%, #1a1c25 100%);
@@ -12,6 +10,11 @@
   padding: 12px 30px;
   box-sizing: border-box;
   position: relative;
+
+  &:not(.is-mobile) {
+    min-width: 550px;
+    min-height: 750px;
+  }
 
   * {
     font-family: "Inter", "Roboto", "sans-serif";

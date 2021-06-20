@@ -25,7 +25,7 @@ const STARTING_GUN_ROTATION = { horizontal: 10, vertical: -5 };
 
 export default function Game() {
   return isMobile() ? (
-    <div className="game">
+    <div className="game is-mobile">
       <div className="error">
         <Logo className="default-logo" />
         <p>
