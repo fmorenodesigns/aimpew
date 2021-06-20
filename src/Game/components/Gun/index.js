@@ -30,7 +30,7 @@ export default function Gun({ rotation, coiling, hasFlash }) {
     <div
       className="gun"
       style={{
-        top: -main.height - main.handle / 2,
+        top: -main.height - handle.height / 2,
         left: -main.width,
         width: main.width,
         height: main.height,

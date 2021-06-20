@@ -49,7 +49,7 @@ export default function Game() {
 
       setRotation({
         horizontal: -45 * (x / (playableAreaWidth / 2)),
-        vertical: -5 - 45 * (y / (playableAreaHeight / 2)),
+        vertical: -45 * (y / (playableAreaHeight / 2)),
       });
     },
     [playableAreaWidth, playableAreaHeight]
