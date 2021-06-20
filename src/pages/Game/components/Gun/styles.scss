@@ -2,6 +2,7 @@
   .gun {
     position: relative;
     transform-style: preserve-3d;
+    transform-origin: center center 10px;
     margin: 0 auto;
 
     .blast {
