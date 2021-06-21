@@ -21,6 +21,7 @@ export default function GameOptions({
   setGameOptions,
   showOptions,
   overlay = true,
+  hideLogo = false,
 }) {
   const updateOption = useCallback(
     (optionName, newValue) => {
@@ -60,7 +61,7 @@ export default function GameOptions({
           showOptions ? "visible" : ""
         }`}
       >
-        <Logo className="default-logo" />
+        {!hideLogo && <Logo className="default-logo" />}
         <div className="game-option-group">
           <Select
             value={gameOptions.targetType}

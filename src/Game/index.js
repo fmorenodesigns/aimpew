@@ -282,6 +282,7 @@ function PlayableGame() {
           updateGameOptionsVisibility={updateGameOptionsVisibility}
           showOptions={true}
           overlay={false}
+          hideLogo
         />
       }
       restartGame={restartGame}
