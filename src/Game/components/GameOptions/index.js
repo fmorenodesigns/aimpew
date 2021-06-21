@@ -8,7 +8,7 @@ export const DEFAULT_GAME_OPTIONS = {
   onHitSoundEffect: true,
   onFireSoundEffect: true,
   visualEffects: true,
-  targetGoal: 0, // no limit
+  targetGoal: 20, // 0 === no limit
   simultaneousTargetCount: 3,
   targetInterval: 1000,
   targetSize: 30,
