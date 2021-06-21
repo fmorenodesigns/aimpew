@@ -25,10 +25,17 @@ export default function Gun({ rotation, coiling, hasFlash }) {
   };
 
   const detail = {
-    width: 3,
+    width: main.width + 3 * 2,
     depth: main.depth - 40,
-    height: 15,
-    color: "#4677f5",
+    height: 18,
+    colors: {
+      top: "#4677f5",
+      right: "#4876ea",
+      bottom: "#3056b1",
+      left: "#4876ea",
+      front: "#3056b1",
+      back: "#3056b1",
+    },
   };
 
   const rotateX = rotation.vertical - (coiling ? 5 : 0);
@@ -49,28 +56,12 @@ export default function Gun({ rotation, coiling, hasFlash }) {
       {hasFlash && (
         <div className="blast" style={{ opacity: coiling ? "1" : "0" }} />
       )}
-      <div className="part detail left">
+      <div className="part blue-detail">
         <Cube
           width={detail.width}
           depth={detail.depth}
           height={detail.height}
-          colors={detail.color}
-        />
-      </div>
-      <div className="part detail right">
-        <Cube
-          width={detail.width}
-          depth={detail.depth}
-          height={detail.height}
-          colors={detail.color}
-        />
-      </div>
-      <div className="part detail bottom">
-        <Cube
-          width={main.width + detail.width * 2}
-          depth={detail.depth}
-          height={detail.width + 2}
-          colors="#3056b1"
+          colors={detail.colors}
         />
       </div>
 
@@ -86,11 +77,13 @@ export default function Gun({ rotation, coiling, hasFlash }) {
           colors={main.colors}
         />
       </div>
-      <div className="part main-detail-horizontal">
-        <Cube width={15} depth={140} height={4} colors={main.colors} />
-      </div>
-      <div className="part main-detail-vertical">
-        <Cube width={15} depth={7} height={main.height} colors={main.colors} />
+      <div className="part main--detail">
+        <Cube
+          width={15}
+          depth={145}
+          height={main.height}
+          colors={main.colors}
+        />
       </div>
 
       <div className="part trigger">

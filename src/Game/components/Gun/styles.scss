@@ -24,22 +24,10 @@
       transform-style: preserve-3d;
       position: absolute;
 
-      &.detail {
-        bottom: -1px;
+      &.blue-detail {
+        bottom: -3px;
         transform: translateZ(-15px);
-
-        &.left {
-          right: 100%;
-        }
-
-        &.right {
-          left: 100%;
-        }
-
-        &.bottom {
-          top: 100%;
-          left: -3px;
-        }
+        left: -3px;
       }
 
       &.handle {
@@ -60,18 +48,10 @@
         transform: translateX(-50%) translateZ(-5px);
       }
 
-      &.main-detail {
-        &-horizontal {
-          bottom: calc(100% - 1px);
-          left: 50%;
-          transform: translateX(-50%);
-        }
-
-        &-vertical {
-          top: -4px;
-          left: 50%;
-          transform: translateX(-50%) translateZ(5px);
-        }
+      &.main--detail {
+        top: -4px;
+        left: 50%;
+        transform: translateX(-50%) translateZ(5px);
       }
     }
   }
