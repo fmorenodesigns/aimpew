@@ -1,14 +1,16 @@
 import "./styles.scss";
 
+import { GameOptionsButton, RestartButton } from "../KeyButton";
+
 import Logo from "../Logo";
 import React from "react";
-import { RestartButton } from "../KeyButton";
 
 export default function GameOver({ pointsBoard, gameOptions, restartGame }) {
   return (
     <div className="game-over">
       <Logo className="default-logo" />
-      <RestartButton onClick={restartGame} animated />
+      <GameOptionsButton onClick={restartGame} description={"Restart"} />
+      <RestartButton onClick={restartGame} />
       {pointsBoard}
       {gameOptions}
     </div>

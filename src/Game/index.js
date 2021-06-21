@@ -243,7 +243,12 @@ function PlayableGame() {
     (e) => {
       if (e.key === " ") {
         restartGame();
-      } else if (e.key === "Escape" && !ended) {
+      } else if (e.key === "Escape") {
+        if (ended) {
+          restartGame();
+          return;
+        }
+
         updateGameOptionsVisibility();
       }
     },
