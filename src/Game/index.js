@@ -43,7 +43,11 @@ export default function Game() {
 
 function PlayableGame() {
   const onFireSoundEffect = useMemo(() => new Audio("./laserbeam.mp3"), []);
-  const onHitSoundEffect = useMemo(() => new Audio("./hit.mp3"), []);
+  const onHitSoundEffect = useMemo(() => {
+    const audio = new Audio("./hit.mp3");
+    audio.volume = 0.5;
+    return audio;
+  }, []);
   const playableArea = useRef();
   const playableAreaWidth = playableArea.current?.getBoundingClientRect().width;
   const playableAreaHeight =
