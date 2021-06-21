@@ -168,16 +168,10 @@
       font-size: 13px;
       box-sizing: border-box;
       z-index: 1;
+      padding-top: 2px;
 
       .fas {
         font-family: "Font Awesome 5 Free";
-      }
-
-      .fa-chevron-down {
-        padding-top: 3px;
-      }
-      .fa-chevron-up {
-        padding-top: 2px;
       }
     }
   }
