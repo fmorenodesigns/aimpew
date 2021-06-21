@@ -61,7 +61,7 @@ export default function GameOptions({
         }`}
       >
         <Logo className="default-logo" />
-        <div className="option-group">
+        <div className="game-option-group">
           <Select
             value={gameOptions.targetType}
             updateValue={updateOption}
@@ -103,7 +103,7 @@ export default function GameOptions({
           />
         </div>
 
-        <div className="option-group">
+        <div className="game-option-group">
           <Option
             value={gameOptions.targetGoal || ""}
             updateValue={updateOption}
@@ -182,7 +182,7 @@ export function Option({
   helpText = "",
 }) {
   return (
-    <div className="option">
+    <div className="game-option">
       <label htmlFor={`#gameoption-${optionTag}`}>
         {label}
         {helpText && <div className="help-text">{helpText}</div>}
@@ -227,7 +227,7 @@ export function Select({
   const [selectIsOpen, setSelectIsOpen] = useState(false);
 
   return (
-    <div className="option">
+    <div className="game-option">
       <label htmlFor={`#gameoption-${optionTag}`}>
         {label}
         {helpText && <div className="help-text">{helpText}</div>}
