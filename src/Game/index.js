@@ -78,6 +78,8 @@ function PlayableGame() {
   // Rotate gun
   const handleMovement = useCallback(
     (e) => {
+      if (showOptions || !started || ended) return;
+
       const x = e.clientX - playableAreaWidth / 2;
       const y = -(e.clientY - playableAreaHeight / 2);
 
@@ -86,7 +88,7 @@ function PlayableGame() {
         vertical: -45 * (y / (playableAreaHeight / 2)),
       });
     },
-    [playableAreaWidth, playableAreaHeight]
+    [showOptions, started, ended, playableAreaWidth, playableAreaHeight]
   );
 
   const onTargetHit = useCallback(
@@ -331,6 +333,7 @@ function PlayableGame() {
 
                 onTargetHit(target.index, lifeTime);
               }}
+              type={gameOptions.targetType}
             />
           ))}
         </div>

@@ -1,6 +1,6 @@
 import "./styles.scss";
 
-import Cube from "./Cube";
+import Cube from "../Cube";
 import React from "react";
 
 export default function Gun({ rotation, coiling, hasFlash }) {

@@ -1,6 +1,6 @@
 import "./styles.scss";
 
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import Logo from "../Logo";
 
@@ -13,6 +13,7 @@ export const DEFAULT_GAME_OPTIONS = {
   targetInterval: 1000,
   targetSize: 30,
   targetSizeVariation: 10,
+  targetType: "pewion",
 };
 
 export default function GameOptions({
@@ -33,7 +34,9 @@ export default function GameOptions({
     if (
       showOptions ||
       Object.values(gameOptions).filter((val) => {
-        return typeof val !== "boolean" && isNaN(parseInt(val));
+        return (
+          !["boolean", "string"].includes(typeof val) && isNaN(parseInt(val))
+        );
       }).length === 0
     )
       return;
@@ -59,6 +62,16 @@ export default function GameOptions({
       >
         <Logo className="default-logo" />
         <div className="option-group">
+          <Select
+            value={gameOptions.targetType}
+            updateValue={updateOption}
+            optionTag="targetType"
+            label="Target type"
+            selectOptions={[
+              { value: "pewion", label: "Pewion" },
+              { value: "bullseye", label: "Bullseye" },
+            ]}
+          />
           <Option
             value={gameOptions.onFireSoundEffect || ""}
             updateValue={updateOption}
@@ -174,7 +187,8 @@ export function Option({
         {label}
         {helpText && <div className="help-text">{helpText}</div>}
       </label>
-      {type === "input" ? (
+
+      {type === "input" && (
         <input
           type="number"
           className="input"
@@ -187,7 +201,9 @@ export function Option({
             )
           }
         />
-      ) : (
+      )}
+
+      {type === "checkbox" && (
         <input
           type="checkbox"
           className="checkbox"
@@ -196,6 +212,44 @@ export function Option({
           onChange={(e) => updateValue(optionTag, e.target.checked)}
         />
       )}
+    </div>
+  );
+}
+
+export function Select({
+  value,
+  updateValue,
+  selectOptions = [],
+  label,
+  optionTag,
+  helpText = "",
+}) {
+  const [selectIsOpen, setSelectIsOpen] = useState(false);
+
+  return (
+    <div className="option">
+      <label htmlFor={`#gameoption-${optionTag}`}>
+        {label}
+        {helpText && <div className="help-text">{helpText}</div>}
+      </label>
+      <div className="select-wrapper">
+        <div className="chevron">
+          <i className={`fas fa-chevron-${selectIsOpen ? "up" : "down"}`}></i>
+        </div>
+        <select
+          className="select"
+          value={value}
+          onChange={(e) => updateValue(optionTag, e.target.value)}
+          onClick={() => setSelectIsOpen((cur) => !cur)}
+          onBlur={() => setSelectIsOpen(false)}
+        >
+          {selectOptions.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
   );
 }

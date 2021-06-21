@@ -1,0 +1,52 @@
+.game {
+  .monster {
+    position: absolute;
+    transform-style: preserve-3d;
+    transform-origin: center center;
+    width: 40px;
+    height: 40px;
+
+    &.hit {
+      .head {
+        top: -10px !important;
+      }
+
+      .eye {
+        top: -5px !important;
+      }
+    }
+
+    .part {
+      transform-style: preserve-3d;
+      position: absolute;
+      transition: top 0.2s ease;
+
+      .cube .face {
+        transition: background-color 0.2s ease, opacity 0.3s ease;
+      }
+
+      &.head {
+        top: 0;
+        left: 0;
+      }
+
+      &.eye {
+        top: 5px;
+        transform: translateZ(2px);
+
+        &--left {
+          left: 6px;
+        }
+
+        &--right {
+          right: 6px;
+        }
+      }
+
+      &.torso {
+        top: 18px;
+        left: 0;
+      }
+    }
+  }
+}
