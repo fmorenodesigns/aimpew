@@ -307,24 +307,12 @@ function PlayableGame() {
 
   return ended ? (
     <GameOver
-      pointsBoard={
-        <PointsBoard
-          points={points}
-          firedTimes={firedTimes}
-          maxPoints={maxPoints}
-          totalReactionTime={totalReactionTime}
-        />
-      }
-      gameOptions={
-        <GameOptions
-          gameOptions={gameOptions}
-          setGameOptions={setGameOptions}
-          updateGameOptionsVisibility={updateGameOptionsVisibility}
-          showOptions={true}
-          overlay={false}
-          hideLogo
-        />
-      }
+      pointsBoardProps={{ points, firedTimes, maxPoints, totalReactionTime }}
+      gameOptionsProps={{
+        gameOptions,
+        setGameOptions,
+        updateGameOptionsVisibility,
+      }}
       restartGame={restartGame}
     />
   ) : (
@@ -338,6 +326,7 @@ function PlayableGame() {
         updateGameOptionsVisibility={updateGameOptionsVisibility}
         showOptions={showOptions}
       />
+
       <GameOptionsButton
         description={!showOptions ? "Options" : "Save"}
         onClick={updateGameOptionsVisibility}
@@ -361,7 +350,12 @@ function PlayableGame() {
           coiling={coiling}
           hasFlash={gameOptions.visualEffects}
         />
-        <TargetsContainer targets={targets} onTargetHit={onTargetHit} pauseDatetime={pauseDatetime} gameOptions={gameOptions} />
+        <TargetsContainer
+          targets={targets}
+          onTargetHit={onTargetHit}
+          pauseDatetime={pauseDatetime}
+          gameOptions={gameOptions}
+        />
       </div>
 
       <Logo className="mini-logo" colors={{ aim: "#fcfcfc", pew: "#fcfcfc" }} />
