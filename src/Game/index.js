@@ -17,7 +17,7 @@ import Gun from "./components/Gun";
 import Logo from "./components/Logo";
 import PointsBoard from "./components/PointsBoard";
 import { RestartButton } from "./components/KeyButton";
-import Target from "./components/Target";
+import TargetsContainer from "./components/TargetsContainer";
 import { useLocalStorage } from "./utils/hooks";
 
 const START_COUNTDOWN = 3000;
@@ -361,28 +361,7 @@ function PlayableGame() {
           coiling={coiling}
           hasFlash={gameOptions.visualEffects}
         />
-        <div className="target-container">
-          {targets.map((target) => (
-            <Target
-              key={target.index}
-              size={target.size}
-              left={`${target.left * 100}%`}
-              top={`${target.top * 100}%`}
-              onHit={() => {
-                const now = new Date();
-
-                const pauseDuration = getPauseDuration(
-                  pauseDatetime,
-                  target.lifeStart
-                );
-                const lifeTime = now - pauseDuration - target.lifeStart;
-
-                onTargetHit(target.index, lifeTime);
-              }}
-              type={gameOptions.targetType}
-            />
-          ))}
-        </div>
+        <TargetsContainer targets={targets} onTargetHit={onTargetHit} pauseDatetime={pauseDatetime} gameOptions={gameOptions} />
       </div>
 
       <Logo className="mini-logo" colors={{ aim: "#fcfcfc", pew: "#fcfcfc" }} />
