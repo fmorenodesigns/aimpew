@@ -55,12 +55,12 @@ export default function GameOptions({
   }, [showOptions, setGameOptions, gameOptions]);
 
   return (
-    <>
-      <div
-        className={`${overlay ? "overlay" : ""} game-options ${
-          showOptions ? "visible" : ""
-        }`}
-      >
+    <div
+      className={`${overlay ? "overlay" : ""} game-options ${
+        showOptions ? "visible" : ""
+      }`}
+    >
+      <div className="game-options-container">
         {!hideLogo && <Logo />}
         <div className="game-option-group">
           <Select
@@ -168,7 +168,7 @@ export default function GameOptions({
           </a>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

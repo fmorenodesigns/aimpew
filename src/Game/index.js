@@ -200,6 +200,7 @@ function PlayableGame() {
     ended,
     gameOptions,
     maxPoints,
+    pauseDuration,
     playableAreaHeight,
     playableAreaWidth,
     reachedTargetCountLimit,

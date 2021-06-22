@@ -5,10 +5,11 @@
     --border-color: rgba(255, 255, 255, 0.3);
     transition: opacity 0.3s ease;
     opacity: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+
+    &.overlay {
+      padding: 120px 0;
+      display: grid;
+    }
 
     &:not(.visible) {
       visibility: hidden;
@@ -34,38 +35,45 @@
       }
     }
 
-    .game-option-group {
-      margin-bottom: 10px;
+    .game-options-container {
+      margin: auto 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
-      .game-option:first-child {
-        border-radius: 0.25rem 0.25rem 0 0;
-        padding-top: 26px;
-      }
+      .game-option-group {
+        margin-bottom: 10px;
 
-      .game-option:last-child {
-        border-radius: 0 0 0.25rem 0.25rem;
-        padding-bottom: 26px;
-      }
+        .game-option:first-child {
+          border-radius: 0.25rem 0.25rem 0 0;
+          padding-top: 26px;
+        }
 
-      .game-option {
-        height: 34px;
-        display: grid;
-        align-items: center;
-        grid-template-columns: 330px 95px;
-        gap: 20px;
-        margin-bottom: 1px;
-        background-color: #7c92c91f;
-        padding: 12px 35px;
+        .game-option:last-child {
+          border-radius: 0 0 0.25rem 0.25rem;
+          padding-bottom: 26px;
+        }
 
-        label {
-          color: white;
-          font-size: var(--text-size);
-          padding-left: 5px;
+        .game-option {
+          height: 34px;
+          display: grid;
+          align-items: center;
+          grid-template-columns: 330px 95px;
+          gap: 20px;
+          margin-bottom: 1px;
+          background-color: #7c92c91f;
+          padding: 12px 35px;
 
-          .help-text {
-            margin-top: 4px;
-            font-size: 11px;
-            opacity: 0.7;
+          label {
+            color: white;
+            font-size: var(--text-size);
+            padding-left: 5px;
+
+            .help-text {
+              margin-top: 4px;
+              font-size: 11px;
+              opacity: 0.7;
+            }
           }
         }
       }
