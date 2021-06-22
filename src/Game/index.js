@@ -66,6 +66,17 @@ function PlayableGame() {
   const [rotation, setRotation] = useState(STARTING_GUN_ROTATION);
 
   const [showOptions, setShowOptions] = useState(false);
+  // When the user goes to the options menu during a round, that is considered pause time
+  const [pauseDatetime, setPauseDatetime] = useState({
+    start: null,
+    end: null,
+  });
+  const pauseDuration = useMemo(() => {
+    if (pauseDatetime.end === null || pauseDatetime.start === null) return 0;
+
+    return pauseDatetime.end - pauseDatetime.start;
+  }, [pauseDatetime]);
+
   const [gameOptions, setGameOptions] = useLocalStorage(
     "game-options",
     DEFAULT_GAME_OPTIONS
@@ -157,7 +168,7 @@ function PlayableGame() {
             return (
               curReactionTime +
               targetsToRemove
-                .map((target) => now - target.lifeStart)
+                .map((target) => now - pauseDuration - target.lifeStart)
                 .reduce((a, b) => a + b, 0)
             );
           });
@@ -204,8 +215,10 @@ function PlayableGame() {
 
     const timeout = setTimeout(() => {
       const now = new Date();
+
       setTotalReactionTime(
-        (curReactionTime) => curReactionTime + (now - targets[0].lifeStart)
+        (curReactionTime) =>
+          curReactionTime + (now - pauseDuration - targets[0].lifeStart)
       );
 
       setTargets((cur) => {
@@ -221,10 +234,24 @@ function PlayableGame() {
     reachedTargetCountLimit,
     started,
     targets,
+    pauseDuration,
   ]);
 
   const updateGameOptionsVisibility = useCallback(() => {
-    setShowOptions((cur) => !cur);
+    setShowOptions((cur) => {
+      if (cur === false) {
+        setPauseDatetime((curPausetime) => ({
+          ...curPausetime,
+          start: new Date(),
+        }));
+      }
+
+      setPauseDatetime((curPausetime) => ({
+        ...curPausetime,
+        end: new Date(),
+      }));
+      return !cur;
+    });
   }, []);
 
   const restartGame = useCallback(() => {
@@ -335,7 +362,7 @@ function PlayableGame() {
               top={`${target.top * 100}%`}
               onHit={() => {
                 const now = new Date();
-                const lifeTime = now - target.lifeStart;
+                const lifeTime = now - pauseDuration - target.lifeStart;
 
                 onTargetHit(target.index, lifeTime);
               }}
