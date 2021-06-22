@@ -1,7 +1,7 @@
 import "./styles.scss";
 
 import React from "react";
-import { prettyNumber } from "../../utils";
+import { prettyNumber } from "../../utils/utils";
 
 export default function PointsBoard({
   points,

@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { getPauseDuration, isMobile } from "./utils";
+import { getPauseDuration, isMobile } from "./utils/utils";
 
 import Countdown from "./components/Countdown";
 import { GameOptionsButton } from "./components/KeyButton";
@@ -18,7 +18,7 @@ import Logo from "./components/Logo";
 import PointsBoard from "./components/PointsBoard";
 import { RestartButton } from "./components/KeyButton";
 import Target from "./components/Target";
-import { useLocalStorage } from "./hooks";
+import { useLocalStorage } from "./utils/hooks";
 
 const START_COUNTDOWN = 3000;
 const STARTING_GUN_ROTATION = { horizontal: 10, vertical: -5 };
