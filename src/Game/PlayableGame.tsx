@@ -1,12 +1,12 @@
 import GameOptions, { DEFAULT_GAME_OPTIONS } from "./components/GameOptions";
 import { GameOptionsButton, RestartButton } from "./components/KeyButton";
 import Gun, { GunRotation, STARTING_GUN_ROTATION } from "./components/Gun";
-import { PauseDatetime, getPauseDuration } from "./utils/utils";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import Countdown from "./components/Countdown";
 import GameOver from "./components/GameOver";
 import Logo from "./components/Logo";
+import { PauseDatetime } from "./utils/utils";
 import PointsBoard from "./components/PointsBoard";
 import { TargetMetadata } from "./components/Target";
 import TargetsContainer from "./components/TargetsContainer";
@@ -34,7 +34,7 @@ export default function PlayableGame() {
   const [points, setPoints] = useState<number>(0);
   const [firedTimes, setFiredTimes] = useState<number>(0);
   const [maxPoints, setMaxPoints] = useState<number>(0);
-  const [totalReactionTime, setTotalReactionTime] = useState<number>(0);
+  const [totalTimeBeforeHit, setTotalTimeBeforeHit] = useState<number>(0);
 
   const [coiling, setCoiling] = useState<boolean>(false);
   const [rotation, setRotation] = useState<GunRotation>(STARTING_GUN_ROTATION);
@@ -78,7 +78,7 @@ export default function PlayableGame() {
         onHitSoundEffect.play();
       }
 
-      setTotalReactionTime((cur) => cur + lifeTime);
+      setTotalTimeBeforeHit((cur) => cur + lifeTime);
       setPoints((cur) => cur + 1);
 
       setTimeout(() => {
@@ -123,34 +123,9 @@ export default function PlayableGame() {
           return cur;
         }
 
-        const targetsToRemove = cur.filter(
-          ({ index }) =>
-            index <= maxPoints - gameOptions.simultaneousTargetCount
-        );
         const newTargets = cur.filter(
           ({ index }) => index > maxPoints - gameOptions.simultaneousTargetCount
         );
-
-        if (targetsToRemove.length > 0) {
-          setTotalReactionTime((curReactionTime) => {
-            const now = new Date();
-            return (
-              curReactionTime +
-              targetsToRemove
-                .map((target) => {
-                  const pauseDuration = getPauseDuration(
-                    pauseDatetime,
-                    target.lifeStart
-                  );
-
-                  return (
-                    now.valueOf() - pauseDuration - target.lifeStart.valueOf()
-                  );
-                })
-                .reduce((a, b) => a + b, 0)
-            );
-          });
-        }
 
         return [
           ...newTargets,
@@ -193,20 +168,6 @@ export default function PlayableGame() {
     if (!reachedTargetCountLimit) return;
 
     const timeout = setTimeout(() => {
-      const now = new Date();
-
-      setTotalReactionTime((curReactionTime) => {
-        const pauseDuration = getPauseDuration(
-          pauseDatetime,
-          targets[0].lifeStart
-        );
-
-        return (
-          curReactionTime +
-          (now.valueOf() - pauseDuration - targets[0].lifeStart.valueOf())
-        );
-      });
-
       setTargets((cur) => {
         const temp = [...cur].slice(1);
         return temp;
@@ -250,7 +211,7 @@ export default function PlayableGame() {
     setPoints(0);
     setFiredTimes(0);
     setMaxPoints(0);
-    setTotalReactionTime(0);
+    setTotalTimeBeforeHit(0);
   }, []);
 
   const handleKeyPress = useCallback(
@@ -286,7 +247,7 @@ export default function PlayableGame() {
 
   return ended ? (
     <GameOver
-      pointsBoardProps={{ points, firedTimes, maxPoints, totalReactionTime }}
+      pointsBoardProps={{ points, firedTimes, maxPoints, totalTimeBeforeHit }}
       gameOptionsProps={{
         gameOptions,
         setGameOptions,

@@ -6,14 +6,14 @@ export interface Props {
   points: number;
   maxPoints: number;
   firedTimes: number;
-  totalReactionTime?: number;
+  totalTimeBeforeHit?: number;
 }
 
 export default function PointsBoard({
   points,
   maxPoints,
   firedTimes,
-  totalReactionTime,
+  totalTimeBeforeHit,
 }: Props) {
   const hitAccuracy = points / firedTimes || 0;
   const targetsHitPct = points / maxPoints || 0;
@@ -21,7 +21,7 @@ export default function PointsBoard({
   return (
     <div
       className={`points-board ${
-        totalReactionTime ? "with-reaction-time" : ""
+        totalTimeBeforeHit ? "with-reaction-time" : ""
       }`}
     >
       <CounterGroup
@@ -36,10 +36,10 @@ export default function PointsBoard({
         label="Hit accuracy"
         counterClassName={hitAccuracy >= 0.5 ? "good" : "bad"}
       />
-      {!!totalReactionTime && !!maxPoints && (
+      {!!totalTimeBeforeHit && !!maxPoints && (
         <CounterGroup
-          count={`${prettyNumber(totalReactionTime / 1000 / maxPoints, 4)}s`}
-          label="Avg. reaction time"
+          count={`${prettyNumber(totalTimeBeforeHit / 1000 / points, 4)}s`}
+          label="Avg. time to hit"
         />
       )}
     </div>

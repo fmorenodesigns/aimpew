@@ -27,7 +27,7 @@ export default function GameOver({
         points={pointsBoardProps.points}
         firedTimes={pointsBoardProps.firedTimes}
         maxPoints={pointsBoardProps.maxPoints}
-        totalReactionTime={pointsBoardProps.totalReactionTime}
+        totalTimeBeforeHit={pointsBoardProps.totalTimeBeforeHit}
       />
       <GameOptions
         gameOptions={gameOptionsProps.gameOptions}
