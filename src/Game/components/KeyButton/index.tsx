@@ -2,7 +2,12 @@ import "./styles.scss";
 
 import React from "react";
 
-export function RestartButton({ onClick }) {
+interface KeyButton {
+  onClick: () => void;
+  description?: string;
+}
+
+export function RestartButton({ onClick }: KeyButton) {
   return (
     <button className="key-button restart-button" onClick={onClick}>
       Restart
@@ -11,7 +16,7 @@ export function RestartButton({ onClick }) {
   );
 }
 
-export function GameOptionsButton({ description, onClick }) {
+export function GameOptionsButton({ description, onClick }: KeyButton) {
   return (
     <button className="key-button game-options-button" onClick={onClick}>
       <div className="key">ESC</div>

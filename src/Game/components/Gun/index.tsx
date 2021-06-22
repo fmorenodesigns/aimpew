@@ -3,41 +3,18 @@ import "./styles.scss";
 import Cube from "../Cube";
 import React from "react";
 
-export default function Gun({ rotation, coiling, hasFlash }) {
-  const main = {
-    width: 32,
-    depth: 140,
-    height: 40,
-    colors: {
-      top: "#eaf3fd",
-      right: "#bfd1e6",
-      bottom: "#808d9c",
-      left: "#bfd1e6",
-      front: "#99a9bd",
-      back: "#99a9bd",
-    },
-  };
+export interface GunRotation {
+  vertical: number;
+  horizontal: number;
+}
 
-  const handle = {
-    width: 27,
-    depth: 40,
-    height: 60,
-  };
+interface Props {
+  rotation: GunRotation;
+  coiling: boolean;
+  hasFlash: boolean;
+}
 
-  const detail = {
-    width: main.width + 3 * 2,
-    depth: main.depth - 40,
-    height: 18,
-    colors: {
-      top: "#4677f5",
-      right: "#4876ea",
-      bottom: "#3056b1",
-      left: "#4876ea",
-      front: "#3056b1",
-      back: "#3056b1",
-    },
-  };
-
+export default function Gun({ rotation, coiling, hasFlash }: Props) {
   const rotateX = rotation.vertical - (coiling ? 5 : 0);
   const rotateY = rotation.horizontal - (coiling ? 5 : 0);
 
@@ -113,3 +90,39 @@ export default function Gun({ rotation, coiling, hasFlash }) {
     </div>
   );
 }
+
+const main = {
+  width: 32,
+  depth: 140,
+  height: 40,
+  colors: {
+    top: "#eaf3fd",
+    right: "#bfd1e6",
+    bottom: "#808d9c",
+    left: "#bfd1e6",
+    front: "#99a9bd",
+    back: "#99a9bd",
+  },
+};
+
+const handle = {
+  width: 27,
+  depth: 40,
+  height: 60,
+};
+
+const detail = {
+  width: main.width + 3 * 2,
+  depth: main.depth - 40,
+  height: 18,
+  colors: {
+    top: "#4677f5",
+    right: "#4876ea",
+    bottom: "#3056b1",
+    left: "#4876ea",
+    front: "#3056b1",
+    back: "#3056b1",
+  },
+};
+
+export const STARTING_GUN_ROTATION = { horizontal: 10, vertical: -5 };

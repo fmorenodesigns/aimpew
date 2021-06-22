@@ -1,23 +1,32 @@
 import "./styles.scss";
 
+import { PauseDatetime, getPauseDuration } from "../../utils/utils";
+import Target, { TargetMetadata } from "../Target";
+
+import { GameOptionsType } from "../GameOptions";
 import React from "react";
-import Target from "../Target";
-import { getPauseDuration } from "../../utils/utils";
+
+interface Props {
+  targets: TargetMetadata[];
+  pauseDatetime: PauseDatetime;
+  gameOptions: GameOptionsType;
+  onTargetHit: (targetIndex: number, lifeTime: number) => void;
+}
 
 export default function TargetsContainer({
   targets,
   pauseDatetime,
   gameOptions,
-  onTargetHit
-}) {
+  onTargetHit,
+}: Props) {
   return (
     <div className="target-container">
       {targets.map((target) => (
         <Target
           key={target.index}
           size={target.size}
-          left={`${target.left * 100}%`}
-          top={`${target.top * 100}%`}
+          left={target.left}
+          top={target.top}
           onHit={() => {
             const now = new Date();
 
@@ -25,7 +34,9 @@ export default function TargetsContainer({
               pauseDatetime,
               target.lifeStart
             );
-            const lifeTime = now - pauseDuration - target.lifeStart;
+
+            const lifeTime =
+              now.valueOf() - pauseDuration - target.lifeStart.valueOf();
 
             onTargetHit(target.index, lifeTime);
           }}

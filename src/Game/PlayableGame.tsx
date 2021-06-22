@@ -1,6 +1,7 @@
-import "./styles.scss";
-
 import GameOptions, { DEFAULT_GAME_OPTIONS } from "./components/GameOptions";
+import { GameOptionsButton, RestartButton } from "./components/KeyButton";
+import Gun, { GunRotation, STARTING_GUN_ROTATION } from "./components/Gun";
+import { PauseDatetime, getPauseDuration } from "./utils/utils";
 import React, {
   useCallback,
   useEffect,
@@ -8,66 +9,45 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { getPauseDuration, isMobile } from "./utils/utils";
 
 import Countdown from "./components/Countdown";
-import { GameOptionsButton } from "./components/KeyButton";
 import GameOver from "./components/GameOver";
-import Gun from "./components/Gun";
 import Logo from "./components/Logo";
 import PointsBoard from "./components/PointsBoard";
-import { RestartButton } from "./components/KeyButton";
+import { TargetMetadata } from "./components/Target";
 import TargetsContainer from "./components/TargetsContainer";
 import { useLocalStorage } from "./utils/hooks";
 
-const START_COUNTDOWN = 3000;
-const STARTING_GUN_ROTATION = { horizontal: 10, vertical: -5 };
-
-export default function Game() {
-  return isMobile() ? (
-    <div className="game is-mobile">
-      <div className="error">
-        <Logo />
-        <p>
-          This application has been developed to help people practice their
-          mouse aim, and is currently not compatible with mobile devices.
-        </p>
-      </div>
-    </div>
-  ) : (
-    <div className="game">
-      <PlayableGame />
-    </div>
-  );
-}
-
-function PlayableGame() {
+export default function PlayableGame() {
   const onFireSoundEffect = useMemo(() => new Audio("./laserbeam.mp3"), []);
   const onHitSoundEffect = useMemo(() => {
     const audio = new Audio("./hit.mp3");
     audio.volume = 0.5;
     return audio;
   }, []);
-  const playableArea = useRef();
-  const playableAreaWidth = playableArea.current?.getBoundingClientRect().width;
-  const playableAreaHeight =
-    playableArea.current?.getBoundingClientRect().height;
+  const playableArea = useRef<HTMLDivElement>(null);
+  const playableAreaWidth = playableArea.current
+    ? playableArea.current.getBoundingClientRect().width
+    : 0;
+  const playableAreaHeight = playableArea.current
+    ? playableArea.current.getBoundingClientRect().height
+    : 0;
 
-  const [started, setStarted] = useState(false);
-  const [ended, setEnded] = useState(false);
-  const [targets, setTargets] = useState([]);
+  const [started, setStarted] = useState<boolean>(false);
+  const [ended, setEnded] = useState<boolean>(false);
+  const [targets, setTargets] = useState<TargetMetadata[]>([]);
 
-  const [points, setPoints] = useState(0);
-  const [firedTimes, setFiredTimes] = useState(0);
-  const [maxPoints, setMaxPoints] = useState(0);
-  const [totalReactionTime, setTotalReactionTime] = useState(0);
+  const [points, setPoints] = useState<number>(0);
+  const [firedTimes, setFiredTimes] = useState<number>(0);
+  const [maxPoints, setMaxPoints] = useState<number>(0);
+  const [totalReactionTime, setTotalReactionTime] = useState<number>(0);
 
-  const [coiling, setCoiling] = useState(false);
-  const [rotation, setRotation] = useState(STARTING_GUN_ROTATION);
+  const [coiling, setCoiling] = useState<boolean>(false);
+  const [rotation, setRotation] = useState<GunRotation>(STARTING_GUN_ROTATION);
 
-  const [showOptions, setShowOptions] = useState(false);
+  const [showOptions, setShowOptions] = useState<boolean>(false);
   // When the user goes to the options menu during a round, that is considered pause time
-  const [pauseDatetime, setPauseDatetime] = useState({
+  const [pauseDatetime, setPauseDatetime] = useState<PauseDatetime>({
     start: null,
     end: null,
   });
@@ -109,7 +89,7 @@ function PlayableGame() {
 
       setTimeout(() => {
         setTargets((cur) => cur.filter(({ index }) => index !== targetIndex));
-      }, [200]);
+      }, 200);
     },
     [gameOptions.onHitSoundEffect, onHitSoundEffect]
   );
@@ -169,7 +149,9 @@ function PlayableGame() {
                     target.lifeStart
                   );
 
-                  return now - pauseDuration - target.lifeStart;
+                  return (
+                    now.valueOf() - pauseDuration - target.lifeStart.valueOf()
+                  );
                 })
                 .reduce((a, b) => a + b, 0)
             );
@@ -179,8 +161,8 @@ function PlayableGame() {
         return [
           ...newTargets,
           {
-            size,
             index: maxPoints,
+            size,
             left:
               Math.max(Math.random() * playableAreaWidth - size, size / 2) /
               playableAreaWidth,
@@ -225,14 +207,17 @@ function PlayableGame() {
           targets[0].lifeStart
         );
 
-        return curReactionTime + (now - pauseDuration - targets[0].lifeStart);
+        return (
+          curReactionTime +
+          (now.valueOf() - pauseDuration - targets[0].lifeStart.valueOf())
+        );
       });
 
       setTargets((cur) => {
         const temp = [...cur].slice(1);
         return temp;
       });
-    }, [gameOptions.targetInterval]);
+    }, gameOptions.targetInterval);
 
     return () => clearTimeout(timeout);
   }, [
@@ -311,7 +296,6 @@ function PlayableGame() {
       gameOptionsProps={{
         gameOptions,
         setGameOptions,
-        updateGameOptionsVisibility,
       }}
       restartGame={restartGame}
     />
@@ -323,7 +307,6 @@ function PlayableGame() {
       <GameOptions
         gameOptions={gameOptions}
         setGameOptions={setGameOptions}
-        updateGameOptionsVisibility={updateGameOptionsVisibility}
         showOptions={showOptions}
       />
 
@@ -362,3 +345,5 @@ function PlayableGame() {
     </>
   );
 }
+
+const START_COUNTDOWN = 3000;

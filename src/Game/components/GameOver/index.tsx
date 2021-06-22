@@ -1,17 +1,23 @@
 import "./styles.scss";
 
+import GameOptions, { Props as GameOptionsProps } from "../GameOptions";
 import { GameOptionsButton, RestartButton } from "../KeyButton";
+import PointsBoard, { Props as PointsBoardProps } from "../PointsBoard";
 
-import GameOptions from "../GameOptions";
 import Logo from "../Logo";
-import PointsBoard from "../PointsBoard";
 import React from "react";
+
+interface Props {
+  pointsBoardProps: PointsBoardProps;
+  gameOptionsProps: GameOptionsProps;
+  restartGame: () => void;
+}
 
 export default function GameOver({
   pointsBoardProps,
   gameOptionsProps,
   restartGame,
-}) {
+}: Props) {
   return (
     <div className="game-over">
       <Logo />
@@ -27,9 +33,6 @@ export default function GameOver({
       <GameOptions
         gameOptions={gameOptionsProps.gameOptions}
         setGameOptions={gameOptionsProps.setGameOptions}
-        updateGameOptionsVisibility={
-          gameOptionsProps.updateGameOptionsVisibility
-        }
         showOptions={true}
         overlay={false}
         hideLogo

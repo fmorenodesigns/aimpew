@@ -3,12 +3,19 @@ import "./styles.scss";
 import React from "react";
 import { prettyNumber } from "../../utils/utils";
 
+export interface Props {
+  points: number;
+  maxPoints: number;
+  firedTimes: number;
+  totalReactionTime?: number;
+}
+
 export default function PointsBoard({
   points,
   maxPoints,
   firedTimes,
   totalReactionTime,
-}) {
+}: Props) {
   const hitAccuracy = points / firedTimes || 0;
   const targetsHitPct = points / maxPoints || 0;
 
@@ -19,35 +26,47 @@ export default function PointsBoard({
       }`}
     >
       <CounterGroup
-        count={points}
+        count={`${points}`}
         helpCount={`${prettyNumber(targetsHitPct * 100, 1)}%`}
-        name="Targets hit"
+        label="Targets hit"
         counterClassName={targetsHitPct >= 0.5 ? "good" : "bad"}
       />
-      <CounterGroup count={maxPoints} name="Total targets" />
+      <CounterGroup count={`${maxPoints}`} label="Total targets" />
       <CounterGroup
         count={`${prettyNumber(hitAccuracy * 100, 1)}%`}
-        name="Hit accuracy"
+        label="Hit accuracy"
         counterClassName={hitAccuracy >= 0.5 ? "good" : "bad"}
       />
       {!!totalReactionTime && !!maxPoints && (
         <CounterGroup
           count={`${prettyNumber(totalReactionTime / 1000 / maxPoints, 4)}s`}
-          name="Avg. reaction time"
+          label="Avg. reaction time"
         />
       )}
     </div>
   );
 }
 
-function CounterGroup({ count, helpCount, name, counterClassName = "" }) {
+interface CounterGroupProps {
+  count: string;
+  label: string;
+  helpCount?: string;
+  counterClassName?: string;
+}
+
+function CounterGroup({
+  count,
+  helpCount,
+  label,
+  counterClassName = "",
+}: CounterGroupProps) {
   return (
     <div className="counter-group">
       <div className={`counter ${counterClassName}`}>
         {count}{" "}
         {helpCount && <span className="help-counter">({helpCount})</span>}
       </div>
-      <div className="counter-name">{name}</div>
+      <div className="counter-label">{label}</div>
     </div>
   );
 }

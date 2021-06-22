@@ -2,15 +2,17 @@ import "./styles.scss";
 
 import React, { useState } from "react";
 
-export default function Bullseye({ size, left, top, onHit }) {
+import { TargetProps } from "..";
+
+export default function Bullseye({ size, left, top, onHit }: TargetProps) {
   const [hit, setHit] = useState(false);
 
   return (
     <div
       className={`bullseye ${hit ? "hit" : ""}`}
       style={{
-        left,
-        top,
+        left: `${left * 100}%`,
+        top: `${top * 100}%`,
         transform: `scale(${(size / 40) * (hit ? 1.7 : 1)})`,
       }}
       onClick={() => {
