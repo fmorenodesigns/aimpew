@@ -8,7 +8,7 @@ import React from "react";
 export default function GameOver({ pointsBoard, gameOptions, restartGame }) {
   return (
     <div className="game-over">
-      <Logo className="default-logo" />
+      <Logo />
       <GameOptionsButton onClick={restartGame} description={"Restart"} />
       <RestartButton onClick={restartGame} />
       {pointsBoard}

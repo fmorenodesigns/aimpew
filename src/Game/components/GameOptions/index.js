@@ -61,7 +61,7 @@ export default function GameOptions({
           showOptions ? "visible" : ""
         }`}
       >
-        {!hideLogo && <Logo className="default-logo" />}
+        {!hideLogo && <Logo />}
         <div className="game-option-group">
           <Select
             value={gameOptions.targetType}

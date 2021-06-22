@@ -11,7 +11,7 @@ export default function Logo({
       xmlns="http://www.w3.org/2000/svg"
       height={67.51592356687898}
       viewBox="0, 0, 400,67.51592356687898"
-      className={className}
+      className={className || "default-logo"}
     >
       <g id="svgg">
         <path
