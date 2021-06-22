@@ -21,10 +21,10 @@ export default function Gun({ rotation, coiling, hasFlash }: Props) {
     <div
       className="gun"
       style={{
-        top: -main.height - handle.height / 2,
-        left: -main.width,
-        width: main.width,
-        height: main.height,
+        top: -MAIN.height - HANDLE.height / 2,
+        left: -MAIN.width,
+        width: MAIN.width,
+        height: MAIN.height,
         transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
         transition: coiling ? "transform 0.05s linear" : undefined,
       }}
@@ -34,10 +34,10 @@ export default function Gun({ rotation, coiling, hasFlash }: Props) {
       )}
       <div className="part blue-detail">
         <Cube
-          width={detail.width}
-          depth={detail.depth}
-          height={detail.height}
-          colors={detail.colors}
+          width={DETAIL.width}
+          depth={DETAIL.depth}
+          height={DETAIL.height}
+          colors={DETAIL.colors}
         />
       </div>
 
@@ -47,18 +47,18 @@ export default function Gun({ rotation, coiling, hasFlash }: Props) {
 
       <div className="part main">
         <Cube
-          width={main.width}
-          depth={main.depth}
-          height={main.height}
-          colors={main.colors}
+          width={MAIN.width}
+          depth={MAIN.depth}
+          height={MAIN.height}
+          colors={MAIN.colors}
         />
       </div>
       <div className="part main--detail">
         <Cube
           width={15}
           depth={145}
-          height={main.height}
-          colors={main.colors}
+          height={MAIN.height}
+          colors={MAIN.colors}
         />
       </div>
 
@@ -73,9 +73,9 @@ export default function Gun({ rotation, coiling, hasFlash }: Props) {
 
       <div className="part handle">
         <Cube
-          width={handle.width}
-          depth={handle.depth}
-          height={handle.height}
+          width={HANDLE.width}
+          depth={HANDLE.depth}
+          height={HANDLE.height}
           colors={{
             top: "#2f343c",
             bottom: "#272f35",
@@ -90,7 +90,7 @@ export default function Gun({ rotation, coiling, hasFlash }: Props) {
   );
 }
 
-const main = {
+const MAIN = {
   width: 32,
   depth: 140,
   height: 40,
@@ -104,15 +104,15 @@ const main = {
   },
 };
 
-const handle = {
+const HANDLE = {
   width: 27,
   depth: 40,
   height: 60,
 };
 
-const detail = {
-  width: main.width + 3 * 2,
-  depth: main.depth - 40,
+const DETAIL = {
+  width: MAIN.width + 3 * 2,
+  depth: MAIN.depth - 40,
   height: 18,
   colors: {
     top: "#4677f5",
