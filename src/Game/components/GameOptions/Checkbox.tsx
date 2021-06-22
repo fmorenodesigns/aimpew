@@ -1,7 +1,6 @@
-import { OptionCoreProps } from ".";
-import React from "react";
+import GameOption, { GameOptionCoreProps } from "./GameOption";
 
-interface Props extends OptionCoreProps {
+interface Props extends GameOptionCoreProps {
   value: boolean;
   updateValue: (optionTag: string, value: boolean) => void;
 }
@@ -14,11 +13,7 @@ export default function Checkbox({
   helpText,
 }: Props) {
   return (
-    <div className="game-option">
-      <label htmlFor={`#gameoption-${optionTag}`}>
-        {label}
-        {helpText && <div className="help-text">{helpText}</div>}
-      </label>
+    <GameOption label={label} optionTag={optionTag} helpText={helpText}>
       <input
         type="checkbox"
         className="checkbox"
@@ -26,6 +21,6 @@ export default function Checkbox({
         checked={value}
         onChange={(e) => updateValue(optionTag, e.target.checked)}
       />
-    </div>
+    </GameOption>
   );
 }

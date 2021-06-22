@@ -1,7 +1,6 @@
-import { OptionCoreProps } from ".";
-import React from "react";
+import GameOption, { GameOptionCoreProps } from "./GameOption";
 
-interface Props extends OptionCoreProps {
+interface Props extends GameOptionCoreProps {
   min: number;
   max: number;
   value: number;
@@ -18,11 +17,7 @@ export default function Input({
   max,
 }: Props) {
   return (
-    <div className="game-option">
-      <label htmlFor={`#gameoption-${optionTag}`}>
-        {label}
-        {helpText && <div className="help-text">{helpText}</div>}
-      </label>
+    <GameOption label={label} optionTag={optionTag} helpText={helpText}>
       <input
         type="number"
         className="input"
@@ -35,6 +30,6 @@ export default function Input({
           )
         }
       />
-    </div>
+    </GameOption>
   );
 }

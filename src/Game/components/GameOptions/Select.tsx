@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import GameOption, { GameOptionCoreProps } from "./GameOption";
 
-import { OptionCoreProps } from ".";
+import { useState } from "react";
 
 interface SelectOptions {
   value: string;
   label: string;
 }
 
-interface Props extends OptionCoreProps {
+interface Props extends GameOptionCoreProps {
   selectOptions: SelectOptions[];
   value: string;
   updateValue: (optionTag: string, value: string) => void;
@@ -24,11 +24,7 @@ export function Select({
   const [selectIsOpen, setSelectIsOpen] = useState(false);
 
   return (
-    <div className="game-option">
-      <label htmlFor={`#gameoption-${optionTag}`}>
-        {label}
-        {helpText && <div className="help-text">{helpText}</div>}
-      </label>
+    <GameOption label={label} optionTag={optionTag} helpText={helpText}>
       <div className="select-wrapper">
         <div className="chevron">
           <i className={`fas fa-chevron-${selectIsOpen ? "up" : "down"}`}></i>
@@ -47,6 +43,6 @@ export function Select({
           ))}
         </select>
       </div>
-    </div>
+    </GameOption>
   );
 }

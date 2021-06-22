@@ -19,19 +19,6 @@ export interface GameOptionsType {
   targetSizeVariation: number;
   targetType: TargetType;
 }
-
-export const DEFAULT_GAME_OPTIONS: GameOptionsType = {
-  onHitSoundEffect: true,
-  onFireSoundEffect: true,
-  visualEffects: true,
-  targetGoal: 20, // 0 === no limit
-  simultaneousTargetCount: 3,
-  targetInterval: 1000,
-  targetSize: 30,
-  targetSizeVariation: 10,
-  targetType: "pewion",
-};
-
 export interface Props {
   gameOptions: GameOptionsType;
   setGameOptions: React.Dispatch<React.SetStateAction<GameOptionsType>>;
@@ -188,8 +175,14 @@ export default function GameOptions({
   );
 }
 
-export interface OptionCoreProps {
-  label: React.ReactNode;
-  optionTag: string;
-  helpText?: string;
-}
+export const DEFAULT_GAME_OPTIONS: GameOptionsType = {
+  onHitSoundEffect: true,
+  onFireSoundEffect: true,
+  visualEffects: true,
+  targetGoal: 20, // 0 === no limit
+  simultaneousTargetCount: 3,
+  targetInterval: 1000,
+  targetSize: 30,
+  targetSizeVariation: 10,
+  targetType: "pewion",
+};
