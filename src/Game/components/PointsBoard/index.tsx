@@ -1,6 +1,5 @@
 import "./styles.scss";
 
-import React from "react";
 import { prettyNumber } from "../../utils/utils";
 
 export interface Props {

@@ -1,6 +1,6 @@
 import "./styles.scss";
 
-import React, { useCallback, useEffect } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 
 import Checkbox from "./Checkbox";
 import Input from "./Input";
@@ -21,7 +21,7 @@ export interface GameOptionsType {
 }
 export interface Props {
   gameOptions: GameOptionsType;
-  setGameOptions: React.Dispatch<React.SetStateAction<GameOptionsType>>;
+  setGameOptions: Dispatch<SetStateAction<GameOptionsType>>;
   showOptions?: boolean;
   overlay?: boolean;
   hideLogo?: boolean;

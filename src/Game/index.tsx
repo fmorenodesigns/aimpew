@@ -2,7 +2,6 @@ import "./styles.scss";
 
 import Logo from "./components/Logo";
 import PlayableGame from "./PlayableGame";
-import React from "react";
 import { isMobile } from "./utils/utils";
 
 export default function Game() {

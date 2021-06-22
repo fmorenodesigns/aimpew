@@ -2,13 +2,7 @@ import GameOptions, { DEFAULT_GAME_OPTIONS } from "./components/GameOptions";
 import { GameOptionsButton, RestartButton } from "./components/KeyButton";
 import Gun, { GunRotation, STARTING_GUN_ROTATION } from "./components/Gun";
 import { PauseDatetime, getPauseDuration } from "./utils/utils";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import Countdown from "./components/Countdown";
 import GameOver from "./components/GameOver";

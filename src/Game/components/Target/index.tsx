@@ -2,7 +2,6 @@ import "./styles.scss";
 
 import Bullseye from "./Bullseye";
 import Pewion from "./Pewion";
-import React from "react";
 
 export type TargetType = "pewion" | "bullseye";
 

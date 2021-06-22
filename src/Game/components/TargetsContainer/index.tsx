@@ -4,7 +4,6 @@ import { PauseDatetime, getPauseDuration } from "../../utils/utils";
 import Target, { TargetMetadata } from "../Target";
 
 import { GameOptionsType } from "../GameOptions";
-import React from "react";
 
 interface Props {
   targets: TargetMetadata[];

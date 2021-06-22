@@ -1,6 +1,6 @@
 import "./styles.scss";
 
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 
 export interface CubeColors {
   top?: string;

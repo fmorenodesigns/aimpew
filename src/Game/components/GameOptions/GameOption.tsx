@@ -1,13 +1,13 @@
-import React from "react";
+import { ReactNode } from "react";
 
 export interface GameOptionCoreProps {
-  label: React.ReactNode;
+  label: ReactNode;
   optionTag: string;
   helpText?: string;
 }
 
 interface Props extends GameOptionCoreProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export default function GameOption({

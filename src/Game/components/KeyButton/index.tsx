@@ -1,7 +1,5 @@
 import "./styles.scss";
 
-import React from "react";
-
 interface KeyButton {
   onClick: () => void;
   description?: string;

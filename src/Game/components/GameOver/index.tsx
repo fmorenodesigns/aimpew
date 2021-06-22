@@ -5,7 +5,6 @@ import { GameOptionsButton, RestartButton } from "../KeyButton";
 import PointsBoard, { Props as PointsBoardProps } from "../PointsBoard";
 
 import Logo from "../Logo";
-import React from "react";
 
 interface Props {
   pointsBoardProps: PointsBoardProps;

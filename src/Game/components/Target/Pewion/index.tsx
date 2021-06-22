@@ -1,6 +1,6 @@
 import "./styles.scss";
 
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 import Cube from "../../Cube";
 import { TargetProps } from "..";

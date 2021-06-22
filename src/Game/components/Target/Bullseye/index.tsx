@@ -1,8 +1,7 @@
 import "./styles.scss";
 
-import React, { useState } from "react";
-
 import { TargetProps } from "..";
+import { useState } from "react";
 
 export default function Bullseye({ size, left, top, onHit }: TargetProps) {
   const [hit, setHit] = useState(false);

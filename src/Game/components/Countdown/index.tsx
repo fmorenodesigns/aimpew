@@ -1,10 +1,10 @@
 import "./styles.scss";
 
-import React, { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface Props {
   startValue: number;
-  setStarted: React.Dispatch<React.SetStateAction<boolean>>;
+  setStarted: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function Countdown({ startValue, setStarted }: Props) {

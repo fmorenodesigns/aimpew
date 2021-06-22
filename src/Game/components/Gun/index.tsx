@@ -1,7 +1,6 @@
 import "./styles.scss";
 
 import Cube from "../Cube";
-import React from "react";
 
 export interface GunRotation {
   vertical: number;

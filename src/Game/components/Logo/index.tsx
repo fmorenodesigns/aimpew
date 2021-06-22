@@ -1,5 +1,3 @@
-import React from "react";
-
 interface LogoColors {
   aim?: string;
   pew?: string;
