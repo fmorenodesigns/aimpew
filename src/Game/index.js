@@ -8,6 +8,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { getPauseDuration, isMobile } from "./utils";
 
 import Countdown from "./components/Countdown";
 import { GameOptionsButton } from "./components/KeyButton";
@@ -17,7 +18,6 @@ import Logo from "./components/Logo";
 import PointsBoard from "./components/PointsBoard";
 import { RestartButton } from "./components/KeyButton";
 import Target from "./components/Target";
-import { isMobile } from "./utils";
 import { useLocalStorage } from "./hooks";
 
 const START_COUNTDOWN = 3000;
@@ -71,11 +71,6 @@ function PlayableGame() {
     start: null,
     end: null,
   });
-  const pauseDuration = useMemo(() => {
-    if (pauseDatetime.end === null || pauseDatetime.start === null) return 0;
-
-    return pauseDatetime.end - pauseDatetime.start;
-  }, [pauseDatetime]);
 
   const [gameOptions, setGameOptions] = useLocalStorage(
     "game-options",
@@ -168,7 +163,14 @@ function PlayableGame() {
             return (
               curReactionTime +
               targetsToRemove
-                .map((target) => now - pauseDuration - target.lifeStart)
+                .map((target) => {
+                  const pauseDuration = getPauseDuration(
+                    pauseDatetime,
+                    target.lifeStart
+                  );
+
+                  return now - pauseDuration - target.lifeStart;
+                })
                 .reduce((a, b) => a + b, 0)
             );
           });
@@ -200,7 +202,7 @@ function PlayableGame() {
     ended,
     gameOptions,
     maxPoints,
-    pauseDuration,
+    pauseDatetime,
     playableAreaHeight,
     playableAreaWidth,
     reachedTargetCountLimit,
@@ -217,10 +219,14 @@ function PlayableGame() {
     const timeout = setTimeout(() => {
       const now = new Date();
 
-      setTotalReactionTime(
-        (curReactionTime) =>
-          curReactionTime + (now - pauseDuration - targets[0].lifeStart)
-      );
+      setTotalReactionTime((curReactionTime) => {
+        const pauseDuration = getPauseDuration(
+          pauseDatetime,
+          targets[0].lifeStart
+        );
+
+        return curReactionTime + (now - pauseDuration - targets[0].lifeStart);
+      });
 
       setTargets((cur) => {
         const temp = [...cur].slice(1);
@@ -232,10 +238,10 @@ function PlayableGame() {
   }, [
     ended,
     gameOptions.targetInterval,
+    pauseDatetime,
     reachedTargetCountLimit,
     started,
     targets,
-    pauseDuration,
   ]);
 
   const updateGameOptionsVisibility = useCallback(() => {
@@ -245,12 +251,13 @@ function PlayableGame() {
           ...curPausetime,
           start: new Date(),
         }));
+      } else {
+        setPauseDatetime((curPausetime) => ({
+          ...curPausetime,
+          end: new Date(),
+        }));
       }
 
-      setPauseDatetime((curPausetime) => ({
-        ...curPausetime,
-        end: new Date(),
-      }));
       return !cur;
     });
   }, []);
@@ -363,6 +370,11 @@ function PlayableGame() {
               top={`${target.top * 100}%`}
               onHit={() => {
                 const now = new Date();
+
+                const pauseDuration = getPauseDuration(
+                  pauseDatetime,
+                  target.lifeStart
+                );
                 const lifeTime = now - pauseDuration - target.lifeStart;
 
                 onTargetHit(target.index, lifeTime);
