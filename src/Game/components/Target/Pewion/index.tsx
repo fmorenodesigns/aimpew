@@ -57,27 +57,21 @@ export default function Pewion({ size, left, top, onHit }: TargetProps) {
 const DEFAULT_COLORS = {
   head: {
     top: "#de5865",
-    bottom: "#9e3e48",
     left: "#c54e5a",
     right: "#c54e5a",
     front: "#ff6978",
-    back: "#ff6978",
   },
   torso: {
     top: "#9e3e48",
-    bottom: "#9e3e48",
     left: "#c54e5a",
     right: "#c54e5a",
     front: "#ff6978",
-    back: "#ff6978",
   },
   eye: {
     top: "white",
-    bottom: "#9e3e48",
     left: "lightgray",
     right: "lightgray",
     front: "white",
-    back: "white",
   },
 };
 
@@ -85,16 +79,12 @@ const ON_HIT_COLORS = {
   ...DEFAULT_COLORS,
   head: {
     top: "#6bbeff",
-    bottom: "#3b688a",
-    back: "#4caefb",
     front: "#4caefb",
     left: "#3e92d4",
     right: "#3e92d4",
   },
   torso: {
     top: "#3b688a",
-    bottom: "#3b688a",
-    back: "#4caefb",
     front: "#4caefb",
     left: "#3e92d4",
     right: "#3e92d4",
