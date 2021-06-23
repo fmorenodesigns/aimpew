@@ -8,6 +8,7 @@
     color: rgb(240, 239, 239);
     display: grid;
     grid-template-columns: minmax(130px, max-content) repeat(2, max-content);
+    margin-top: 15px;
 
     &.with-reaction-time {
       grid-template-columns: minmax(130px, max-content) repeat(3, max-content);
