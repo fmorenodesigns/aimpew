@@ -13,7 +13,7 @@ export default function Pewion({ size, left, top, onHit }: TargetProps) {
 
   return (
     <div
-      className={`monster ${hit ? "hit" : ""}`}
+      className={`pewion ${hit ? "hit" : ""}`}
       style={{
         left: `${left * 100}%`,
         top: `${top * 100}%`,
