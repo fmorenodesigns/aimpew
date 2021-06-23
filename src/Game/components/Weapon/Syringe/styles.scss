@@ -1,0 +1,70 @@
+.game {
+  .syringe {
+    position: relative;
+    transform-style: preserve-3d;
+    transform-origin: center center -120px;
+
+    .blast {
+      --width: 2px;
+      --height: 2px;
+
+      width: var(--width);
+      height: var(--height);
+      position: absolute;
+      top: calc(50% - var(--height) / 2);
+      left: calc(50% - var(--width) / 2);
+      transform: translateZ(-180px);
+      background-color: #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 0 15px 1px #ffffff, 0 0 30px 4px #20ff84,
+        0 0 200px 30px #46e9f5;
+    }
+
+    .pump-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform-style: preserve-3d;
+      transition: none;
+      transition: transform 0.1s ease;
+
+      &.coiling {
+        transition: transform 0.2s ease;
+        transform: translateZ(-60px);
+      }
+    }
+
+    .part {
+      transform-style: preserve-3d;
+      position: absolute;
+
+      &.liquid {
+        top: 50%;
+        left: 50%;
+        transform: translate3d(-50%, -50%, -36px);
+      }
+
+      &.needle {
+        top: 50%;
+        left: 50%;
+        transform: translate3d(-50%, -50%, -100px);
+      }
+
+      &.pump {
+        top: 50%;
+        left: 50%;
+
+        &--long {
+          transform: translate3d(-50%, -50%, 64px);
+        }
+
+        &--finger-lay {
+          transform: translate3d(-50%, -50%, 64px);
+        }
+        &--liquid-pusher {
+          transform: translate3d(-50%, -50%, -36px);
+        }
+      }
+    }
+  }
+}
