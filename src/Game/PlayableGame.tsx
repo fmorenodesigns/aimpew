@@ -1,5 +1,8 @@
 import { GameSettingsButton, RestartButton } from "./components/KeyButton";
-import Gun, { GunRotation, STARTING_GUN_ROTATION } from "./components/Gun";
+import Weapon, {
+  INITIAL_WEAPON_ROTATION,
+  WeaponRotation,
+} from "./components/Weapon";
 import { useAudio, usePlayableArea } from "./utils/hooks";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
@@ -31,7 +34,9 @@ export default function PlayableGame() {
   const [totalTimeBeforeHit, setTotalTimeBeforeHit] = useState<number>(0);
 
   const [coiling, setCoiling] = useState<boolean>(false);
-  const [rotation, setRotation] = useState<GunRotation>(STARTING_GUN_ROTATION);
+  const [rotation, setRotation] = useState<WeaponRotation>(
+    INITIAL_WEAPON_ROTATION
+  );
 
   const [showOptions, setShowOptions] = useState<boolean>(false);
   // When the user goes to the options menu during a round, that is considered pause time
@@ -195,7 +200,7 @@ export default function PlayableGame() {
   }, []);
 
   const restartGame = useCallback(() => {
-    setRotation(STARTING_GUN_ROTATION);
+    setRotation(INITIAL_WEAPON_ROTATION);
     setShowOptions(false);
     setEnded(false);
     setStarted(false);
@@ -267,7 +272,7 @@ export default function PlayableGame() {
         onMouseMoveCapture={handleMovement}
         onClick={fireGun}
       >
-        <Gun
+        <Weapon
           rotation={rotation}
           coiling={coiling}
           hasFlash={gameSettings.visualEffects}

@@ -1,19 +1,9 @@
 import "./styles.scss";
 
-import Cube from "../Cube";
+import Cube from "../../Cube";
+import { WeaponProps } from "..";
 
-export interface GunRotation {
-  vertical: number;
-  horizontal: number;
-}
-
-interface Props {
-  rotation: GunRotation;
-  coiling: boolean;
-  hasFlash: boolean;
-}
-
-export default function Gun({ rotation, coiling, hasFlash }: Props) {
+export default function Gun({ rotation, coiling, hasFlash }: WeaponProps) {
   const rotateX = rotation.vertical - (coiling ? 5 : 0);
   const rotateY = rotation.horizontal - (coiling ? 5 : 0);
 
@@ -123,5 +113,3 @@ const DETAIL = {
     back: "#3056b1",
   },
 };
-
-export const STARTING_GUN_ROTATION = { horizontal: 10, vertical: -5 };
