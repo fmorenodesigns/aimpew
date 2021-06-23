@@ -54,6 +54,7 @@ export default function Cube({
           height={height}
           backgroundColor={typeof colors === "string" ? colors : colors.back}
           boxShadow={boxShadow}
+          transform={`translateZ(${-depth}px)`}
         />
         <CubeFace
           face="left"
@@ -94,6 +95,7 @@ interface CubeFaceProps {
   height: number;
   backgroundColor?: string;
   boxShadow?: string;
+  transform?: string;
 }
 
 export function CubeFace({
@@ -102,6 +104,7 @@ export function CubeFace({
   height,
   backgroundColor,
   boxShadow,
+  transform,
 }: CubeFaceProps) {
   return backgroundColor ? (
     <div
@@ -111,6 +114,7 @@ export function CubeFace({
         height,
         backgroundColor,
         boxShadow,
+        transform,
       }}
     />
   ) : null;
