@@ -70,6 +70,7 @@ export default function GameSettings({
             selectOptions={[
               { value: "pewion", label: "Pewion" },
               { value: "bullseye", label: "Bullseye" },
+              { value: "covid", label: "COVID-19" },
             ]}
           />
           <Checkbox

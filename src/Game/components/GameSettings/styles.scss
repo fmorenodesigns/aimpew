@@ -2,7 +2,7 @@
   .game-options {
     --text-size: 16px;
     --border-thickness: 1px;
-    --border-color: rgba(255, 255, 255, 0.3);
+    --border-color: rgba(181, 201, 255, 0.2);
     transition: opacity 0.3s ease;
     opacity: 0;
 
@@ -58,7 +58,7 @@
           height: 34px;
           display: grid;
           align-items: center;
-          grid-template-columns: 330px 95px;
+          grid-template-columns: 320px 105px;
           gap: 20px;
           margin-bottom: 1px;
           background-color: rgba(125, 146, 202, 0.122);

@@ -3,9 +3,6 @@ import "./styles.scss";
 import { PauseDatetime, getPauseDuration } from "../../utils/utils";
 import Target, { TargetMetadata } from "../Target";
 
-import { GameSettingsContext } from "../GameSettings/context";
-import { useContext } from "react";
-
 interface Props {
   targets: TargetMetadata[];
   pauseDatetime: PauseDatetime;
@@ -17,8 +14,6 @@ export default function TargetsContainer({
   pauseDatetime,
   onTargetHit,
 }: Props) {
-  const { gameSettings } = useContext(GameSettingsContext);
-
   return (
     <div className="target-container">
       {targets.map((target) => (
@@ -40,7 +35,6 @@ export default function TargetsContainer({
 
             onTargetHit(target.index, lifeTime);
           }}
-          type={gameSettings.targetType}
         />
       ))}
     </div>
