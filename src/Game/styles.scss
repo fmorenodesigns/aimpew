@@ -48,13 +48,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: url("./components/Gun/crosshair.cur"), crosshair;
+    cursor: url("./assets/crosshair.cur"), crosshair;
     position: relative;
     overflow: visible;
     transition: filter 0.3s ease;
 
     &:active {
-      cursor: url("./components/Gun/crosshair_down.cur"), crosshair;
+      cursor: url("./assets/crosshair_down.cur"), crosshair;
     }
 
     * {
