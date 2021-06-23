@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { RefObject, useMemo, useState } from "react";
 
 // Hook
-export function useLocalStorage(key, initialValue) {
+export function useLocalStorage<S>(
+  key: string,
+  initialValue: S
+): [S, (value: S) => void] {
   // State to store our value
   // Pass initial state function to useState so logic is only executed once
   const [storedValue, setStoredValue] = useState(() => {
@@ -18,7 +21,7 @@ export function useLocalStorage(key, initialValue) {
   });
   // Return a wrapped version of useState's setter function that ...
   // ... persists the new value to localStorage.
-  const setValue = (value) => {
+  const setValue = (value: S) => {
     try {
       // Allow value to be a function so we have same API as useState
       const valueToStore =
@@ -34,4 +37,22 @@ export function useLocalStorage(key, initialValue) {
   };
 
   return [storedValue, setValue];
+}
+
+export function usePlayableArea(ref: RefObject<HTMLDivElement>) {
+  return {
+    playableAreaWidth: ref.current?.getBoundingClientRect().width || 0,
+    playableAreaHeight: ref.current?.getBoundingClientRect().height || 0,
+  };
+}
+
+export function useAudio() {
+  const onFireSoundFx = useMemo(() => new Audio("./laserbeam.mp3"), []);
+  const onHitSoundFx = useMemo(() => {
+    const audio = new Audio("./hit.mp3");
+    audio.volume = 0.2;
+    return audio;
+  }, []);
+
+  return { onFireSoundFx, onHitSoundFx };
 }

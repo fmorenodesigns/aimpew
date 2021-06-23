@@ -1,31 +1,25 @@
-import GameOptions, { DEFAULT_GAME_OPTIONS } from "./components/GameOptions";
-import { GameOptionsButton, RestartButton } from "./components/KeyButton";
+import { GameSettingsButton, RestartButton } from "./components/KeyButton";
 import Gun, { GunRotation, STARTING_GUN_ROTATION } from "./components/Gun";
+import { useAudio, usePlayableArea } from "./utils/hooks";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import Countdown from "./components/Countdown";
 import GameOver from "./components/GameOver";
+import GameSettings from "./components/GameSettings";
+import { GameSettingsContext } from "./components/GameSettings/context";
 import Logo from "./components/Logo";
 import { PauseDatetime } from "./utils/utils";
 import PointsBoard from "./components/PointsBoard";
 import { TargetMetadata } from "./components/Target";
 import TargetsContainer from "./components/TargetsContainer";
-import { useLocalStorage } from "./utils/hooks";
+import { useContext } from "react";
 
 export default function PlayableGame() {
-  const onFireSoundEffect = useMemo(() => new Audio("./laserbeam.mp3"), []);
-  const onHitSoundEffect = useMemo(() => {
-    const audio = new Audio("./hit.mp3");
-    audio.volume = 0.5;
-    return audio;
-  }, []);
   const playableArea = useRef<HTMLDivElement>(null);
-  const playableAreaWidth = playableArea.current
-    ? playableArea.current.getBoundingClientRect().width
-    : 0;
-  const playableAreaHeight = playableArea.current
-    ? playableArea.current.getBoundingClientRect().height
-    : 0;
+  const { gameSettings } = useContext(GameSettingsContext);
+  const { playableAreaWidth, playableAreaHeight } =
+    usePlayableArea(playableArea);
+  const { onFireSoundFx, onHitSoundFx } = useAudio();
 
   const [started, setStarted] = useState<boolean>(false);
   const [ended, setEnded] = useState<boolean>(false);
@@ -46,13 +40,9 @@ export default function PlayableGame() {
     end: null,
   });
 
-  const [gameOptions, setGameOptions] = useLocalStorage(
-    "game-options",
-    DEFAULT_GAME_OPTIONS
-  );
   const reachedTargetCountLimit = useMemo(
-    () => gameOptions.targetGoal && maxPoints >= gameOptions.targetGoal,
-    [gameOptions.targetGoal, maxPoints]
+    () => gameSettings.targetGoal && maxPoints >= gameSettings.targetGoal,
+    [gameSettings.targetGoal, maxPoints]
   );
 
   // Rotate gun
@@ -73,9 +63,9 @@ export default function PlayableGame() {
 
   const onTargetHit = useCallback(
     (targetIndex, lifeTime) => {
-      if (gameOptions.onHitSoundEffect) {
-        onHitSoundEffect.currentTime = 0;
-        onHitSoundEffect.play();
+      if (gameSettings.onHitSoundFx) {
+        onHitSoundFx.currentTime = 0;
+        onHitSoundFx.play();
       }
 
       setTotalTimeBeforeHit((cur) => cur + lifeTime);
@@ -85,21 +75,21 @@ export default function PlayableGame() {
         setTargets((cur) => cur.filter(({ index }) => index !== targetIndex));
       }, 200);
     },
-    [gameOptions.onHitSoundEffect, onHitSoundEffect]
+    [gameSettings.onHitSoundFx, onHitSoundFx]
   );
 
   const fireGun = useCallback(
     (e) => {
-      if (gameOptions.onFireSoundEffect) {
-        onFireSoundEffect.currentTime = 0;
-        onFireSoundEffect.play();
+      if (gameSettings.onFireSoundFx) {
+        onFireSoundFx.currentTime = 0;
+        onFireSoundFx.play();
       }
 
       setCoiling(true);
       setTimeout(() => setCoiling(false), 100);
       setFiredTimes((cur) => cur + 1);
     },
-    [onFireSoundEffect, gameOptions.onFireSoundEffect]
+    [onFireSoundFx, gameSettings.onFireSoundFx]
   );
 
   // Generate new targets
@@ -116,15 +106,17 @@ export default function PlayableGame() {
 
       setTargets((cur) => {
         const sizeVariation =
-          Math.round((Math.random() * gameOptions.targetSizeVariation) / 2) * 2;
-        const size = gameOptions.targetSize + sizeVariation;
+          Math.round((Math.random() * gameSettings.targetSizeVariation) / 2) *
+          2;
+        const size = gameSettings.targetSize + sizeVariation;
 
         if (reachedTargetCountLimit) {
           return cur;
         }
 
         const newTargets = cur.filter(
-          ({ index }) => index > maxPoints - gameOptions.simultaneousTargetCount
+          ({ index }) =>
+            index > maxPoints - gameSettings.simultaneousTargetCount
         );
 
         return [
@@ -146,12 +138,12 @@ export default function PlayableGame() {
       if (!reachedTargetCountLimit) {
         setMaxPoints((curIdx) => curIdx + 1);
       }
-    }, gameOptions.targetInterval);
+    }, gameSettings.targetInterval);
 
     return () => clearTimeout(timeout);
   }, [
     ended,
-    gameOptions,
+    gameSettings,
     maxPoints,
     pauseDatetime,
     playableAreaHeight,
@@ -172,19 +164,19 @@ export default function PlayableGame() {
         const temp = [...cur].slice(1);
         return temp;
       });
-    }, gameOptions.targetInterval);
+    }, gameSettings.targetInterval);
 
     return () => clearTimeout(timeout);
   }, [
     ended,
-    gameOptions.targetInterval,
+    gameSettings.targetInterval,
     pauseDatetime,
     reachedTargetCountLimit,
     started,
     targets,
   ]);
 
-  const updateGameOptionsVisibility = useCallback(() => {
+  const updateGameSettingsVisibility = useCallback(() => {
     setShowOptions((cur) => {
       if (cur === false) {
         setPauseDatetime((curPausetime) => ({
@@ -224,10 +216,10 @@ export default function PlayableGame() {
           return;
         }
 
-        updateGameOptionsVisibility();
+        updateGameSettingsVisibility();
       }
     },
-    [restartGame, updateGameOptionsVisibility, ended]
+    [restartGame, updateGameSettingsVisibility, ended]
   );
 
   // Detect keystrokes
@@ -248,10 +240,6 @@ export default function PlayableGame() {
   return ended ? (
     <GameOver
       pointsBoardProps={{ points, firedTimes, maxPoints, totalTimeBeforeHit }}
-      gameOptionsProps={{
-        gameOptions,
-        setGameOptions,
-      }}
       restartGame={restartGame}
     />
   ) : (
@@ -259,15 +247,11 @@ export default function PlayableGame() {
       {!started && !showOptions && (
         <Countdown startValue={START_COUNTDOWN} setStarted={setStarted} />
       )}
-      <GameOptions
-        gameOptions={gameOptions}
-        setGameOptions={setGameOptions}
-        showOptions={showOptions}
-      />
+      <GameSettings showOptions={showOptions} />
 
-      <GameOptionsButton
+      <GameSettingsButton
         description={!showOptions ? "Options" : "Save"}
-        onClick={updateGameOptionsVisibility}
+        onClick={updateGameSettingsVisibility}
       />
       <PointsBoard
         points={points}
@@ -276,7 +260,7 @@ export default function PlayableGame() {
       />
       <RestartButton onClick={restartGame} />
 
-      {coiling && gameOptions.visualEffects && <div className="flashlight" />}
+      {coiling && gameSettings.visualEffects && <div className="flashlight" />}
       <div
         ref={playableArea}
         className={`playable-area ${showOptions ? "blur" : ""}`}
@@ -286,13 +270,12 @@ export default function PlayableGame() {
         <Gun
           rotation={rotation}
           coiling={coiling}
-          hasFlash={gameOptions.visualEffects}
+          hasFlash={gameSettings.visualEffects}
         />
         <TargetsContainer
           targets={targets}
           onTargetHit={onTargetHit}
           pauseDatetime={pauseDatetime}
-          gameOptions={gameOptions}
         />
       </div>
 

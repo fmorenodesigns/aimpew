@@ -14,7 +14,7 @@ export function RestartButton({ onClick }: KeyButton) {
   );
 }
 
-export function GameOptionsButton({ description, onClick }: KeyButton) {
+export function GameSettingsButton({ description, onClick }: KeyButton) {
   return (
     <button className="key-button game-options-button" onClick={onClick}>
       <div className="key">ESC</div>

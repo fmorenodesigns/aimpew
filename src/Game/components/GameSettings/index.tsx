@@ -1,51 +1,38 @@
 import "./styles.scss";
 
-import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
+import { DEFAULT_GAME_SETTINGS, GameSettingsContext } from "./context";
+import { useCallback, useEffect } from "react";
 
 import Checkbox from "./Checkbox";
 import Input from "./Input";
 import Logo from "../Logo";
 import { Select } from "./Select";
-import { TargetType } from "../Target";
+import { useContext } from "react";
 
-export interface GameOptionsType {
-  onHitSoundEffect: boolean;
-  onFireSoundEffect: boolean;
-  visualEffects: boolean;
-  targetGoal: number;
-  simultaneousTargetCount: number;
-  targetInterval: number;
-  targetSize: number;
-  targetSizeVariation: number;
-  targetType: TargetType;
-}
 export interface Props {
-  gameOptions: GameOptionsType;
-  setGameOptions: Dispatch<SetStateAction<GameOptionsType>>;
   showOptions?: boolean;
   overlay?: boolean;
   hideLogo?: boolean;
 }
 
-export default function GameOptions({
-  gameOptions,
-  setGameOptions,
+export default function GameSettings({
   showOptions = true,
   overlay = true,
   hideLogo = false,
 }: Props) {
+  const { gameSettings, setGameSettings } = useContext(GameSettingsContext);
   const updateOption = useCallback(
     (optionName, newValue) => {
-      setGameOptions({ ...gameOptions, [optionName]: newValue });
+      setGameSettings({ ...gameSettings, [optionName]: newValue });
     },
-    [gameOptions, setGameOptions]
+    [gameSettings, setGameSettings]
   );
 
   // Ensure that the user doesn't leave empty fields, by falling back to the defaults
   useEffect(() => {
     if (
       showOptions ||
-      Object.values(gameOptions).filter((val) => {
+      Object.values(gameSettings).filter((val) => {
         return (
           !["boolean", "string"].includes(typeof val) && isNaN(parseInt(val))
         );
@@ -53,17 +40,18 @@ export default function GameOptions({
     )
       return;
 
-    setGameOptions((cur) => ({
-      ...cur,
-      targetGoal: cur.targetGoal || 0, // can be empty
+    setGameSettings({
+      ...gameSettings,
+      targetGoal: gameSettings.targetGoal || 0, // can be empty
       simultaneousTargetCount:
-        cur.simultaneousTargetCount ||
-        DEFAULT_GAME_OPTIONS.simultaneousTargetCount,
-      targetInterval: cur.targetInterval || DEFAULT_GAME_OPTIONS.targetInterval,
-      targetSize: cur.targetSize || DEFAULT_GAME_OPTIONS.targetSize,
-      targetSizeVariation: cur.targetSizeVariation || 0, // can be empty
-    }));
-  }, [showOptions, setGameOptions, gameOptions]);
+        gameSettings.simultaneousTargetCount ||
+        DEFAULT_GAME_SETTINGS.simultaneousTargetCount,
+      targetInterval:
+        gameSettings.targetInterval || DEFAULT_GAME_SETTINGS.targetInterval,
+      targetSize: gameSettings.targetSize || DEFAULT_GAME_SETTINGS.targetSize,
+      targetSizeVariation: gameSettings.targetSizeVariation || 0, // can be empty
+    });
+  }, [showOptions, setGameSettings, gameSettings]);
 
   return (
     <div
@@ -75,7 +63,7 @@ export default function GameOptions({
         {!hideLogo && <Logo />}
         <div className="game-option-group">
           <Select
-            value={gameOptions.targetType}
+            value={gameSettings.targetType}
             updateValue={updateOption}
             optionTag="targetType"
             label="Target type"
@@ -85,9 +73,9 @@ export default function GameOptions({
             ]}
           />
           <Checkbox
-            value={gameOptions.onFireSoundEffect}
+            value={gameSettings.onFireSoundFx}
             updateValue={updateOption}
-            optionTag="onFireSoundEffect"
+            optionTag="onFireSoundFx"
             label={
               <>
                 Enable sound effect <i>on fire</i>
@@ -95,9 +83,9 @@ export default function GameOptions({
             }
           />
           <Checkbox
-            value={gameOptions.onHitSoundEffect}
+            value={gameSettings.onHitSoundFx}
             updateValue={updateOption}
-            optionTag="onHitSoundEffect"
+            optionTag="onHitSoundFx"
             label={
               <>
                 Enable sound effect <i>on hit</i>
@@ -105,7 +93,7 @@ export default function GameOptions({
             }
           />
           <Checkbox
-            value={gameOptions.visualEffects}
+            value={gameSettings.visualEffects}
             updateValue={updateOption}
             optionTag="visualEffects"
             label="Enable special visual effects"
@@ -114,7 +102,7 @@ export default function GameOptions({
 
         <div className="game-option-group">
           <Input
-            value={gameOptions.targetGoal}
+            value={gameSettings.targetGoal}
             updateValue={updateOption}
             optionTag="targetGoal"
             label="Total target goal"
@@ -123,7 +111,7 @@ export default function GameOptions({
             max={5000}
           />
           <Input
-            value={gameOptions.simultaneousTargetCount}
+            value={gameSettings.simultaneousTargetCount}
             updateValue={updateOption}
             optionTag="simultaneousTargetCount"
             label="Max. number of simultaneous targets"
@@ -131,18 +119,18 @@ export default function GameOptions({
             max={40}
           />
           <Input
-            value={gameOptions.targetInterval}
+            value={gameSettings.targetInterval}
             updateValue={updateOption}
             optionTag="targetInterval"
             label="Interval between new targets (ms)"
             min={0}
             max={10000}
             helpText={`Each target will last approximately ${
-              gameOptions.targetInterval * gameOptions.simultaneousTargetCount
+              gameSettings.targetInterval * gameSettings.simultaneousTargetCount
             } ms`}
           />
           <Input
-            value={gameOptions.targetSize}
+            value={gameSettings.targetSize}
             updateValue={updateOption}
             optionTag="targetSize"
             label="Target size"
@@ -150,7 +138,7 @@ export default function GameOptions({
             max={100}
           />
           <Input
-            value={gameOptions.targetSizeVariation}
+            value={gameSettings.targetSizeVariation}
             updateValue={updateOption}
             optionTag="targetSizeVariation"
             label="Target size variation"
@@ -174,15 +162,3 @@ export default function GameOptions({
     </div>
   );
 }
-
-export const DEFAULT_GAME_OPTIONS: GameOptionsType = {
-  onHitSoundEffect: true,
-  onFireSoundEffect: true,
-  visualEffects: true,
-  targetGoal: 20, // 0 === no limit
-  simultaneousTargetCount: 3,
-  targetInterval: 1000,
-  targetSize: 30,
-  targetSizeVariation: 10,
-  targetType: "pewion",
-};

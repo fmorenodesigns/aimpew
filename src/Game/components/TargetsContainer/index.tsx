@@ -3,21 +3,22 @@ import "./styles.scss";
 import { PauseDatetime, getPauseDuration } from "../../utils/utils";
 import Target, { TargetMetadata } from "../Target";
 
-import { GameOptionsType } from "../GameOptions";
+import { GameSettingsContext } from "../GameSettings/context";
+import { useContext } from "react";
 
 interface Props {
   targets: TargetMetadata[];
   pauseDatetime: PauseDatetime;
-  gameOptions: GameOptionsType;
   onTargetHit: (targetIndex: number, lifeTime: number) => void;
 }
 
 export default function TargetsContainer({
   targets,
   pauseDatetime,
-  gameOptions,
   onTargetHit,
 }: Props) {
+  const { gameSettings } = useContext(GameSettingsContext);
+
   return (
     <div className="target-container">
       {targets.map((target) => (
@@ -39,7 +40,7 @@ export default function TargetsContainer({
 
             onTargetHit(target.index, lifeTime);
           }}
-          type={gameOptions.targetType}
+          type={gameSettings.targetType}
         />
       ))}
     </div>
