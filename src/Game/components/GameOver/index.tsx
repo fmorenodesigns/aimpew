@@ -23,7 +23,7 @@ export default function GameOver({ pointsBoardProps, restartGame }: Props) {
         maxPoints={pointsBoardProps.maxPoints}
         totalTimeBeforeHit={pointsBoardProps.totalTimeBeforeHit}
       />
-      <GameSettings showOptions={true} overlay={false} hideLogo />
+      <GameSettings showSettings={true} overlay={false} hideLogo />
     </div>
   );
 }

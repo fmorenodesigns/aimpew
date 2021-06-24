@@ -1,26 +1,26 @@
-import GameOption, { GameOptionCoreProps } from "./GameOption";
+import GameSetting, { GameSettingCoreProps } from "./GameSetting";
 
-interface Props extends GameOptionCoreProps {
+interface Props extends GameSettingCoreProps {
   value: boolean;
-  updateValue: (optionTag: string, value: boolean) => void;
+  updateValue: (settingTag: string, value: boolean) => void;
 }
 
 export default function Checkbox({
   value,
   updateValue,
   label,
-  optionTag,
+  settingTag,
   helpText,
 }: Props) {
   return (
-    <GameOption label={label} optionTag={optionTag} helpText={helpText}>
+    <GameSetting label={label} settingTag={settingTag} helpText={helpText}>
       <input
         type="checkbox"
         className="checkbox"
-        id={`gameoption-${optionTag}`}
+        id={`gamesetting-${settingTag}`}
         checked={value}
-        onChange={(e) => updateValue(optionTag, e.target.checked)}
+        onChange={(e) => updateValue(settingTag, e.target.checked)}
       />
-    </GameOption>
+    </GameSetting>
   );
 }

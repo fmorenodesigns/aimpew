@@ -39,8 +39,8 @@ export default function PlayableGame() {
     INITIAL_WEAPON_ROTATION
   );
 
-  const [showOptions, setShowOptions] = useState<boolean>(false);
-  // When the user goes to the options menu during a round, that is considered pause time
+  const [showSettings, setShowSettings] = useState<boolean>(false);
+  // When the user goes to the settings menu during a round, that is considered pause time
   const [pauseDatetime, setPauseDatetime] = useState<PauseDatetime>({
     start: null,
     end: null,
@@ -54,7 +54,7 @@ export default function PlayableGame() {
   // Rotate gun
   const handleMovement = useCallback(
     (e) => {
-      if (showOptions || !started || ended) return;
+      if (showSettings || !started || ended) return;
 
       const x = e.clientX - playableAreaWidth / 2;
       const y = -(e.clientY - playableAreaHeight / 2);
@@ -64,7 +64,7 @@ export default function PlayableGame() {
         vertical: -45 * (y / (playableAreaHeight / 2)),
       });
     },
-    [showOptions, started, ended, playableAreaWidth, playableAreaHeight]
+    [showSettings, started, ended, playableAreaWidth, playableAreaHeight]
   );
 
   const onTargetHit = useCallback(
@@ -102,10 +102,10 @@ export default function PlayableGame() {
   useEffect(() => {
     if (!started || ended) return;
 
-    if (!playableAreaHeight || !playableAreaWidth || showOptions) return;
+    if (!playableAreaHeight || !playableAreaWidth || showSettings) return;
 
     const timeout = setTimeout(() => {
-      if (showOptions || ended) {
+      if (showSettings || ended) {
         clearTimeout(timeout);
         return;
       }
@@ -155,7 +155,7 @@ export default function PlayableGame() {
     playableAreaHeight,
     playableAreaWidth,
     reachedTargetCountLimit,
-    showOptions,
+    showSettings,
     started,
   ]);
 
@@ -195,7 +195,7 @@ export default function PlayableGame() {
   ]);
 
   const updateGameSettingsVisibility = useCallback(() => {
-    setShowOptions((cur) => {
+    setShowSettings((cur) => {
       if (cur === false) {
         setPauseDatetime((curPausetime) => ({
           ...curPausetime,
@@ -214,7 +214,7 @@ export default function PlayableGame() {
 
   const restartGame = useCallback(() => {
     setRotation(INITIAL_WEAPON_ROTATION);
-    setShowOptions(false);
+    setShowSettings(false);
     setEnded(false);
     setStarted(false);
     setTargets([]);
@@ -262,13 +262,13 @@ export default function PlayableGame() {
     />
   ) : (
     <>
-      {!started && !showOptions && (
+      {!started && !showSettings && (
         <Countdown startValue={START_COUNTDOWN} setStarted={setStarted} />
       )}
-      <GameSettings showOptions={showOptions} />
+      <GameSettings showSettings={showSettings} />
 
       <GameSettingsButton
-        description={!showOptions ? "Options" : "Save"}
+        description={!showSettings ? "Settings" : "Save"}
         onClick={updateGameSettingsVisibility}
       />
       <PointsBoard
@@ -281,7 +281,7 @@ export default function PlayableGame() {
       {coiling && gameSettings.visualEffects && <div className="flashlight" />}
       <div
         ref={playableArea}
-        className={`playable-area ${showOptions ? "blur" : ""}`}
+        className={`playable-area ${showSettings ? "blur" : ""}`}
         onMouseMoveCapture={handleMovement}
         onClick={fireGun}
       >

@@ -1,35 +1,35 @@
-import GameOption, { GameOptionCoreProps } from "./GameOption";
+import GameSetting, { GameSettingCoreProps } from "./GameSetting";
 
-interface Props extends GameOptionCoreProps {
+interface Props extends GameSettingCoreProps {
   min: number;
   max: number;
   value: number;
-  updateValue: (optionTag: string, value: number) => void;
+  updateValue: (settingTag: string, value: number) => void;
 }
 
 export default function Input({
   value,
   updateValue,
   label,
-  optionTag,
+  settingTag,
   helpText,
   min,
   max,
 }: Props) {
   return (
-    <GameOption label={label} optionTag={optionTag} helpText={helpText}>
+    <GameSetting label={label} settingTag={settingTag} helpText={helpText}>
       <input
         type="number"
         className="input"
-        id={`gameoption-${optionTag}`}
+        id={`gamesetting-${settingTag}`}
         value={value || ""}
         onChange={(e) =>
           updateValue(
-            optionTag,
+            settingTag,
             Math.max(Math.min(parseInt(e.target.value), max), min)
           )
         }
       />
-    </GameOption>
+    </GameSetting>
   );
 }

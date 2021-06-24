@@ -1,4 +1,4 @@
-import GameOption, { GameOptionCoreProps } from "./GameOption";
+import GameSetting, { GameSettingCoreProps } from "./GameSetting";
 
 import { useState } from "react";
 
@@ -7,10 +7,10 @@ interface SelectOptions {
   label: string;
 }
 
-interface Props extends GameOptionCoreProps {
+interface Props extends GameSettingCoreProps {
   selectOptions: SelectOptions[];
   value: string;
-  updateValue: (optionTag: string, value: string) => void;
+  updateValue: (settingTag: string, value: string) => void;
 }
 
 export function Select({
@@ -18,21 +18,22 @@ export function Select({
   updateValue,
   selectOptions = [],
   label,
-  optionTag,
+  settingTag,
   helpText,
 }: Props) {
   const [selectIsOpen, setSelectIsOpen] = useState(false);
 
   return (
-    <GameOption label={label} optionTag={optionTag} helpText={helpText}>
+    <GameSetting label={label} settingTag={settingTag} helpText={helpText}>
       <div className="select-wrapper">
         <div className="chevron">
           <i className={`fas fa-chevron-${selectIsOpen ? "up" : "down"}`}></i>
         </div>
         <select
+          id={`gamesetting-${settingTag}`}
           className="select"
           value={value}
-          onChange={(e) => updateValue(optionTag, e.target.value)}
+          onChange={(e) => updateValue(settingTag, e.target.value)}
           onClick={() => setSelectIsOpen((cur) => !cur)}
           onBlur={() => setSelectIsOpen(false)}
         >
@@ -43,6 +44,6 @@ export function Select({
           ))}
         </select>
       </div>
-    </GameOption>
+    </GameSetting>
   );
 }

@@ -11,20 +11,20 @@ import { Select } from "./Select";
 import { useContext } from "react";
 
 export interface Props {
-  showOptions?: boolean;
+  showSettings?: boolean;
   overlay?: boolean;
   hideLogo?: boolean;
 }
 
 export default function GameSettings({
-  showOptions = true,
+  showSettings = true,
   overlay = true,
   hideLogo = false,
 }: Props) {
   const { gameSettings, setGameSettings } = useContext(GameSettingsContext);
-  const updateOption = useCallback(
-    (optionName, newValue) => {
-      setGameSettings({ ...gameSettings, [optionName]: newValue });
+  const updateSetting = useCallback(
+    (settingName, newValue) => {
+      setGameSettings({ ...gameSettings, [settingName]: newValue });
     },
     [gameSettings, setGameSettings]
   );
@@ -32,7 +32,7 @@ export default function GameSettings({
   // Ensure that the user doesn't leave empty fields, by falling back to the defaults
   useEffect(() => {
     if (
-      showOptions ||
+      showSettings ||
       Object.values(gameSettings).filter((val) => {
         return (
           !["boolean", "string"].includes(typeof val) && isNaN(parseInt(val))
@@ -52,21 +52,21 @@ export default function GameSettings({
       targetSize: gameSettings.targetSize || DEFAULT_GAME_SETTINGS.targetSize,
       targetSizeVariation: gameSettings.targetSizeVariation || 0, // can be empty
     });
-  }, [showOptions, setGameSettings, gameSettings]);
+  }, [showSettings, setGameSettings, gameSettings]);
 
   return (
     <div
       className={`${overlay ? "overlay" : ""} game-settings ${
-        showOptions ? "visible" : ""
+        showSettings ? "visible" : ""
       }`}
     >
       <div className="game-settings-container">
         {!hideLogo && <Logo />}
-        <div className="game-option-group">
+        <div className="game-setting-group">
           <Select
             value={gameSettings.targetType}
-            updateValue={updateOption}
-            optionTag="targetType"
+            updateValue={updateSetting}
+            settingTag="targetType"
             label="Target type"
             selectOptions={[
               { value: "pewion", label: "Pewion" },
@@ -76,8 +76,8 @@ export default function GameSettings({
           />
           <Checkbox
             value={gameSettings.onFireSoundFx}
-            updateValue={updateOption}
-            optionTag="onFireSoundFx"
+            updateValue={updateSetting}
+            settingTag="onFireSoundFx"
             label={
               <>
                 Enable sound effect <i>on fire</i>
@@ -86,8 +86,8 @@ export default function GameSettings({
           />
           <Checkbox
             value={gameSettings.onHitSoundFx}
-            updateValue={updateOption}
-            optionTag="onHitSoundFx"
+            updateValue={updateSetting}
+            settingTag="onHitSoundFx"
             label={
               <>
                 Enable sound effect <i>on hit</i>
@@ -96,17 +96,17 @@ export default function GameSettings({
           />
           <Checkbox
             value={gameSettings.visualEffects}
-            updateValue={updateOption}
-            optionTag="visualEffects"
+            updateValue={updateSetting}
+            settingTag="visualEffects"
             label="Enable special visual effects"
           />
         </div>
 
-        <div className="game-option-group">
+        <div className="game-setting-group">
           <Input
             value={gameSettings.targetGoal}
-            updateValue={updateOption}
-            optionTag="targetGoal"
+            updateValue={updateSetting}
+            settingTag="targetGoal"
             label="Total target goal"
             helpText="Leave it empty for no goal"
             min={0}
@@ -114,16 +114,16 @@ export default function GameSettings({
           />
           <Input
             value={gameSettings.simultaneousTargetCount}
-            updateValue={updateOption}
-            optionTag="simultaneousTargetCount"
+            updateValue={updateSetting}
+            settingTag="simultaneousTargetCount"
             label="Max. number of simultaneous targets"
             min={0}
             max={40}
           />
           <Input
             value={gameSettings.targetInterval}
-            updateValue={updateOption}
-            optionTag="targetInterval"
+            updateValue={updateSetting}
+            settingTag="targetInterval"
             label="Interval between new targets (ms)"
             min={0}
             max={10000}
@@ -133,16 +133,16 @@ export default function GameSettings({
           />
           <Input
             value={gameSettings.targetSize}
-            updateValue={updateOption}
-            optionTag="targetSize"
+            updateValue={updateSetting}
+            settingTag="targetSize"
             label="Target size"
             min={0}
             max={100}
           />
           <Input
             value={gameSettings.targetSizeVariation}
-            updateValue={updateOption}
-            optionTag="targetSizeVariation"
+            updateValue={updateSetting}
+            settingTag="targetSizeVariation"
             label="Target size variation"
             helpText="Leave it empty for no variation"
             min={0}

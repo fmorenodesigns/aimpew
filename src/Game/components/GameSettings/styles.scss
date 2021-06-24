@@ -26,20 +26,20 @@
       flex-direction: column;
       align-items: center;
 
-      .game-option-group {
+      .game-setting-group {
         margin-bottom: 10px;
 
-        .game-option:first-child {
+        .game-setting:first-child {
           border-radius: 0.25rem 0.25rem 0 0;
           padding-top: 26px;
         }
 
-        .game-option:last-child {
+        .game-setting:last-child {
           border-radius: 0 0 0.25rem 0.25rem;
           padding-bottom: 26px;
         }
 
-        .game-option {
+        .game-setting {
           height: 34px;
           display: grid;
           align-items: center;
@@ -149,7 +149,7 @@
       background-color: rgba(0, 0, 0, 0);
       color: white;
 
-      option {
+      setting {
         color: black;
       }
     }
