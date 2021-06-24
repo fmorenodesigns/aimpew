@@ -1,5 +1,3 @@
-import "./styles.scss";
-
 import Bullseye from "./Bullseye";
 import Covid from "./Covid";
 import { GameSettingsContext } from "../GameSettings/context";
@@ -19,6 +17,8 @@ export interface TargetMetadata {
 export interface TargetProps
   extends Omit<TargetMetadata, "index" | "lifeStart"> {
   onHit: () => void;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
 }
 
 export default function Target(props: TargetProps) {
