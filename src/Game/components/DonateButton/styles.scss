@@ -1,13 +1,12 @@
 .game {
   .donate-button {
-    --top: 10px;
+    --top: 0px;
     font-size: 13px;
     font-weight: bold;
     color: #e9c43d;
     padding: 10px 13px;
     border-radius: 0.25rem;
     cursor: pointer;
-    margin-top: var(--margin-top);
     top: var(--top);
     position: relative;
     display: flex;
@@ -20,7 +19,7 @@
     }
 
     &:active {
-      --top: 13px;
+      --top: 3px;
     }
   }
 }
