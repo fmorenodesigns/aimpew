@@ -14,8 +14,9 @@
 }
 
 @keyframes countdown {
-  to {
-    font-size: 250px;
+  95%,
+  100% {
+    font-size: 270px;
     opacity: 0;
   }
 }

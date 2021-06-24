@@ -18,7 +18,7 @@ export default function Countdown({ startValue, setStarted }: Props) {
       }
 
       setCount((cur) => cur - 1);
-    }, 1000);
+    }, 950);
 
     return () => clearTimeout(timeout);
   }, [count, setStarted]);
