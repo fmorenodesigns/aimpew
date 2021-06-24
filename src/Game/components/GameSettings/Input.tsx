@@ -23,12 +23,15 @@ export default function Input({
         className="input"
         id={`gamesetting-${settingTag}`}
         value={value || ""}
-        onChange={(e) =>
-          updateValue(
-            settingTag,
-            Math.max(Math.min(parseInt(e.target.value), max), min)
-          )
-        }
+        onChange={(e) => {
+          const newValue = isNaN(parseInt(e.target.value))
+            ? 0
+            : parseInt(e.target.value);
+
+          updateValue(settingTag, Math.max(Math.min(newValue, max), 0));
+        }}
+        min={min}
+        max={max}
       />
     </GameSetting>
   );

@@ -1,0 +1,35 @@
+.game {
+  .share-button {
+    padding: 0;
+    border-radius: 0.25rem;
+    position: absolute;
+    right: 7px;
+    top: 7px;
+    background-color: rgba(125, 146, 202, 0.112);
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    transition: background-color 0.2s ease;
+    font-size: 13px;
+    box-sizing: content-box;
+
+    i {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+    }
+
+    &:hover {
+      background-color: rgba(125, 146, 202, 0.2);
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    &:active {
+      right: 5px;
+      top: 5px;
+      padding: 2px;
+    }
+  }
+}

@@ -16,7 +16,9 @@
   }
 
   * {
-    font-family: "Inter", "Roboto", "sans-serif";
+    &:not(.fas):not(.far) {
+      font-family: "Inter", "Roboto", "sans-serif";
+    }
   }
 
   .error {

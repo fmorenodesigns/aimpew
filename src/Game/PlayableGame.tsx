@@ -278,7 +278,7 @@ export default function PlayableGame() {
       />
       <RestartButton onClick={restartGame} />
 
-      {coiling && gameSettings.visualEffects && <div className="flashlight" />}
+      {coiling && gameSettings.visualFx && <div className="flashlight" />}
       <div
         ref={playableArea}
         className={`playable-area ${showSettings ? "blur" : ""}`}
@@ -293,7 +293,7 @@ export default function PlayableGame() {
         <Weapon
           rotation={rotation}
           coiling={coiling}
-          hasFlash={gameSettings.visualEffects}
+          hasFlash={gameSettings.visualFx}
           className={`${weaponIsSeeThrough ? "see-through" : ""}`}
         />
       </div>

@@ -1,6 +1,6 @@
 import { RefObject, useMemo, useState } from "react";
 
-// Hook
+// Adaptation of hook by https://usehooks.com/useLocalStorage/
 export function useLocalStorage<S>(
   key: string,
   initialValue: S
@@ -55,4 +55,13 @@ export function useAudio() {
   }, []);
 
   return { onFireSoundFx, onHitSoundFx };
+}
+
+export function useQueryParams() {
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const queryParams = Object.fromEntries(urlSearchParams.entries());
+
+  if (Object.keys(queryParams).length === 0) return undefined;
+
+  return queryParams;
 }

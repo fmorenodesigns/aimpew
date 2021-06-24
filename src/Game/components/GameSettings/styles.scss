@@ -28,13 +28,14 @@
 
       .game-setting-group {
         margin-bottom: 10px;
+        position: relative;
 
-        .game-setting:first-child {
+        .game-setting:first-of-type {
           border-radius: 0.25rem 0.25rem 0 0;
           padding-top: 26px;
         }
 
-        .game-setting:last-child {
+        .game-setting:last-of-type {
           border-radius: 0 0 0.25rem 0.25rem;
           padding-bottom: 26px;
         }
@@ -166,10 +167,6 @@
       box-sizing: border-box;
       z-index: 1;
       padding-top: 2px;
-
-      .fas {
-        font-family: "Font Awesome 5 Free";
-      }
     }
   }
 }

@@ -1,13 +1,19 @@
 import "./styles.scss";
 
-import { DEFAULT_GAME_SETTINGS, GameSettingsContext } from "./context";
+import {
+  MIN_MAX_GAME_SETTINGS,
+  getFixedGameSettings,
+  isValidGameSettings,
+} from "./utils";
 import { useCallback, useEffect } from "react";
 
 import Checkbox from "./Checkbox";
 import DonateButton from "../DonateButton";
+import { GameSettingsContext } from "./context";
 import Input from "./Input";
 import Logo from "../Logo";
 import { Select } from "./Select";
+import ShareButton from "../ShareButton";
 import { useContext } from "react";
 
 export interface Props {
@@ -31,28 +37,10 @@ export default function GameSettings({
 
   // Ensure that the user doesn't leave empty fields, by falling back to the defaults
   useEffect(() => {
-    if (
-      showSettings ||
-      Object.values(gameSettings).filter((val) => {
-        return (
-          !["boolean", "string"].includes(typeof val) && isNaN(parseInt(val))
-        );
-      }).length === 0
-    )
-      return;
+    if (showSettings || isValidGameSettings(gameSettings)) return;
 
-    setGameSettings({
-      ...gameSettings,
-      targetGoal: gameSettings.targetGoal || 0, // can be empty
-      simultaneousTargetCount:
-        gameSettings.simultaneousTargetCount ||
-        DEFAULT_GAME_SETTINGS.simultaneousTargetCount,
-      targetInterval:
-        gameSettings.targetInterval || DEFAULT_GAME_SETTINGS.targetInterval,
-      targetSize: gameSettings.targetSize || DEFAULT_GAME_SETTINGS.targetSize,
-      targetSizeVariation: gameSettings.targetSizeVariation || 0, // can be empty
-    });
-  }, [showSettings, setGameSettings, gameSettings]);
+    setGameSettings(getFixedGameSettings(gameSettings));
+  }, [gameSettings, setGameSettings, showSettings]);
 
   return (
     <div
@@ -95,49 +83,50 @@ export default function GameSettings({
             }
           />
           <Checkbox
-            value={gameSettings.visualEffects}
+            value={gameSettings.visualFx}
             updateValue={updateSetting}
-            settingTag="visualEffects"
+            settingTag="visualFx"
             label="Enable special visual effects"
           />
         </div>
 
         <div className="game-setting-group">
+          <ShareButton />
           <Input
             value={gameSettings.targetGoal}
             updateValue={updateSetting}
             settingTag="targetGoal"
             label="Total target goal"
             helpText="Leave it empty for no goal"
-            min={0}
-            max={5000}
+            min={MIN_MAX_GAME_SETTINGS["targetGoal"][0]}
+            max={MIN_MAX_GAME_SETTINGS["targetGoal"][1]}
           />
           <Input
             value={gameSettings.simultaneousTargetCount}
             updateValue={updateSetting}
             settingTag="simultaneousTargetCount"
             label="Max. number of simultaneous targets"
-            min={0}
-            max={40}
+            min={MIN_MAX_GAME_SETTINGS["simultaneousTargetCount"][0]}
+            max={MIN_MAX_GAME_SETTINGS["simultaneousTargetCount"][1]}
           />
           <Input
             value={gameSettings.targetInterval}
             updateValue={updateSetting}
             settingTag="targetInterval"
             label="Interval between new targets (ms)"
-            min={0}
-            max={10000}
             helpText={`Each target will last approximately ${
               gameSettings.targetInterval * gameSettings.simultaneousTargetCount
             } ms`}
+            min={MIN_MAX_GAME_SETTINGS["targetInterval"][0]}
+            max={MIN_MAX_GAME_SETTINGS["targetInterval"][1]}
           />
           <Input
             value={gameSettings.targetSize}
             updateValue={updateSetting}
             settingTag="targetSize"
             label="Target size"
-            min={0}
-            max={100}
+            min={MIN_MAX_GAME_SETTINGS["targetSize"][0]}
+            max={MIN_MAX_GAME_SETTINGS["targetSize"][1]}
           />
           <Input
             value={gameSettings.targetSizeVariation}
@@ -145,8 +134,8 @@ export default function GameSettings({
             settingTag="targetSizeVariation"
             label="Target size variation"
             helpText="Leave it empty for no variation"
-            min={0}
-            max={100}
+            min={MIN_MAX_GAME_SETTINGS["targetSizeVariation"][0]}
+            max={MIN_MAX_GAME_SETTINGS["targetSizeVariation"][1]}
           />
         </div>
 
