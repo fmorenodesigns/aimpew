@@ -1,5 +1,5 @@
 .game {
-  .game-options {
+  .game-settings {
     --text-size: 16px;
     --border-thickness: 1px;
     --border-color: rgba(181, 201, 255, 0.2);
@@ -20,22 +20,7 @@
       opacity: 1;
     }
 
-    &-credits {
-      font-size: 11px;
-      color: white;
-
-      a {
-        text-decoration: none;
-        font-weight: bold;
-        color: #4677f5;
-
-        &:hover {
-          color: #6890f5;
-        }
-      }
-    }
-
-    .game-options-container {
+    .game-settings-container {
       margin: auto 0;
       display: flex;
       flex-direction: column;
