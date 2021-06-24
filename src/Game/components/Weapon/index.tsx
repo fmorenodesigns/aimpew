@@ -1,3 +1,5 @@
+import "./styles.scss";
+
 import { GameSettingsContext } from "../GameSettings/context";
 import Gun from "./Gun";
 import Syringe from "./Syringe";
@@ -16,14 +18,15 @@ export interface WeaponProps {
   rotation: WeaponRotation;
   coiling: boolean;
   hasFlash: boolean;
+  className: string;
 }
 
 export default function Weapon(props: WeaponProps) {
   const { gameSettings } = useContext(GameSettingsContext);
 
   return gameSettings.targetType !== "covid" ? (
-    <Gun {...props} />
+    <Gun {...props} className={`weapon ${props.className}`} />
   ) : (
-    <Syringe {...props} />
+    <Syringe {...props} className={`weapon ${props.className}`} />
   );
 }

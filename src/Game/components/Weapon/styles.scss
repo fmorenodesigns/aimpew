@@ -1,0 +1,15 @@
+.game {
+  .weapon {
+    z-index: 1;
+
+    .face {
+      transition: opacity 0.4s ease;
+    }
+
+    &.see-through {
+      .face {
+        opacity: 0.2;
+      }
+    }
+  }
+}

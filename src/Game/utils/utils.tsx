@@ -23,3 +23,7 @@ export function getPauseDuration(
     ? pauseDatetime.end.valueOf() - pauseDatetime.start.valueOf()
     : 0;
 }
+
+export function numIsBetween(num: number, min: number, max: number): boolean {
+  return num >= min && num <= max;
+}

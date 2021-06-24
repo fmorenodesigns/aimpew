@@ -3,12 +3,18 @@ import "./styles.scss";
 import { TargetProps } from "..";
 import { useState } from "react";
 
-export default function Bullseye({ size, left, top, onHit }: TargetProps) {
+export default function Bullseye({
+  size,
+  left,
+  top,
+  onHit,
+  ...props
+}: TargetProps) {
   const [hit, setHit] = useState(false);
 
   return (
     <div
-      className={`bullseye ${hit ? "hit" : ""}`}
+      className={`target bullseye ${hit ? "hit" : ""}`}
       style={{
         left: `${left * 100}%`,
         top: `${top * 100}%`,
@@ -20,6 +26,7 @@ export default function Bullseye({ size, left, top, onHit }: TargetProps) {
         setHit(true);
         onHit();
       }}
+      {...props}
     >
       <div className="white">
         <div className="red">

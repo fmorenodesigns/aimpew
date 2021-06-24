@@ -5,7 +5,13 @@ import { useMemo, useState } from "react";
 import Cube from "../../Cube";
 import { TargetProps } from "..";
 
-export default function Pewion({ size, left, top, onHit }: TargetProps) {
+export default function Pewion({
+  size,
+  left,
+  top,
+  onHit,
+  ...props
+}: TargetProps) {
   const sideSign = useMemo(() => (left < 0.5 ? 1 : -1), [left]);
 
   const [hit, setHit] = useState(false);
@@ -13,7 +19,7 @@ export default function Pewion({ size, left, top, onHit }: TargetProps) {
 
   return (
     <div
-      className={`pewion ${hit ? "hit" : ""}`}
+      className={`target pewion ${hit ? "hit" : ""}`}
       style={{
         left: `${left * 100}%`,
         top: `${top * 100}%`,
@@ -27,6 +33,7 @@ export default function Pewion({ size, left, top, onHit }: TargetProps) {
         setHit(true);
         onHit();
       }}
+      {...props}
     >
       <div className="part head">
         <Cube

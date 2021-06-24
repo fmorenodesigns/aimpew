@@ -3,13 +3,18 @@ import "./styles.scss";
 import Cube from "../../Cube";
 import { WeaponProps } from "..";
 
-export default function Gun({ rotation, coiling, hasFlash }: WeaponProps) {
+export default function Gun({
+  rotation,
+  coiling,
+  hasFlash,
+  className,
+}: WeaponProps) {
   const rotateX = rotation.vertical - (coiling ? 5 : 0);
   const rotateY = rotation.horizontal - (coiling ? 5 : 0);
 
   return (
     <div
-      className="gun"
+      className={`gun ${className}`}
       style={{
         top: -MAIN.height - HANDLE.height / 2,
         left: -MAIN.width,

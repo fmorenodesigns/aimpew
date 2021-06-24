@@ -1,4 +1,5 @@
 import { GameSettingsButton, RestartButton } from "./components/KeyButton";
+import { PauseDatetime, numIsBetween } from "./utils/utils";
 import Weapon, {
   INITIAL_WEAPON_ROTATION,
   WeaponRotation,
@@ -11,7 +12,6 @@ import GameOver from "./components/GameOver";
 import GameSettings from "./components/GameSettings";
 import { GameSettingsContext } from "./components/GameSettings/context";
 import Logo from "./components/Logo";
-import { PauseDatetime } from "./utils/utils";
 import PointsBoard from "./components/PointsBoard";
 import { TargetMetadata } from "./components/Target";
 import TargetsContainer from "./components/TargetsContainer";
@@ -34,6 +34,7 @@ export default function PlayableGame() {
   const [totalTimeBeforeHit, setTotalTimeBeforeHit] = useState<number>(0);
 
   const [coiling, setCoiling] = useState<boolean>(false);
+  const [weaponIsSeeThrough, setWeaponIsSeeThrough] = useState<boolean>(false);
   const [rotation, setRotation] = useState<WeaponRotation>(
     INITIAL_WEAPON_ROTATION
   );
@@ -162,6 +163,18 @@ export default function PlayableGame() {
   useEffect(() => {
     if (!started || ended) return;
 
+    if (
+      targets.filter(
+        (target) =>
+          numIsBetween(target.left, 0.495, 0.515) &&
+          numIsBetween(target.top, 0.495, 0.515)
+      ).length > 0
+    ) {
+      setWeaponIsSeeThrough(true);
+    } else {
+      setWeaponIsSeeThrough(false);
+    }
+
     if (!reachedTargetCountLimit) return;
 
     const timeout = setTimeout(() => {
@@ -272,15 +285,16 @@ export default function PlayableGame() {
         onMouseMoveCapture={handleMovement}
         onClick={fireGun}
       >
-        <Weapon
-          rotation={rotation}
-          coiling={coiling}
-          hasFlash={gameSettings.visualEffects}
-        />
         <TargetsContainer
           targets={targets}
           onTargetHit={onTargetHit}
           pauseDatetime={pauseDatetime}
+        />
+        <Weapon
+          rotation={rotation}
+          coiling={coiling}
+          hasFlash={gameSettings.visualEffects}
+          className={`${weaponIsSeeThrough ? "see-through" : ""}`}
         />
       </div>
 

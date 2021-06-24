@@ -3,13 +3,18 @@ import "./styles.scss";
 import Cube from "../../Cube";
 import { WeaponProps } from "..";
 
-export default function Syringe({ rotation, coiling, hasFlash }: WeaponProps) {
+export default function Syringe({
+  rotation,
+  coiling,
+  hasFlash,
+  className,
+}: WeaponProps) {
   const rotateX = rotation.vertical - (coiling ? 5 : 0);
   const rotateY = rotation.horizontal - (coiling ? 5 : 0);
 
   return (
     <div
-      className="syringe"
+      className={`syringe ${className}`}
       style={{
         top: -MAIN.height,
         left: -MAIN.width,

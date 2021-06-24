@@ -3,6 +3,8 @@ import "./styles.scss";
 import { PauseDatetime, getPauseDuration } from "../../utils/utils";
 import Target, { TargetMetadata } from "../Target";
 
+import { useState } from "react";
+
 interface Props {
   targets: TargetMetadata[];
   pauseDatetime: PauseDatetime;
@@ -14,8 +16,10 @@ export default function TargetsContainer({
   pauseDatetime,
   onTargetHit,
 }: Props) {
+  const [bringToFront, setBringToFront] = useState(false);
+
   return (
-    <div className="target-container">
+    <div className={`target-container ${bringToFront ? "bring-front" : ""}`}>
       {targets.map((target) => (
         <Target
           key={target.index}
@@ -35,6 +39,8 @@ export default function TargetsContainer({
 
             onTargetHit(target.index, lifeTime);
           }}
+          onMouseEnter={() => setBringToFront(true)}
+          onMouseLeave={() => setBringToFront(false)}
         />
       ))}
     </div>
