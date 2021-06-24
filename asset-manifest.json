@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "./static/css/main.b9da47a7.chunk.css",
-    "main.js": "./static/js/main.d78aac33.chunk.js",
-    "main.js.map": "./static/js/main.d78aac33.chunk.js.map",
+    "main.css": "./static/css/main.5c1daac6.chunk.css",
+    "main.js": "./static/js/main.6ea33567.chunk.js",
+    "main.js.map": "./static/js/main.6ea33567.chunk.js.map",
     "runtime-main.js": "./static/js/runtime-main.c40800bc.js",
     "runtime-main.js.map": "./static/js/runtime-main.c40800bc.js.map",
     "static/js/2.7e2acd76.chunk.js": "./static/js/2.7e2acd76.chunk.js",
     "static/js/2.7e2acd76.chunk.js.map": "./static/js/2.7e2acd76.chunk.js.map",
     "index.html": "./index.html",
-    "static/css/main.b9da47a7.chunk.css.map": "./static/css/main.b9da47a7.chunk.css.map",
+    "static/css/main.5c1daac6.chunk.css.map": "./static/css/main.5c1daac6.chunk.css.map",
     "static/js/2.7e2acd76.chunk.js.LICENSE.txt": "./static/js/2.7e2acd76.chunk.js.LICENSE.txt",
     "static/media/styles.scss": "./static/media/crosshair_down.de66ee56.cur"
   },
   "entrypoints": [
     "static/js/runtime-main.c40800bc.js",
     "static/js/2.7e2acd76.chunk.js",
-    "static/css/main.b9da47a7.chunk.css",
-    "static/js/main.d78aac33.chunk.js"
+    "static/css/main.5c1daac6.chunk.css",
+    "static/js/main.6ea33567.chunk.js"
   ]
 }
