@@ -90,23 +90,23 @@ const MAIN = {
   height: 40,
   colors: {
     top: "#eaf3fd40",
-    right: "#bfd1e650",
-    bottom: "#808d9c50",
-    left: "#bfd1e650",
-    back: "#99a9bd50",
+    right: "#bfd1e640",
+    bottom: "#808d9c40",
+    left: "#bfd1e640",
+    back: "#99a9bd40",
   },
 };
 
 const LIQUID = {
   width: 28,
-  depth: 60,
+  depth: 62,
   height: 36,
   colors: {
-    top: "#4ec57b",
-    right: "#40a566",
-    bottom: "#40a566",
-    left: "#40a566",
-    front: "#41bf70",
+    top: "#4ec57bCC",
+    right: "#40a566CC",
+    bottom: "#40a566CC",
+    left: "#40a566CC",
+    front: "#41bf70CC",
   },
 };
 
