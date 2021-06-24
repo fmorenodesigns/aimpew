@@ -1,0 +1,26 @@
+.game {
+  .donate-button {
+    --top: 10px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #e9c43d;
+    padding: 10px 13px;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    margin-top: var(--margin-top);
+    top: var(--top);
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid #6b5f33;
+
+    &:hover {
+      border: 1px solid #c4a740;
+    }
+
+    &:active {
+      --top: 13px;
+    }
+  }
+}

@@ -4,6 +4,7 @@ import { DEFAULT_GAME_SETTINGS, GameSettingsContext } from "./context";
 import { useCallback, useEffect } from "react";
 
 import Checkbox from "./Checkbox";
+import DonateButton from "../DonateButton";
 import Input from "./Input";
 import Logo from "../Logo";
 import { Select } from "./Select";
@@ -149,16 +150,7 @@ export default function GameSettings({
           />
         </div>
 
-        <div className="game-options-credits">
-          A project developed by{" "}
-          <a
-            href="https://github.com/fmorenodesigns"
-            target="_blank"
-            rel="noreferrer"
-          >
-            @fmorenodesigns
-          </a>
-        </div>
+        <DonateButton />
       </div>
     </div>
   );
