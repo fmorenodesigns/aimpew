@@ -6,11 +6,6 @@
     transition: opacity 0.3s ease;
     opacity: 0;
 
-    &.overlay {
-      padding: 120px 0;
-      display: grid;
-    }
-
     &:not(.visible) {
       visibility: hidden;
     }
