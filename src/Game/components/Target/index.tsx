@@ -1,8 +1,11 @@
+import { useContext } from "react";
+
+import { GameSettingsContext } from "../GameSettings/context";
+
 import Bullseye from "./Bullseye";
 import Covid from "./Covid";
-import { GameSettingsContext } from "../GameSettings/context";
 import Pewion from "./Pewion";
-import { useContext } from "react";
+
 
 export type TargetType = "pewion" | "bullseye" | "covid";
 

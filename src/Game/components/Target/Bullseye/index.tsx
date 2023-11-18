@@ -1,7 +1,8 @@
 import "./styles.scss";
 
-import { TargetProps } from "..";
 import { useState } from "react";
+
+import { TargetProps } from "..";
 
 export default function Bullseye({
   size,

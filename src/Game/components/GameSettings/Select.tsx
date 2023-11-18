@@ -1,6 +1,7 @@
+import { useState } from "react";
+
 import GameSetting, { GameSettingCoreProps } from "./GameSetting";
 
-import { useState } from "react";
 
 interface SelectOptions {
   value: string;

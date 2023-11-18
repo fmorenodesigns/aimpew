@@ -1,10 +1,10 @@
 import "./styles.scss";
 
+import GameSettings from "../GameSettings";
 import { GameSettingsButton, RestartButton } from "../KeyButton";
+import Logo from "../Logo";
 import PointsBoard, { Props as PointsBoardProps } from "../PointsBoard";
 
-import GameSettings from "../GameSettings";
-import Logo from "../Logo";
 
 interface Props {
   pointsBoardProps: PointsBoardProps;

@@ -1,5 +1,6 @@
-import { GameSettingsType } from "./context";
 import { ReactNode } from "react";
+
+import { GameSettingsType } from "./context";
 
 export interface GameSettingCoreProps {
   label: ReactNode;

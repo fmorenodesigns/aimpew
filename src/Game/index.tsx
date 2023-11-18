@@ -1,20 +1,21 @@
 import "./styles.scss";
 
-import {
-  DEFAULT_GAME_SETTINGS,
-  getFixedGameSettings,
-} from "./components/GameSettings/utils";
+import { useEffect } from "react";
+import { useState } from "react";
+
 import {
   GameSettingsContext,
   GameSettingsType,
 } from "./components/GameSettings/context";
-import { useLocalStorage, useQueryParams } from "./utils/hooks";
-
+import {
+  DEFAULT_GAME_SETTINGS,
+  getFixedGameSettings,
+} from "./components/GameSettings/utils";
 import Logo from "./components/Logo";
 import PlayableGame from "./PlayableGame";
+import { useLocalStorage, useQueryParams } from "./utils/hooks";
 import { isMobile } from "./utils/utils";
-import { useEffect } from "react";
-import { useState } from "react";
+
 
 export default function Game() {
   const queryParams = useQueryParams();

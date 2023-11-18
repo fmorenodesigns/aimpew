@@ -1,7 +1,7 @@
 import "./styles.scss";
 
-import Cube from "../../Cube";
 import { WeaponProps } from "..";
+import Cube from "../../Cube";
 
 export default function Syringe({
   rotation,

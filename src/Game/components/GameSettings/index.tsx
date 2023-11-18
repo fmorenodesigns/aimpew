@@ -1,20 +1,21 @@
 import "./styles.scss";
 
+import { useCallback, useEffect } from "react";
+import { useContext } from "react";
+
+import DonateButton from "../DonateButton";
+import Logo from "../Logo";
+import ShareButton from "../ShareButton";
+
+import Checkbox from "./Checkbox";
+import { GameSettingsContext } from "./context";
+import Input from "./Input";
+import { Select } from "./Select";
 import {
   MIN_MAX_GAME_SETTINGS,
   getFixedGameSettings,
   isValidGameSettings,
 } from "./utils";
-import { useCallback, useEffect } from "react";
-
-import Checkbox from "./Checkbox";
-import DonateButton from "../DonateButton";
-import { GameSettingsContext } from "./context";
-import Input from "./Input";
-import Logo from "../Logo";
-import { Select } from "./Select";
-import ShareButton from "../ShareButton";
-import { useContext } from "react";
 
 export interface Props {
   showSettings?: boolean;
@@ -29,7 +30,7 @@ export default function GameSettings({
 }: Props) {
   const { gameSettings, setGameSettings } = useContext(GameSettingsContext);
   const updateSetting = useCallback(
-    (settingName, newValue) => {
+    (settingName: string, newValue: any) => {
       setGameSettings({ ...gameSettings, [settingName]: newValue });
     },
     [gameSettings, setGameSettings]

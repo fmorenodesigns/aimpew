@@ -1,9 +1,10 @@
 import "./styles.scss";
 
-import { GameSettingsContext } from "../GameSettings/context";
-import { generateSettingsLink } from "../../utils/utils";
 import { useCallback } from "react";
 import { useContext } from "react";
+
+import { generateSettingsLink } from "../../utils/utils";
+import { GameSettingsContext } from "../GameSettings/context";
 
 export default function ShareButton() {
   const { gameSettings } = useContext(GameSettingsContext);

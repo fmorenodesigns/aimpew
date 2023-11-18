@@ -1,9 +1,10 @@
 import "./styles.scss";
 
+import { useState } from "react";
+
 import { PauseDatetime, getPauseDuration } from "../../utils/utils";
 import Target, { TargetMetadata } from "../Target";
 
-import { useState } from "react";
 
 interface Props {
   targets: TargetMetadata[];

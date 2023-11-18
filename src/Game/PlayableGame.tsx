@@ -1,21 +1,28 @@
-import { GameSettingsButton, RestartButton } from "./components/KeyButton";
-import { PauseDatetime, numIsBetween } from "./utils/utils";
-import Weapon, {
-  INITIAL_WEAPON_ROTATION,
-  WeaponRotation,
-} from "./components/Weapon";
-import { useAudio, usePlayableArea } from "./utils/hooks";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  MouseEvent,
+} from "react";
+import { useContext } from "react";
 
 import Countdown from "./components/Countdown";
 import GameOver from "./components/GameOver";
 import GameSettings from "./components/GameSettings";
 import { GameSettingsContext } from "./components/GameSettings/context";
+import { GameSettingsButton, RestartButton } from "./components/KeyButton";
 import Logo from "./components/Logo";
 import PointsBoard from "./components/PointsBoard";
 import { TargetMetadata } from "./components/Target";
 import TargetsContainer from "./components/TargetsContainer";
-import { useContext } from "react";
+import Weapon, {
+  INITIAL_WEAPON_ROTATION,
+  WeaponRotation,
+} from "./components/Weapon";
+import { useAudio, usePlayableArea } from "./utils/hooks";
+import { PauseDatetime, numIsBetween } from "./utils/utils";
 
 export default function PlayableGame() {
   const playableArea = useRef<HTMLDivElement>(null);
@@ -53,11 +60,11 @@ export default function PlayableGame() {
 
   // Rotate gun
   const handleMovement = useCallback(
-    (e) => {
+    (ev: MouseEvent<HTMLDivElement>) => {
       if (showSettings || !started || ended) return;
 
-      const x = e.clientX - playableAreaWidth / 2;
-      const y = -(e.clientY - playableAreaHeight / 2);
+      const x = ev.clientX - playableAreaWidth / 2;
+      const y = -(ev.clientY - playableAreaHeight / 2);
 
       setRotation({
         horizontal: -45 * (x / (playableAreaWidth / 2)),
@@ -68,7 +75,7 @@ export default function PlayableGame() {
   );
 
   const onTargetHit = useCallback(
-    (targetIndex, lifeTime) => {
+    (targetIndex: number, lifeTime: number) => {
       if (gameSettings.onHitSoundFx) {
         onHitSoundFx.currentTime = 0;
         onHitSoundFx.play();
@@ -84,19 +91,16 @@ export default function PlayableGame() {
     [gameSettings.onHitSoundFx, onHitSoundFx]
   );
 
-  const fireGun = useCallback(
-    (e) => {
-      if (gameSettings.onFireSoundFx) {
-        onFireSoundFx.currentTime = 0;
-        onFireSoundFx.play();
-      }
+  const fireGun = useCallback(() => {
+    if (gameSettings.onFireSoundFx) {
+      onFireSoundFx.currentTime = 0;
+      onFireSoundFx.play();
+    }
 
-      setCoiling(true);
-      setTimeout(() => setCoiling(false), 100);
-      setFiredTimes((cur) => cur + 1);
-    },
-    [onFireSoundFx, gameSettings.onFireSoundFx]
-  );
+    setCoiling(true);
+    setTimeout(() => setCoiling(false), 100);
+    setFiredTimes((cur) => cur + 1);
+  }, [onFireSoundFx, gameSettings.onFireSoundFx]);
 
   // Generate new targets
   useEffect(() => {
@@ -225,10 +229,10 @@ export default function PlayableGame() {
   }, []);
 
   const handleKeyPress = useCallback(
-    (e) => {
-      if (e.key === " ") {
+    (ev: KeyboardEvent) => {
+      if (ev.key === " ") {
         restartGame();
-      } else if (e.key === "Escape") {
+      } else if (ev.key === "Escape") {
         if (ended) {
           restartGame();
           return;

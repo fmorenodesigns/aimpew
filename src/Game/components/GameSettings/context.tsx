@@ -1,6 +1,8 @@
-import { DEFAULT_GAME_SETTINGS } from "./utils";
-import { TargetType } from "../Target";
 import { createContext } from "react";
+
+import { TargetType } from "../Target";
+
+import { DEFAULT_GAME_SETTINGS } from "./utils";
 
 export interface NumericGameSettingsType {
   targetGoal: number;

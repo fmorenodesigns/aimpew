@@ -1,4 +1,10 @@
-import Game from "./Game";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 
-ReactDOM.render(<Game />, document.getElementById("root"));
+import Game from "./Game";
+
+const container = document.getElementById("root");
+
+if (container) {
+  const root = createRoot(container);
+  root.render(<Game />);
+}

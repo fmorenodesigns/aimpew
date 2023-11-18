@@ -2,8 +2,8 @@ import "./styles.scss";
 
 import { useMemo, useState } from "react";
 
-import Cube from "../../Cube";
 import { TargetProps } from "..";
+import Cube from "../../Cube";
 
 export default function Pewion({
   size,
