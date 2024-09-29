@@ -7,8 +7,9 @@
     "lint:fix": "eslint src/**/*.ts{,x} --fix",
     "start": "vite",
     "build": "tsc && vite build",
-    "build:custom-domain": "echo aimpew.com > ./build/CNAME",
-    "deploy": "npm run build && npm run build:custom-domain && gh-pages -d build"
+    "build:error-page": "node build-error-page.mjs",
+    "build:custom-domain": "echo aimpew.com > ./dist/CNAME",
+    "deploy": "npm run build && npm run build:custom-domain && npm run build:error-page && gh-pages -d dist"
   },
   "browserslist": {
     "production": [
