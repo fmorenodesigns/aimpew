@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="./style.css" />
     <link rel="stylesheet" href="./tooltip.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Sharpen your mouse aim with this fun mini browser game! Test your precision by shooting laser guns at bullseyes, Pewions, or COVID particles,  and improve your accuracy with every shot. Perfect for quick practice or skill-building sessions!"
+    />
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -30,9 +34,26 @@
   </head>
 
   <body ontouchstart="">
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!-- Add entry point 👇 -->
+    <noscript
+      >JavaScript is needed to view this app! Sharpen your mouse aim with this
+      fun mini browser game! Test your precision by shooting laser guns at
+      bullseyes, Pewions, or COVID particles, and improve your accuracy with
+      every shot. Perfect for quick practice or skill-building
+      sessions!</noscript
+    >
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "AimPew",
+        "description": "Sharpen your mouse aim with this fun mini browser game! Test your precision by shooting laser guns at bullseyes, Pewions, or COVID particles, and improve your accuracy with every shot. Perfect for quick practice or skill-building sessions!",
+        "url": "https://aimpew.com",
+        "applicationCategory": "Game, Shooter, EducationalApplication",
+        "operatingSystem": "Web",
+      }
+    </script>
+
     <script type="module" src="/src/index.tsx"></script>
+    <div id="root"></div>
   </body>
 </html>
