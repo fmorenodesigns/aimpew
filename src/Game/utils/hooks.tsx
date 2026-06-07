@@ -39,7 +39,7 @@ export function useLocalStorage<S>(
   return [storedValue, setValue];
 }
 
-export function usePlayableArea(ref: RefObject<HTMLDivElement>) {
+export function usePlayableArea(ref: RefObject<HTMLDivElement | null>) {
   return {
     playableAreaWidth: ref.current?.getBoundingClientRect().width || 0,
     playableAreaHeight: ref.current?.getBoundingClientRect().height || 0,
